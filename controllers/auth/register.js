@@ -5,7 +5,9 @@ const bcrypt = require("bcrypt");
 const register = async (req, res, next) => {
   try {
     const { email, password, confirm_password } = req.body;
-
+    console.log(email);
+    console.log(password);
+    console.log(confirm_password);
     // check password
     if (password != confirm_password) {
       return res.status(400).json({
@@ -20,10 +22,11 @@ const register = async (req, res, next) => {
     if (userExist) {
       return res.status(400).json({
         status: false,
-        message: "Email already used!",
+        message: "email already used!",
         data: null,
       });
     }
+
     // get user role
     const userRole = await Role.findOne({ where: { role: "BUYER" } });
 
