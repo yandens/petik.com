@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for final-project-petik.com/controllers/auth/change-password.js</title>
+    <title>Code coverage report for final-project-petik.com/utils/mailer/sendEmail.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../prettify.css" />
     <link rel="stylesheet" href="../../../base.css" />
@@ -19,13 +19,13 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../index.html">All files</a> / <a href="index.html">final-project-petik.com/controllers/auth</a> change-password.js</h1>
+        <h1><a href="../../../index.html">All files</a> / <a href="index.html">final-project-petik.com/utils/mailer</a> sendEmail.js</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">13.04% </span>
+                <span class="strong">46.8% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>6/46</span>
+                <span class='fraction'>22/47</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">13.04% </span>
+                <span class="strong">46.8% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>6/46</span>
+                <span class='fraction'>22/47</span>
             </div>
         
             
@@ -109,25 +109,27 @@
 <a name='L44'></a><a href='#L44'>44</a>
 <a name='L45'></a><a href='#L45'>45</a>
 <a name='L46'></a><a href='#L46'>46</a>
-<a name='L47'></a><a href='#L47'>47</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -155,52 +157,53 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const { User } = require("../../models");
-const bcrypt = require("bcrypt");
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const { google } = require('googleapis')
+const nodemailer = require('nodemailer')
 &nbsp;
-const changePassword = <span class="fstat-no" title="function not covered" >async (req, res, next) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const user = req.user;</span>
-<span class="cstat-no" title="statement not covered" >  const { oldPassword, newPassword, confirmNewPassword } = req.body;</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const existUser = await User.findOne({ where: { id: user.id } });</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  if (newPassword != confirmNewPassword) {</span>
-<span class="cstat-no" title="statement not covered" >    return res.status(400).json({</span>
-<span class="cstat-no" title="statement not covered" >      status: false,</span>
-<span class="cstat-no" title="statement not covered" >      message: "Password Does't Match",</span>
-<span class="cstat-no" title="statement not covered" >      data: null,</span>
-<span class="cstat-no" title="statement not covered" >    });</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
-<span class="cstat-no" title="statement not covered" >  const correct = await bcrypt.compare(oldPassword, existUser.password);</span>
-<span class="cstat-no" title="statement not covered" >  if (!correct) {</span>
-<span class="cstat-no" title="statement not covered" >    return res.status(400).json({</span>
-<span class="cstat-no" title="statement not covered" >      status: false,</span>
-<span class="cstat-no" title="statement not covered" >      message: "Old Password Doesn't Match!",</span>
-<span class="cstat-no" title="statement not covered" >      data: null,</span>
-<span class="cstat-no" title="statement not covered" >    });</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const passwordHashed = await bcrypt.hash(newPassword, 10);</span>
-<span class="cstat-no" title="statement not covered" >  const passwordUpdated = await User.update(</span>
-<span class="cstat-no" title="statement not covered" >    { password: passwordHashed },</span>
-<span class="cstat-no" title="statement not covered" >    { where: { id: user.id } }</span>
-<span class="cstat-no" title="statement not covered" >  );</span>
-<span class="cstat-no" title="statement not covered" >  if (!passwordUpdated) {</span>
-<span class="cstat-no" title="statement not covered" >    return res.status(400).json({</span>
-<span class="cstat-no" title="statement not covered" >      status: false,</span>
-<span class="cstat-no" title="statement not covered" >      message: "Something Went Wrong",</span>
-<span class="cstat-no" title="statement not covered" >      data: null,</span>
-<span class="cstat-no" title="statement not covered" >    });</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  return res.status(200).json({</span>
-<span class="cstat-no" title="statement not covered" >    status: true,</span>
-<span class="cstat-no" title="statement not covered" >    message: "Password Updated!",</span>
-<span class="cstat-no" title="statement not covered" >    data: passwordUpdated,</span>
-<span class="cstat-no" title="statement not covered" >  });</span>
-<span class="cstat-no" title="statement not covered" >};</span>
+const {
+  GOOGLE_REFRESH_TOKEN,
+  GOOGLE_CLIENT_ID,
+  GOOGLE_CLIENT_SECRET,
+  GOOGLE_SENDER_EMAIL,
+  MAILER_REDIRECT_URI
+} = process.env
 &nbsp;
-module.exports = changePassword;
+const oauth2Client = new google.auth.OAuth2(
+  GOOGLE_CLIENT_ID,
+  GOOGLE_CLIENT_SECRET,
+  MAILER_REDIRECT_URI
+)
+&nbsp;
+oauth2Client.setCredentials({ refresh_token: GOOGLE_REFRESH_TOKEN })
+&nbsp;
+const sendEmail = <span class="fstat-no" title="function not covered" >(to, subject, html) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  return new Promise(async (resolve, reject) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    try {</span>
+<span class="cstat-no" title="statement not covered" >      const accessToken = await oauth2Client.getAccessToken()</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >      const transport = nodemailer.createTransport({</span>
+<span class="cstat-no" title="statement not covered" >        service: 'gmail',</span>
+<span class="cstat-no" title="statement not covered" >        auth: {</span>
+<span class="cstat-no" title="statement not covered" >          type: 'OAuth2',</span>
+<span class="cstat-no" title="statement not covered" >          user: GOOGLE_SENDER_EMAIL,</span>
+<span class="cstat-no" title="statement not covered" >          clientId: GOOGLE_CLIENT_ID,</span>
+<span class="cstat-no" title="statement not covered" >          clientSecret: GOOGLE_CLIENT_SECRET,</span>
+<span class="cstat-no" title="statement not covered" >          refreshToken: GOOGLE_REFRESH_TOKEN,</span>
+<span class="cstat-no" title="statement not covered" >          accessToken: accessToken,</span>
+<span class="cstat-no" title="statement not covered" >        }</span>
+<span class="cstat-no" title="statement not covered" >      })</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >      const mailOptions = { to, subject, html }</span>
+<span class="cstat-no" title="statement not covered" >      const response = await transport.sendMail(mailOptions);</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >      resolve(response)</span>
+<span class="cstat-no" title="statement not covered" >    } catch (err) {</span>
+<span class="cstat-no" title="statement not covered" >      reject(err)</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" >  })</span>
+<span class="cstat-no" title="statement not covered" >}</span>
+&nbsp;
+module.exports = sendEmail
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->

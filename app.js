@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const morgan = require("morgan");
 const router = require("./routes");
+const cookieParser = require("cookie-parser");
 const ejs = require("ejs");
 
 const app = express();
@@ -9,7 +10,8 @@ const app = express();
 app.set("view engine", "ejs");
 app.use(morgan("dev")); // for logging
 app.use(express.json()); // read body type json
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 
 app.use(router);
 
@@ -29,5 +31,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-const { HTTP_PORT } = process.env;
-app.listen(HTTP_PORT, () => console.log(`Listening on port ${HTTP_PORT}`));
+// const { HTTP_PORT } = process.env;
+// app.listen(HTTP_PORT, () => console.log(`Listening on port ${HTTP_PORT}`));
+module.exports = app;

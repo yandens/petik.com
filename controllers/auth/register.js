@@ -22,7 +22,7 @@ const register = async (req, res, next) => {
     if (userExist) {
       return res.status(400).json({
         status: false,
-        message: "email already used!",
+        message: "Email already used!",
         data: null,
       });
     }
