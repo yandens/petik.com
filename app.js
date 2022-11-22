@@ -13,6 +13,6 @@ app.use(cookieParser());
 
 app.use("/", router);
 
-// const { HTTP_PORT } = process.env;
-// app.listen(HTTP_PORT, () => console.log(`Listening on port ${HTTP_PORT}`));
+const { HTTP_PORT } = process.env;
+app.listen(HTTP_PORT, () => console.log(`Listening on port ${HTTP_PORT}`));
 module.exports = app;
