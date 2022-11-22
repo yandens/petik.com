@@ -22,8 +22,10 @@ const changePassword = async (req, res, next) => {
       data: null,
     });
   }
+
+  const passwordHashed = await bcrypt.hash(newPassword, 10);
   const passwordUpdated = await User.update(
-    { password: newPassword },
+    { password: passwordHashed },
     { where: { id: user.id } }
   );
   if (!passwordUpdated) {
