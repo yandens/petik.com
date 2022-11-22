@@ -1,2 +1,6 @@
 .env
 node_modules
+tests
+jest.config.js
+coverage
+utils/truncate.js
