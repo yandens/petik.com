@@ -17,6 +17,12 @@ module.exports = {
       role_id: {
         type: Sequelize.INTEGER,
       },
+      status: {
+        type: Sequelize.BOOLEAN,
+      },
+      user_type: {
+        type: Sequelize.STRING,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
