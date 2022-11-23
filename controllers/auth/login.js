@@ -16,10 +16,12 @@ const login = async (req, res, next) => {
         },
       ],
     });
-    if (!user || user.status == false) {
+    const match = await bcrypt.compare(password, user.password);
+
+    if (!user || !match || user.status == false) {
       return res.status(400).json({
         status: false,
-        message: "email is not valid!",
+        message: "Wrong email or password!",
         data: null,
       });
     }
@@ -29,15 +31,6 @@ const login = async (req, res, next) => {
         status: false,
         message:
           "Your account is associated with Google, Please login using that!",
-        data: null,
-      });
-    }
-
-    const match = await bcrypt.compare(password, user.password);
-    if (!match) {
-      return res.status(400).json({
-        status: false,
-        message: "password is not valid!",
         data: null,
       });
     }
