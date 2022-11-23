@@ -29,6 +29,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-const { HTTP_PORT } = process.env;
-app.listen(HTTP_PORT, () => console.log(`Listening on port ${HTTP_PORT}`));
+const { PORT } = process.env;
+app.listen(HTTP_PORT, () => console.log(`Listening on port ${PORT}`));
 // module.exports = app;
