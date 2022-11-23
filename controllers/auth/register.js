@@ -1,10 +1,14 @@
 const { User } = require("../../models");
 const { Role } = require("../../models");
+const sendEmail = require("../../utils/mailer/sendEmail");
+const templateHtml = require("../../utils/mailer/templateHtml");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const { JWT_SECRET_KEY } = process.env;
 
 const register = async (req, res, next) => {
   try {
-    const { email, password, confirm_password } = req.body;
+    const { email, password, confirm_password, status = false } = req.body;
     console.log(email);
     console.log(password);
     console.log(confirm_password);
@@ -38,7 +42,19 @@ const register = async (req, res, next) => {
       email,
       password: passwordHashed,
       role_id: userRole.id,
+      status,
     });
+
+    const payload = {
+      email: newUser.email,
+    };
+    const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: "900s" });
+    const link = `http://localhost:3000/auth/verify?token=${token}`;
+    const htmlEmail = await templateHtml("verify-email.ejs", {
+      email: newUser.email,
+      link: link,
+    });
+    await sendEmail(newUser.email, "Verification Email", htmlEmail);
 
     return res.status(201).json({
       status: true,
