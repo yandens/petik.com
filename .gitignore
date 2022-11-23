@@ -5,4 +5,4 @@ utlis/truncate.js
 jest.config.js
 .gitignore
 tests
-utils/truncate.js
+/utils/truncate.js
