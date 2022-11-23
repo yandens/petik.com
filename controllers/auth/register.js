@@ -43,6 +43,7 @@ const register = async (req, res, next) => {
       password: passwordHashed,
       role_id: userRole.id,
       status,
+      user_type: "BASIC",
     });
 
     const payload = {
