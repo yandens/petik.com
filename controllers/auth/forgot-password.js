@@ -22,9 +22,9 @@ const forgotPassword = async (req, res, next) => {
       email: findUser.email,
     };
     const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: "900s" });
-    const link = `<p>http://localhost:3000/auth/reset-password?token=${token}</p>`;
+    const link = `http://localhost:3000/auth/reset-password?token=${token}`;
     const htmlEmail = await templateHtml("forgot-password.ejs", {
-      email: findUser.name,
+      email: findUser.email,
       link: link,
     });
     const response = await sendEmail(findUser.email, "Reset Password", htmlEmail);
