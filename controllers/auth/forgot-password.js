@@ -2,6 +2,7 @@ const { User } = require("../../models");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET_KEY } = process.env;
 const sendEmail = require("../../utils/mailer/sendEmail");
+const templateHtml = require("../../utils/mailer/templateHtml");
 
 const forgotPassword = async (req, res, next) => {
   try {
@@ -22,7 +23,11 @@ const forgotPassword = async (req, res, next) => {
     };
     const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: "900s" });
     const link = `<p>http://localhost:3000/auth/reset-password?token=${token}</p>`;
-    const response = await sendEmail(findUser.email, "Reset Password", link);
+    const htmlEmail = await templateHtml("forgot-password.ejs", {
+      email: findUser.name,
+      link: link,
+    });
+    const response = await sendEmail(findUser.email, "Reset Password", htmlEmail);
 
     return res.status(200).json({
       status: true,
