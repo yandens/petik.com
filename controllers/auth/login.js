@@ -11,10 +11,10 @@ const login = async (req, res, next) => {
             const user = await User.findOne({ where: { email: email },
             include: [{
                 model: Role,
-                as: 'role'
+                as: 'role',
             }] 
         });
-            if (!user) {
+            if (!user || user.status == false ) {
                 return res.status(400).json({
                     status: false,
                     message: 'email is not valid!',
@@ -34,6 +34,7 @@ const login = async (req, res, next) => {
             const payload = {
                 id: user.id,
                 email: user.email,
+                role: user.role.role
             };
             const token = jwt.sign(payload, JWT_SECRET_KEY);
 
