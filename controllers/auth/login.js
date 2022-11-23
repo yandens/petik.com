@@ -1,5 +1,5 @@
 const { User } = require('../../models');
-// const { Role } = require("../../models");
+const { Role } = require("../../models");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET_KEY } = process.env;
@@ -26,9 +26,12 @@ const login = async (req, res, next) => {
                 });
             }
 
+            const userRole = await Role.findOne({ where: { role: "BUYER" }});
+
             const payload = {
                 id: user.id,
-                email: user.email
+                email: user.email,
+                role_id: userRole.id,
             };
             const token = jwt.sign(payload, JWT_SECRET_KEY);
 
@@ -37,6 +40,7 @@ const login = async (req, res, next) => {
                 message: 'login success!',
                 data: { 
                     email,
+                    userRole,
                     token }
             });
     } catch (error) {
