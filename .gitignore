@@ -4,4 +4,4 @@ coverage
 utlis/truncate.js
 jest.config.js
 .gitignore
-test
+tests
