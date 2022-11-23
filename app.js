@@ -30,9 +30,5 @@ app.use((err, req, res, next) => {
 });
 
 const { HTTP_PORT } = process.env;
-<<<<<<< HEAD
-app.listen(HTTP_PORT, () => console.log(`Listening on port ${HTTP_PORT}`));
-=======
 app.listen(HTTP_PORT, () => console.log(`Listening on port ${HTTP_PORT}`));
 // module.exports = app;
->>>>>>> 55b32eee889aa761f952bc26552936e1ef0d69a2
