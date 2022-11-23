@@ -1,13 +1,14 @@
 const { User } = require('../../models')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const { JWT_SECRET_KEY } = process.env
 
 const resetPassword = async (req, res, next) => {
   try {
     const { newPass, confirmNewPass } = req.body
     const { token } = req.query
 
-    const validUser = jwt.verify(token, JWT_KEY)
+    const validUser = jwt.verify(token, JWT_SECRET_KEY)
 
     if (!validUser) {
       return res.status(401).json({

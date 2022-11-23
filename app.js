@@ -11,7 +11,6 @@ app.set("view engine", "ejs");
 app.use(morgan("dev")); // for logging
 app.use(express.json()); // read body type json
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 
 app.use(router);
 
