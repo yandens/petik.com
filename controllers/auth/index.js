@@ -4,6 +4,7 @@ const changePassword = require("./change-password");
 const forgotPassword = require("./forgot-password");
 const resetPassword = require("./reset-password");
 const verifyEmail = require("./verify-email");
+const loginGoogle = require("./login-googleOauth");
 
 module.exports = {
   login,
@@ -12,4 +13,5 @@ module.exports = {
   forgotPassword,
   resetPassword,
   verifyEmail,
+  loginGoogle,
 };
