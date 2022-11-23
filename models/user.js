@@ -10,12 +10,13 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       User.hasOne(models.UserBiodata, {
-        foreignKey: 'user_id', as: 'biodata'
-      })
-
+        foreignKey: "user_id",
+        as: "biodata",
+      });
       User.belongsTo(models.Role, {
-        foreignKey: 'role_id', as: 'role'
-      })
+        foreignKey: "role_id",
+        as: "role",
+      });
     }
   }
   User.init(
@@ -23,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
       email: DataTypes.STRING,
       password: DataTypes.STRING,
       role_id: DataTypes.INTEGER,
+      status: DataTypes.BOOLEAN,
     },
     {
       sequelize,
