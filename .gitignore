@@ -1,5 +1,5 @@
 .env
 node_modules
 tests
-jest.config.jest
+jest.config.js
 coverage
