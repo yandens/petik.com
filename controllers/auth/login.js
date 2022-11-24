@@ -29,7 +29,7 @@ const login = async (req, res, next) => {
     if (user.status == false) {
       return res.status(400).json({
         status: false,
-        message: "Email not verifed!"
+        message: "Email not verifed!",
       });
     }
 

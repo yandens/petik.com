@@ -27,7 +27,11 @@ const forgotPassword = async (req, res, next) => {
       email: findUser.email,
       link: link,
     });
-    const response = await sendEmail(findUser.email, "Reset Password", htmlEmail);
+    const response = await sendEmail(
+      findUser.email,
+      "Reset Password",
+      htmlEmail
+    );
 
     return res.status(200).json({
       status: true,

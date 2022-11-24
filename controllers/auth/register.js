@@ -4,16 +4,32 @@ const sendEmail = require("../../utils/mailer/sendEmail");
 const templateHtml = require("../../utils/mailer/templateHtml");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const Validator = require("fastest-validator");
+const v = new Validator();
 const { JWT_SECRET_KEY } = process.env;
 
 const register = async (req, res, next) => {
   try {
     const { email, password, confirm_password, status = false } = req.body;
-    console.log(email);
-    console.log(password);
-    console.log(confirm_password);
-    // check password
+
+    const schema = {
+      email: { type: "email", label: "Email Address" },
+      password: { type: "string", min: 6 },
+    };
+    const check = await v.compile(schema);
+
+    const validate = check({ email: `${email}`, password: `${password}` });
+
+    if (validate.length > 0) {
+      return res.status(400).json({
+        status: false,
+        message: "Email not valid / Password at least 6 charactersD",
+        data: null,
+      });
+    }
+    // return res.send("mantap");
     if (password != confirm_password) {
+      // check password
       return res.status(400).json({
         status: false,
         message: "Password doesn't match!",
