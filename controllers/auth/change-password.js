@@ -1,9 +1,26 @@
 const { User } = require("../../models");
 const bcrypt = require("bcrypt");
+const Validator = require("fastest-validator");
+const v = new Validator();
 
 const changePassword = async (req, res, next) => {
   const user = req.user;
   const { oldPassword, newPassword, confirmNewPassword } = req.body;
+  const schema = {
+    oldPassword: { type: "string", min: 6 },
+    newPassword: { type: "string", min: 6 },
+    confirmNewPassword: { type: "string", min: 6 }
+  };
+  const check = await v.compile(schema);
+  const validate = check({ oldPassword: `${oldPassword}`, newPassword: `${newPassword}`, confirmNewPassword: `${confirmNewPassword}` });
+
+  if (validate.length > 0) {
+    return res.status(400).json({
+      status: false,
+      message: "Email not valid / Password at least 6 charactersD",
+      data: null,
+    });
+  }
 
   const existUser = await User.findOne({ where: { id: user.id } });
 
