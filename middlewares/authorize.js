@@ -13,12 +13,12 @@ function authorize(roles = []) {
         if (!token) {
           return res.status(401).json({
             status: false,
-            message: "you're not authorized!tt",
+            message: "you're not authorized!",
             data: null,
           });
         }
 
-        const user = jwt.verify(token, process.env.JWT_KEY);
+        const user = jwt.verify(token, process.env.JWT_SECRET_KEY);
 
         if (roles.length > 0) {
           const valid = roles.find((r) => r == user.role);

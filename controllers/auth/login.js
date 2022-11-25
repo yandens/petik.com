@@ -3,10 +3,27 @@ const { Role } = require("../../models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET_KEY } = process.env;
+const Validator = require("fastest-validator");
+const v = new Validator();
 
 const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
+    const schema = {
+      email: { type: "email", label: "Email Address" },
+    };
+    const check = await v.compile(schema);
+
+    const validate = check({ email: `${email}` });
+
+    if (validate.length > 0) {
+      return res.status(400).json({
+        status: false,
+        message: "Email not valid!",
+        data: null,
+      });
+    }
+
     const user = await User.findOne({
       where: { email: email },
       include: [
@@ -16,11 +33,28 @@ const login = async (req, res, next) => {
         },
       ],
     });
-    if (!user || user.status == false) {
+
+    if (!user) {
       return res.status(400).json({
         status: false,
-        message: "email is not valid!",
+        message: "Wrong email or password!",
         data: null,
+      });
+    }
+
+    const match = await bcrypt.compare(password, user.password);
+    if (!match) {
+      return res.status(404).json({
+        status: false,
+        message: 'Wrong email or password!',
+        data: null
+      });
+    }
+
+    if (user.status == false) {
+      return res.status(400).json({
+        status: false,
+        message: "Email not verifed!",
       });
     }
 
@@ -29,15 +63,6 @@ const login = async (req, res, next) => {
         status: false,
         message:
           "Your account is associated with Google, Please login using that!",
-        data: null,
-      });
-    }
-
-    const match = await bcrypt.compare(password, user.password);
-    if (!match) {
-      return res.status(400).json({
-        status: false,
-        message: "password is not valid!",
         data: null,
       });
     }

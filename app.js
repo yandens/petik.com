@@ -2,7 +2,6 @@ require("dotenv").config();
 const express = require("express");
 const morgan = require("morgan");
 const router = require("./routes");
-const cookieParser = require("cookie-parser");
 const ejs = require("ejs");
 
 const app = express();
@@ -30,6 +29,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-// const { HTTP_PORT } = process.env;
-// app.listen(HTTP_PORT, () => console.log(`Listening on port ${HTTP_PORT}`));
+// const { PORT } = process.env;
+// app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 module.exports = app;
