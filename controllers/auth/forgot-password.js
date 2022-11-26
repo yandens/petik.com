@@ -50,8 +50,8 @@ const forgotPassword = async (req, res, next) => {
 
     return res.status(200).json({
       status: true,
-      message: "success",
-      data: response,
+      message: "success send reset password link to email",
+      data: findUser.email,
     });
   } catch (err) {
     next(err);
