@@ -27,7 +27,7 @@ const changePassword = async (req, res, next) => {
   if (newPassword != confirmNewPassword) {
     return res.status(400).json({
       status: false,
-      message: "Password Does't Match",
+      message: "Password Doesn't Match",
       data: null,
     });
   }
