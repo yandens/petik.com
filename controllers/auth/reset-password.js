@@ -36,7 +36,7 @@ const resetPassword = async (req, res, next) => {
     const findUser = await User.findOne({ where: { id: validUser.id } });
 
     if (newPass !== confirmNewPass) {
-      return res.status(401).json({
+      return res.status(400).json({
         status: false,
         message: "Password not match!",
       });
@@ -49,12 +49,12 @@ const resetPassword = async (req, res, next) => {
       { where: { id: findUser.id } }
     );
 
-    return res.status(201).json({
+    return res.status(200).json({
       status: true,
       message: "success change password",
       data: {
         id: findUser.id,
-        username: findUser.email,
+        email: findUser.email,
       },
     });
   } catch (err) {
