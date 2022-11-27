@@ -8,12 +8,10 @@ const verify = async (req, res, next) => {
 
     const validUser = jwt.verify(token, JWT_SECRET_KEY);
     if (!validUser) {
-      if (!validUser) {
-        return res.status(401).json({
-          status: false,
-          message: "Invalid token!",
-        });
-      }
+      return res.status(401).json({
+        status: false,
+        message: "Invalid token!",
+      });
     }
 
     const updateStatus = await User.update(
