@@ -23,7 +23,7 @@ const register = async (req, res, next) => {
     if (validate.length > 0) {
       return res.status(400).json({
         status: false,
-        message: "Email not valid / Password at least 6 charactersD",
+        message: "Email not valid / Password at least 6 characters",
         data: null,
       });
     }
