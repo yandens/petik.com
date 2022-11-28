@@ -17,19 +17,19 @@ module.exports = {
     port: DB_PORT
   },
   test: {
-    username: DB_USERNAME_DEV,
-    password: DB_PASSWORD_DEV,
-    database: DB_NAME_DEV,
+    username: DB_USERNAME,
+    password: DB_PASSWORD,
+    database: DB_NAME,
     host: DB_HOST_DEV,
-    dialect: DB_DIALECT_DEV,
-    port: DB_PORT_DEV
+    dialect: DB_DIALECT,
+    port: DB_PORT
   },
   production: {
-    username: DB_USERNAME_PROD,
-    password: DB_PASSWORD_PROD,
-    database: DB_NAME_PROD,
-    host: DB_HOST_PROD,
-    dialect: DB_DIALECT_PROD,
-    port: DB_PORT_PROD
+    username: DB_USERNAME,
+    password: DB_PASSWORD,
+    database: DB_NAME,
+    host: DB_HOST,
+    dialect: DB_DIALECT,
+    port: DB_PORT
   },
 };
