@@ -1,0 +1,505 @@
+openapi: 3.0.0
+info:
+  title: petik.com API
+  description: API petik.com Documentation for Final Project MSIB Batch 3 in Binar Academy
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000/
+    description: My Localhost
+  - url: https://petikcom-dev.up.railway.app
+    description: Railway Deployment/
+
+paths:
+  /auth/login-google:
+    get:
+      summary: Login Google Oauth2
+      description: Login Google Endpoint
+      tags:
+        - Auth
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                example-1:
+                  value:
+                    status: true
+                    message: Success
+                    data:
+                      user_id: 1
+                      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJkZWRlbnNldHlhd2FuMTdAZ21haWwuY29tIiwicm9sZSI6IkJVWUVSIiwiaWF0IjoxNjY5NDY1MDk3LCJleHAiOjE2Njk0Njg2OTd9.0ashbxN_rTFEQNujTYgwnn3nLP0UI66cItxd5YepCOs
+      operationId: auth-login-google
+  /auth/register:
+    post:
+      summary: Register
+      description: Register Endpoint
+      tags:
+        - Auth
+      requestBody:
+        content:
+          application/json:
+            schema: # Request body contents
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                confirm_password:
+                  type: string
+              example: # Sample object
+                email: dedensetyawan17@gmail.com
+                password: deden123
+                confirm_password: deden123
+      responses:
+        "201":
+          description: Created
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      email:
+                        type: string
+              examples:
+                example-1:
+                  value:
+                    status: true
+                    message: Register Success!
+                    data:
+                      email: dedensetyawan17@gmail.com
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+              examples:
+                example-1:
+                  value:
+                    status: false
+                    message: Password doesn't match!
+                    data: null
+                example-2:
+                  value:
+                    status: false
+                    message: Email not valid / Password at least 6 characters
+                    data: null
+                example-3:
+                  value:
+                    status: false
+                    message: Email already used!
+                    data: null
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+  /auth/verify:
+    get:
+      summary: Verify Email
+      description: Verify Email Endpoint
+      tags:
+        - Auth
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: integer
+              examples:
+                example-1:
+                  value:
+                    status: true
+                    message: Email Verified!
+                    data:
+                      - 1
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    status: false
+                    message: invalid token
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                x-examples:
+                  example-1:
+                    status: false
+                    message: jwt expired
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: token
+          required: true
+  /auth/login:
+    post:
+      summary: Login
+      description: Login Endpoint
+      tags:
+        - Auth
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      email:
+                        type: string
+                      token:
+                        type: string
+              examples:
+                example-1:
+                  value:
+                    status: true
+                    message: login success!
+                    data:
+                      email: dedensetyawan17@gmail.com
+                      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJkZWRlbnNldHlhd2FuMTdAZ21haWwuY29tIiwicm9sZSI6IkJVWUVSIiwiaWF0IjoxNjY5NDYwNTg0LCJleHAiOjE2Njk0NjQxODR9.UpEBOEZ4sVQfWhtzsdcJRUoJyROBVl8z6W528rMtYaY
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+              examples:
+                example-1:
+                  value:
+                    status: false
+                    message: Email not valid!
+                    data: null
+                example-2:
+                  value:
+                    status: false
+                    message: Wrong email or password!
+                    data: null
+                example-3:
+                  value:
+                    status: false
+                    message: Email not verifed!
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+                - email
+            examples:
+              example-1:
+                value:
+                  email: dedensetyawan17@gmail.com
+                  password: deden123
+        description: Email must be valid and password at least 6 character
+  /auth/change-password:
+    put:
+      summary: Change Password
+      description: Change Password Endpoint
+      tags:
+        - Auth
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: integer
+              examples:
+                example-1:
+                  value:
+                    status: true
+                    message: Password Updated!
+                    data:
+                      - 1
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+              examples:
+                example-1:
+                  value:
+                    status: false
+                    message: Password Doesn't Match
+                    data: null
+                example-2:
+                  value:
+                    status: false
+                    message: Old Password Doesn't Match!
+                    data: null
+                example-3:
+                  value:
+                    status: false
+                    message: Password at least 6 characters
+                    data: null
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                oldPassword:
+                  type: string
+                newPassword:
+                  type: string
+                confirmNewPassword:
+                  type: string
+              required:
+                - oldPassword
+                - newPassword
+                - confirmNewPassword
+            examples:
+              example-1:
+                value:
+                  oldPassword: deden123
+                  newPassword: dedens123
+                  confirmNewPassword: dedens123
+  /auth/forgot-password:
+    post:
+      summary: Forgot Password
+      description: Forgot Password Endpoint
+      tags:
+        - Auth
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    status: true
+                    message: success send reset password link to email
+                    data: dedensetyawan17@gmail.com
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    status: false
+                    message: Email not found
+                example-2:
+                  value:
+                    status: false
+                    message: Email not valid!
+                    data: null
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+              required:
+                - email
+            examples:
+              example-1:
+                value:
+                  email: dedensetyawan17@gmail.com
+  /auth/reset-password:
+    put:
+      summary: Reset Password
+      description: Reset Password Endpoint
+      tags:
+        - Auth
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      email:
+                        type: string
+              examples:
+                example-1:
+                  value:
+                    status: true
+                    message: success change password
+                    data:
+                      id: 1
+                      email: dedensetyawan17@gmail.com
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    status: false
+                    message: Password at least 6 characters!
+                    data: null
+                example-2:
+                  value:
+                    status: false
+                    message: invalid token
+                example-3:
+                  value:
+                    status: false
+                    message: Password not match!
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: token
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                newPass:
+                  type: string
+                confirmNewPass:
+                  type: string
+            examples:
+              example-1:
+                value:
+                  newPass: deden123
+                  confirmNewPass: deden123
+components:
+  schemas: {}
+  securitySchemes:
+    bearerAuth: # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
