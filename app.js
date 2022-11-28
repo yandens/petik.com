@@ -13,6 +13,7 @@ app.use(morgan("dev")); // for logging
 app.use(express.json()); // read body type json
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cors());
+
 app.use(router);
 
 app.use((req, res, next) => {
