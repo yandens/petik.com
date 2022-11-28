@@ -11,10 +11,8 @@ const app = express();
 app.set("view engine", "ejs");
 app.use(morgan("dev")); // for logging
 app.use(express.json()); // read body type json
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cors());
-app.use(express.urlencoded({ extended: false }));
-
 app.use(router);
 
 app.use((req, res, next) => {
