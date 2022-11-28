@@ -5,14 +5,18 @@ const router = require("./routes");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const ejs = require("ejs");
+const swaggerUi = require("swagger-ui-express");
+const YAML = require("yamljs");
+const swaggerDocument = YAML.load("./swagger.yaml");
 
 const app = express();
 
 app.set("view engine", "ejs");
 app.use(morgan("dev")); // for logging
 app.use(express.json()); // read body type json
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use(router);
 

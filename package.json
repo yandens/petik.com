@@ -23,7 +23,9 @@
     "jsonwebtoken": "^8.5.1",
     "nodemailer": "^6.8.0",
     "pg": "^8.8.0",
-    "sequelize": "^6.25.7"
+    "sequelize": "^6.25.7",
+    "swagger-ui-express": "^4.6.0",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
     "morgan": "^1.10.0"
