@@ -1,5 +1,4 @@
-const { User } = require("../../models");
-const { Role } = require("../../models");
+const { User, Role } = require("../../models");
 const sendEmail = require("../../utils/mailer/sendEmail");
 const templateHtml = require("../../utils/mailer/templateHtml");
 const bcrypt = require("bcrypt");
