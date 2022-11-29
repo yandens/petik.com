@@ -1,5 +1,4 @@
-const { User } = require("../../models");
-const { Role } = require("../../models");
+const { User, Role } = require("../../models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET_KEY } = process.env;
@@ -46,8 +45,8 @@ const login = async (req, res, next) => {
     if (!match) {
       return res.status(400).json({
         status: false,
-        message: 'Wrong email or password!',
-        data: null
+        message: "Wrong email or password!",
+        data: null,
       });
     }
 
