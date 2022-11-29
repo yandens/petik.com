@@ -46,6 +46,8 @@ paths:
             schema: # Request body contents
               type: object
               properties:
+                username:
+                  type: string
                 email:
                   type: string
                 password:
@@ -53,6 +55,7 @@ paths:
                 confirm_password:
                   type: string
               example: # Sample object
+                username: dedens777
                 email: dedensetyawan17@gmail.com
                 password: deden123
                 confirm_password: deden123
@@ -200,7 +203,7 @@ paths:
                   data:
                     type: object
                     properties:
-                      email:
+                      emailOrUsername:
                         type: string
                       token:
                         type: string
@@ -210,7 +213,7 @@ paths:
                     status: true
                     message: login success!
                     data:
-                      email: dedensetyawan17@gmail.com
+                      emailOrUsername: dedensetyawan17@gmail.com
                       token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJkZWRlbnNldHlhd2FuMTdAZ21haWwuY29tIiwicm9sZSI6IkJVWUVSIiwiaWF0IjoxNjY5NDYwNTg0LCJleHAiOjE2Njk0NjQxODR9.UpEBOEZ4sVQfWhtzsdcJRUoJyROBVl8z6W528rMtYaY
         "400":
           description: Bad Request
@@ -260,7 +263,7 @@ paths:
             examples:
               example-1:
                 value:
-                  email: dedensetyawan17@gmail.com
+                  emailOrUsername: dedensetyawan17@gmail.com
                   password: deden123
         description: Email must be valid and password at least 6 character
   /auth/change-password:
