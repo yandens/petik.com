@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Validator = require("fastest-validator");
 const v = new Validator();
+const { Op } = require("sequelize");
 const { JWT_SECRET_KEY } = process.env;
 
 const register = async (req, res, next) => {
@@ -48,14 +49,11 @@ const register = async (req, res, next) => {
     }
 
     // check user exist
-    const emailExist = await User.findOne({
-      where: { email },
-    });
-    const usernameExist = await User.findOne({
-      where: { username },
+    const userExist = await User.findOne({
+      where: { [Op.or]: [{ email: email }, { username: username }] },
     });
 
-    if (emailExist || usernameExist) {
+    if (userExist) {
       return res.status(400).json({
         status: false,
         message: "Email / username already used!",
