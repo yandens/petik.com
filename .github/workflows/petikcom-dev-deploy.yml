@@ -1,31 +1,31 @@
-name: Deploy to Railway
+# name: Deploy to Railway
 
-on:
-  push:
-    branches: [dev]
-  pull_request:
-    branches: [dev]
+# on:
+#   push:
+#     branches: [dev]
+#   pull_request:
+#     branches: [dev]
 
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v2
 
-      - name: Use Node 16
-        uses: actions/setup-node@v1
-        with:
-          node-version: 16.x
+#       - name: Use Node 16
+#         uses: actions/setup-node@v1
+#         with:
+#           node-version: 16.x
 
-      - name: Install packages
-        run: yarn install --frozen-lockfile
+#       - name: Install packages
+#         run: yarn install --frozen-lockfile
 
-      - name: Install Railway
-        run: npm i -g @railway/cli
+#       - name: Install Railway
+#         run: npm i -g @railway/cli
 
-      - name: Deploy
-        run: railway up
-        env:
-          RAILWAY_TOKEN: ${{ secrets.PETIKCOM_DEVELOP_TOKEN }}
+#       - name: Deploy
+#         run: railway up
+#         env:
+#           RAILWAY_TOKEN: ${{ secrets.PETIKCOM_DEVELOP_TOKEN }}

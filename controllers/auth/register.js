@@ -5,19 +5,31 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Validator = require("fastest-validator");
 const v = new Validator();
+const { Op } = require("sequelize");
 const { JWT_SECRET_KEY } = process.env;
 
 const register = async (req, res, next) => {
   try {
-    const { email, password, confirm_password, status = false } = req.body;
+    const {
+      username,
+      email,
+      password,
+      confirm_password,
+      status = false,
+    } = req.body;
 
     const schema = {
+      username: { type: "string" },
       email: { type: "email", label: "Email Address" },
       password: { type: "string", min: 6 },
     };
     const check = await v.compile(schema);
 
-    const validate = check({ email: `${email}`, password: `${password}` });
+    const validate = check({
+      username: `${username}`,
+      email: `${email}`,
+      password: `${password}`,
+    });
 
     if (validate.length > 0) {
       return res.status(400).json({
@@ -37,11 +49,14 @@ const register = async (req, res, next) => {
     }
 
     // check user exist
-    const userExist = await User.findOne({ where: { email } });
+    const userExist = await User.findOne({
+      where: { [Op.or]: [{ email: email }, { username: username }] },
+    });
+
     if (userExist) {
       return res.status(400).json({
         status: false,
-        message: "Email already used!",
+        message: "Email / username already used!",
         data: null,
       });
     }
@@ -54,6 +69,7 @@ const register = async (req, res, next) => {
 
     //create new user
     const newUser = await User.create({
+      username,
       email,
       password: passwordHashed,
       role_id: userRole.id,
