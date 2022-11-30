@@ -13,7 +13,7 @@ const sendingEmail = async (email) => {
     email: email,
   };
   const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: "900s" });
-  const link = `http://localhost:3000/auth/verify?token=${token}`;
+  const link = `https://petikcom-api-dev.km3ggwp.com/auth/verify?token=${token}`;
   const htmlEmail = await templateHtml("verify-email.ejs", {
     email: email,
     link: link,
