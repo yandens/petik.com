@@ -4,7 +4,7 @@ const deleteAccount = async (req, res, next) => {
   try {
     const user = req.user;
     const deleted = await User.update(
-      { isActive: false },
+      { isActive: false, status: false },
       { where: { id: user.id } }
     );
 
