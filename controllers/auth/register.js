@@ -8,6 +8,19 @@ const v = new Validator();
 const { Op } = require("sequelize");
 const { JWT_SECRET_KEY } = process.env;
 
+const sendingEmail = async (email) => {
+  const payload = {
+    email: email,
+  };
+  const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: "900s" });
+  const link = `http://localhost:3000/auth/verify?token=${token}`;
+  const htmlEmail = await templateHtml("verify-email.ejs", {
+    email: email,
+    link: link,
+  });
+  await sendEmail(email, "Verification Email", htmlEmail);
+}
+
 const register = async (req, res, next) => {
   try {
     const {
@@ -60,6 +73,7 @@ const register = async (req, res, next) => {
           { where: { id: userExist.id } }
         );
 
+        sendingEmail(userExist.email)
         return res.status(201).json({
           status: true,
           message: "Register Success!",
@@ -92,17 +106,7 @@ const register = async (req, res, next) => {
       user_type: "BASIC",
     });
 
-    const payload = {
-      email: newUser.email,
-    };
-    const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: "900s" });
-    const link = `http://localhost:3000/auth/verify?token=${token}`;
-    const htmlEmail = await templateHtml("verify-email.ejs", {
-      email: newUser.email,
-      link: link,
-    });
-    await sendEmail(newUser.email, "Verification Email", htmlEmail);
-
+    sendingEmail(newUser.email);
     return res.status(201).json({
       status: true,
       message: "Register Success!",
