@@ -6,7 +6,6 @@ const jwt = require("jsonwebtoken");
 const Validator = require("fastest-validator");
 const v = new Validator();
 const { Op } = require("sequelize");
-const user = require("../../models/user");
 const { JWT_SECRET_KEY } = process.env;
 
 const sendingEmail = async (email) => {
@@ -20,7 +19,7 @@ const sendingEmail = async (email) => {
     link: link,
   });
   await sendEmail(email, "Verification Email", htmlEmail);
-}
+};
 
 const register = async (req, res, next) => {
   try {
@@ -70,12 +69,9 @@ const register = async (req, res, next) => {
 
     if (userExist) {
       if (userExist.isActive == false) {
-        await User.update(
-          { isActive: true },
-          { where: { id: userExist.id } }
-        );
+        await User.update({ isActive: true }, { where: { id: userExist.id } });
 
-        sendingEmail(userExist.email)
+        sendingEmail(userExist.email);
         return res.status(201).json({
           status: true,
           message: "Register Success!",
