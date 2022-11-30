@@ -6,14 +6,12 @@ const updateBio = async (req, res, next) => {
   try {
     const user = req.user
     const {
-      username,
       firstName,
       lastName,
       phoneNumber
     } = req.body;
 
     const schema = {
-      username: { type: "string" },
       firstName: { type: "string" },
       lastName: { type: "string" },
       phoneNumber: { type: "string", min: 12 }
@@ -21,7 +19,6 @@ const updateBio = async (req, res, next) => {
     const check = await v.compile(schema);
 
     const validate = check({
-      username: `${username}`,
       firstName: `${firstName}`,
       lastName: `${lastName}`,
       phoneNumber: `${phoneNumber}`
@@ -35,19 +32,6 @@ const updateBio = async (req, res, next) => {
       });
     }
 
-    const usernameExist = await User.findAll({ where: { username } })
-    if (usernameExist.length > 1) {
-      return res.status(400).json({
-        status: false,
-        message: "Username already exist!",
-        data: null
-      })
-    }
-
-    await User.update(
-      { username },
-      { where: { id: user.id } }
-    )
     await UserBiodata.update(
       { firstName, lastName, phoneNumber },
       { where: { user_id: user.id } }
