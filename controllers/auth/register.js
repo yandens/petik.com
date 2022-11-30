@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 const Validator = require("fastest-validator");
 const v = new Validator();
 const { Op } = require("sequelize");
+const user = require("../../models/user");
 const { JWT_SECRET_KEY } = process.env;
 
 const register = async (req, res, next) => {
@@ -16,6 +17,7 @@ const register = async (req, res, next) => {
       password,
       confirm_password,
       status = false,
+      isActive = false,
     } = req.body;
 
     const schema = {
@@ -73,8 +75,9 @@ const register = async (req, res, next) => {
       email,
       password: passwordHashed,
       role_id: userRole.id,
-      status,
       user_type: "BASIC",
+      status,
+      isActive,
     });
 
     const payload = {
