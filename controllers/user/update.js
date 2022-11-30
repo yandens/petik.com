@@ -2,7 +2,7 @@ const { User, UserBiodata } = require("../../models");
 const Validator = require("fastest-validator");
 const v = new Validator();
 
-const updateUser = async (req, res, next) => {
+const updateBio = async (req, res, next) => {
   try {
     const user = req.user
     const {
@@ -66,4 +66,4 @@ const updateUser = async (req, res, next) => {
   }
 }
 
-module.exports = updateUser
+module.exports = updateBio
