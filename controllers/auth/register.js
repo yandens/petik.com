@@ -54,6 +54,21 @@ const register = async (req, res, next) => {
     });
 
     if (userExist) {
+      if (userExist.isActice == false) {
+        await User.update(
+          { isActice: true },
+          { where: { email: userExist.email } }
+        );
+
+        return res.status(201).json({
+          status: true,
+          message: "Register Success!",
+          data: {
+            email: userExist.email,
+          },
+        });
+      }
+
       return res.status(400).json({
         status: false,
         message: "Email / username already used!",
