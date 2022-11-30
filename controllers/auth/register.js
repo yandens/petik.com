@@ -57,7 +57,7 @@ const register = async (req, res, next) => {
       if (userExist.isActice == false) {
         await User.update(
           { isActice: true },
-          { where: { email: userExist.email } }
+          { where: { id: userExist.id } }
         );
 
         return res.status(201).json({
