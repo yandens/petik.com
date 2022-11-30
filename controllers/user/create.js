@@ -33,7 +33,7 @@ const createBio = async (req, res, next) => {
     }
 
     await UserBiodata.create({
-      firstName, lastName, phoneNumber
+      user_id: user.id, firstName, lastName, phoneNumber
     });
 
     return res.status(200).json({
