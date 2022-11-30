@@ -1,9 +1,9 @@
 const { User, UserBiodata } = require('../../models')
 
 const showBio = async (req, res, next) => {
-  const user_id = req.user
+  const user = req.user
 
-  const user = await User.findOne({
+  const userBio = await User.findOne({
     where: { id: user.id },
     include: [{
       model: UserBiodata,
@@ -14,7 +14,7 @@ const showBio = async (req, res, next) => {
   return res.status(200).json({
     status: true,
     message: 'Success get user data!',
-    data: user
+    data: userBio
   })
 }
 
