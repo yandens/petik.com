@@ -29,7 +29,7 @@ const register = async (req, res, next) => {
       password,
       confirm_password,
       status = false,
-      isActive = false,
+      isActive = true,
     } = req.body;
 
     const schema = {
