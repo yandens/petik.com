@@ -8,13 +8,13 @@ const { Op } = require("sequelize");
 
 const login = async (req, res, next) => {
   try {
-    const { emailOrUsername, password } = req.body;
+    const { email, password } = req.body;
     const schema = {
-      emailOrUsername: { type: "string" },
+      email: { type: "email", label: "Email Address" },
     };
     const check = await v.compile(schema);
 
-    const validate = check({ emailOrUsername: `${emailOrUsername}` });
+    const validate = check({ email: `${email}` });
 
     if (validate.length > 0) {
       return res.status(400).json({
@@ -25,9 +25,7 @@ const login = async (req, res, next) => {
     }
 
     const user = await User.findOne({
-      where: {
-        [Op.or]: [{ email: emailOrUsername }, { username: emailOrUsername }],
-      },
+      where: { email: email },
       include: [
         {
           model: Role,
@@ -71,7 +69,6 @@ const login = async (req, res, next) => {
 
     const payload = {
       id: user.id,
-      username: user.username,
       email: user.email,
       role: user.role.role,
     };
@@ -81,7 +78,7 @@ const login = async (req, res, next) => {
       status: true,
       message: "login success!",
       data: {
-        emailOrUsername,
+        email,
         token,
       },
     });

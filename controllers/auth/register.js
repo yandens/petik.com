@@ -24,7 +24,6 @@ const sendingEmail = async (email) => {
 const register = async (req, res, next) => {
   try {
     const {
-      username,
       email,
       password,
       confirm_password,
@@ -33,14 +32,12 @@ const register = async (req, res, next) => {
     } = req.body;
 
     const schema = {
-      username: { type: "string" },
       email: { type: "email", label: "Email Address" },
       password: { type: "string", min: 6 },
     };
     const check = await v.compile(schema);
 
     const validate = check({
-      username: `${username}`,
       email: `${email}`,
       password: `${password}`,
     });
@@ -64,7 +61,7 @@ const register = async (req, res, next) => {
 
     // check user exist
     const userExist = await User.findOne({
-      where: { [Op.or]: [{ email: email }, { username: username }] },
+      where: { email },
     });
 
     if (userExist) {
@@ -83,7 +80,7 @@ const register = async (req, res, next) => {
 
       return res.status(400).json({
         status: false,
-        message: "Email / username already used!",
+        message: "Email already used!",
         data: null,
       });
     }
@@ -96,7 +93,6 @@ const register = async (req, res, next) => {
 
     //create new user
     const newUser = await User.create({
-      username,
       email,
       password: passwordHashed,
       role_id: userRole.id,
