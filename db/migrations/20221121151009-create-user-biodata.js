@@ -17,11 +17,17 @@ module.exports = {
       lastName: {
         type: Sequelize.STRING,
       },
+      gender: {
+        type: Sequelize.STRING
+      },
       phoneNumber: {
         type: Sequelize.STRING,
       },
-      avatar: {
+      address: {
         type: Sequelize.STRING,
+      },
+      nationality: {
+        type: Sequelize.TEXT
       },
       createdAt: {
         allowNull: false,
