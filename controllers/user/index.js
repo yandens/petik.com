@@ -5,6 +5,7 @@ const deleteAccount = require("./delete");
 const getAllUser = require("./getAllUser");
 const getUser = require("./getUser");
 const uploadAvatar = require("./uploadAvatar");
+const deleteAvatar = require("./deleteAvatar");
 
 module.exports = {
   deleteAccount,
@@ -14,4 +15,5 @@ module.exports = {
   getUser,
   showBio,
   uploadAvatar,
+  deleteAvatar,
 };

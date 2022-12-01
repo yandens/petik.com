@@ -11,11 +11,12 @@ router.put("/delete-account", authorize(role.buyer), user.deleteAccount);
 router.get("/get-users", authorize(role.admin), user.getAllUser);
 router.get("/get-user", authorize(role.admin), user.getUser);
 
-router.post(
+router.put(
   "/upload-avatar",
   authorize(role.buyer),
   mediaValidation.image.single("avatar"),
   user.uploadAvatar
 );
+router.put("/delete-avatar", authorize(role.buyer), user.deleteAvatar);
 
 module.exports = router;
