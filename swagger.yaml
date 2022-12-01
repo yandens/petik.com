@@ -260,7 +260,7 @@ paths:
             examples:
               example-1:
                 value:
-                  emailOrUsername: dedensetyawan17@gmail.com
+                  email: dedensetyawan17@gmail.com
                   password: deden123
         description: Email must be valid and password at least 6 character
   /auth/change-password:
