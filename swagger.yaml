@@ -1015,6 +1015,90 @@ paths:
       security:
         - bearerAuth: []
     parameters: []
+  /user/upload-avatar:
+    put:
+      summary: Upload User Avatar
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: integer
+              examples:
+                example-1:
+                  value:
+                    status: true
+                    message: Avatar Uploaded!
+                    data:
+                      - 1
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    status: false
+                    message: 'only png, jpg, and jpeg allowed to upload!'
+      description: Upload user avatar endpoint
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                avatar:
+                  type: string
+                  format: binary
+        description: 'Only png, jpg, and jpeg allowed to upload'
+  /user/delete-avatar:
+    put:
+      summary: Delete User Avatar
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: integer
+              examples:
+                example-1:
+                  value:
+                    status: true
+                    message: Avatar Deleted!
+                    data:
+                      - 1
+      description: Delete user avatar endpoint
+      security:
+        - bearerAuth: []
 components:
   schemas: {}
   securitySchemes:
