@@ -3,8 +3,6 @@ const authorize = require("../middlewares/authorize");
 const user = require("../controllers/user");
 const role = require("../utils/role-based/role");
 const mediaValidation = require("../utils/media/media-validation");
-const multer = require("multer");
-const upload = multer();
 
 router.get("/show-bio", authorize(role.buyer), user.showBio);
 router.post("/create-bio", authorize(role.buyer), user.createBio);
@@ -15,6 +13,7 @@ router.get("/get-user", authorize(role.admin), user.getUser);
 
 router.post(
   "/upload-avatar",
+  authorize(role.buyer),
   mediaValidation.image.single("avatar"),
   user.uploadAvatar
 );
