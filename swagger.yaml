@@ -497,6 +497,524 @@ paths:
                 value:
                   newPass: deden123
                   confirmNewPass: deden123
+  /user/create-bio:
+    parameters: []
+    post:
+      summary: Create User Biodata
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      email:
+                        type: string
+              examples:
+                example-1:
+                  value:
+                    status: true
+                    message: success
+                    data:
+                      id: 2
+                      email: dedensetyawan17@gmail.com
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+              examples:
+                example-1:
+                  value:
+                    status: false
+                    message: Must be string / The phone number must be started with '+'!
+                    data: null
+      description: Create user biodata endpoint
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                gender:
+                  type: string
+                phoneNumber:
+                  type: string
+                address:
+                  type: string
+                nationality:
+                  type: string
+              required:
+                - firstName
+                - lastName
+                - gender
+                - phoneNumber
+                - address
+                - nationality
+            examples:
+              example-1:
+                value:
+                  firstName: Deden
+                  lastName: Setyawan
+                  gender: Male
+                  phoneNumber: "+6285123258456"
+                  address: "Gianyar, Bali"
+                  nationality: Indonesia
+        description: All must be string and phone number must be started with '+'
+      tags:
+        - User
+  /user/update-bio:
+    parameters: []
+    put:
+      summary: Update User Biodata
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      email:
+                        type: string
+              examples:
+                example-1:
+                  value:
+                    status: true
+                    message: Success update user!
+                    data:
+                      id: 2
+                      email: dedensetyawan17@gmail.com
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+              examples:
+                example-1:
+                  value:
+                    status: false
+                    message: Must be String / The phone number must be started with '+'!
+                    data: null
+      description: Update user biodata endpoint
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                gender:
+                  type: string
+                phoneNumber:
+                  type: string
+                address:
+                  type: string
+                nationality:
+                  type: string
+            examples:
+              example-1:
+                value:
+                  firstName: Deden
+                  lastName: Setyawan
+                  gender: Male
+                  phoneNumber: "+62895621258456"
+                  address: "Gianyar, Gianyar, Bali"
+                  nationality: Indonesia
+      tags:
+        - User
+  /user/show-bio:
+    get:
+      summary: Show User Biodata
+      tags:
+        - User
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      email:
+                        type: string
+                      password:
+                        type: string
+                      role_id:
+                        type: integer
+                      status:
+                        type: boolean
+                      user_type:
+                        type: string
+                      isActive:
+                        type: boolean
+                      createdAt:
+                        type: string
+                      updatedAt:
+                        type: string
+                      biodata:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          user_id:
+                            type: integer
+                          firstName:
+                            type: string
+                          lastName:
+                            type: string
+                          gender:
+                            type: string
+                          phoneNumber:
+                            type: string
+                          address:
+                            type: string
+                          nationality:
+                            type: string
+                          createdAt:
+                            type: string
+                          updatedAt:
+                            type: string
+              examples:
+                example-1:
+                  value:
+                    status: true
+                    message: Success get user data!
+                    data:
+                      id: 2
+                      email: dedensetyawan17@gmail.com
+                      password: $2b$10$.UrCdGS6DnWc7cT7StAgAOOM/tfoAbnsyM22jKAkh0X8QAcGO3Qwm
+                      role_id: 2
+                      status: true
+                      user_type: BASIC
+                      isActive: true
+                      createdAt: "2022-12-01T01:40:23.026Z"
+                      updatedAt: "2022-12-01T01:40:23.026Z"
+                      biodata:
+                        id: 1
+                        user_id: 2
+                        firstName: Deden
+                        lastName: Setyawan
+                        gender: Male
+                        phoneNumber: "+62895621258456"
+                        address: "Gianyar, Gianyar, Bali"
+                        nationality: Indonesia
+                        createdAt: "2022-12-01T01:41:32.692Z"
+                        updatedAt: "2022-12-01T01:53:40.873Z"
+      description: Show user biodata endpoint
+      security:
+        - bearerAuth: []
+  /user/delete-account:
+    put:
+      summary: Delete User Account (Soft Delete)
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: integer
+              examples:
+                example-1:
+                  value:
+                    status: true
+                    message: User Deleted!
+                    data:
+                      - 1
+      description: Delete user account endpoint
+      security:
+        - bearerAuth: []
+      tags:
+        - User
+  "/user/get-user/{user_id}":
+    get:
+      summary: Get User
+      tags:
+        - User
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      email:
+                        type: string
+                      password:
+                        type: string
+                      role_id:
+                        type: integer
+                      status:
+                        type: boolean
+                      user_type:
+                        type: string
+                      isActive:
+                        type: boolean
+                      createdAt:
+                        type: string
+                      updatedAt:
+                        type: string
+                      biodata:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          user_id:
+                            type: integer
+                          firstName:
+                            type: string
+                          lastName:
+                            type: string
+                          gender:
+                            type: string
+                          phoneNumber:
+                            type: string
+                          address:
+                            type: string
+                          nationality:
+                            type: string
+                          createdAt:
+                            type: string
+                          updatedAt:
+                            type: string
+              examples:
+                example-1:
+                  value:
+                    status: true
+                    message: Success get user data!
+                    data:
+                      id: 2
+                      email: dedensetyawan17@gmail.com
+                      password: $2b$10$.UrCdGS6DnWc7cT7StAgAOOM/tfoAbnsyM22jKAkh0X8QAcGO3Qwm
+                      role_id: 2
+                      status: false
+                      user_type: BASIC
+                      isActive: false
+                      createdAt: "2022-12-01T01:40:23.026Z"
+                      updatedAt: "2022-12-01T01:58:57.155Z"
+                      biodata:
+                        id: 1
+                        user_id: 2
+                        firstName: Deden
+                        lastName: Setyawan
+                        gender: Male
+                        phoneNumber: "+62895621258456"
+                        address: "Gianyar, Gianyar, Bali"
+                        nationality: Indonesia
+                        createdAt: "2022-12-01T01:41:32.692Z"
+                        updatedAt: "2022-12-01T01:53:40.873Z"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+              examples:
+                example-1:
+                  value:
+                    status: false
+                    message: User not found!
+                    data: null
+      description: Get user endpoint
+      security:
+        - bearerAuth: []
+    parameters:
+      - schema:
+          type: string
+        name: user_id
+        in: path
+        required: true
+  /user/get-users:
+    get:
+      summary: Get Users
+      tags:
+        - User
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      email:
+                        type: string
+                      password:
+                        type: string
+                      role_id:
+                        type: integer
+                      status:
+                        type: boolean
+                      user_type:
+                        type: string
+                      isActive:
+                        type: boolean
+                      createdAt:
+                        type: string
+                      updatedAt:
+                        type: string
+                      biodata:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          user_id:
+                            type: integer
+                          firstName:
+                            type: string
+                          lastName:
+                            type: string
+                          gender:
+                            type: string
+                          phoneNumber:
+                            type: string
+                          address:
+                            type: string
+                          nationality:
+                            type: string
+                          createdAt:
+                            type: string
+                          updatedAt:
+                            type: string
+              examples:
+                example-1:
+                  value:
+                    status: true
+                    message: Success get user data!
+                    data:
+                      id: 2
+                      email: dedensetyawan17@gmail.com
+                      password: $2b$10$.UrCdGS6DnWc7cT7StAgAOOM/tfoAbnsyM22jKAkh0X8QAcGO3Qwm
+                      role_id: 2
+                      status: false
+                      user_type: BASIC
+                      isActive: false
+                      createdAt: "2022-12-01T01:40:23.026Z"
+                      updatedAt: "2022-12-01T01:58:57.155Z"
+                      biodata:
+                        id: 1
+                        user_id: 2
+                        firstName: Deden
+                        lastName: Setyawan
+                        gender: Male
+                        phoneNumber: "+62895621258456"
+                        address: "Gianyar, Gianyar, Bali"
+                        nationality: Indonesia
+                        createdAt: "2022-12-01T01:41:32.692Z"
+                        updatedAt: "2022-12-01T01:53:40.873Z"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+              examples:
+                example-1:
+                  value:
+                    status: false
+                    message: User not found!
+                    data: null
+      description: Get users endpoint
+      security:
+        - bearerAuth: []
+    parameters: []
 components:
   schemas: {}
   securitySchemes:

@@ -12,6 +12,14 @@ const getUser = async (req, res, next) => {
       }]
     })
 
+    if (!user) {
+      return res.status(400).json({
+        status: false,
+        message: 'User not found!',
+        data: null
+      })
+    }
+
     return res.status(200).json({
       status: true,
       message: 'Success get user data!',

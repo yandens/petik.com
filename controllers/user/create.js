@@ -1,6 +1,12 @@
 const { User, UserBiodata } = require('../../models');
 const Validator = require('fastest-validator');
-const v = new Validator();
+const v = new Validator({
+  useNewCustomCheckerFunction: true, // using new version
+  messages: {
+    // Register our new error message text
+    phoneNumber: "The phone number must be started with '+'!"
+  }
+});
 
 const createBio = async (req, res, next) => {
   try {
@@ -20,7 +26,7 @@ const createBio = async (req, res, next) => {
       gender: { type: "string" },
       phoneNumber: {
         type: "string", min: 12, custom: (v, err) => {
-          if (!v.startsWith("+")) errors.push({ type: "phoneNumber" })
+          if (!v.startsWith("+")) err.push({ type: "phoneNumber" })
           return v.replace(/[^\d+]/g, ""); // Sanitize: remove all special chars except numbers
         }
       },
@@ -50,7 +56,7 @@ const createBio = async (req, res, next) => {
       user_id: user.id, firstName, lastName, gender, phoneNumber, address, nationality
     });
 
-    return res.status(200).json({
+    return res.status(201).json({
       status: true,
       message: 'success',
       data: {
