@@ -1,9 +1,10 @@
-const showBio = require('./showBio')
-const createBio = require('./create')
-const updateBio = require('./update')
+const showBio = require("./showBio");
+const createBio = require("./create");
+const updateBio = require("./update");
 const deleteAccount = require("./delete");
 const getAllUser = require("./getAllUser");
-const getUser = require('./getUser')
+const getUser = require("./getUser");
+const uploadAvatar = require("./uploadAvatar");
 
 module.exports = {
   deleteAccount,
@@ -11,5 +12,6 @@ module.exports = {
   createBio,
   updateBio,
   getUser,
-  showBio
+  showBio,
+  uploadAvatar,
 };

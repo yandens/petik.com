@@ -1,4 +1,4 @@
-const { User, Role } = require("../../models");
+const { User, Role, Avatar } = require("../../models");
 const sendEmail = require("../../utils/mailer/sendEmail");
 const templateHtml = require("../../utils/mailer/templateHtml");
 const bcrypt = require("bcrypt");
@@ -101,12 +101,19 @@ const register = async (req, res, next) => {
       isActive,
     });
 
+    const insertAvatar = await Avatar.create({
+      user_id: newUser.id,
+      avatar:
+        "https://ik.imagekit.io/6v306xm58/user_default.jpg?ik-sdk-version=javascript-1.4.3&updatedAt=1669853887793",
+    });
+
     sendingEmail(newUser.email);
     return res.status(201).json({
       status: true,
       message: "Register Success!",
       data: {
         email: newUser.email,
+        avatar: insertAvatar,
       },
     });
   } catch (error) {

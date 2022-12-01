@@ -4,34 +4,30 @@ const v = new Validator({
   useNewCustomCheckerFunction: true, // using new version
   messages: {
     // Register our new error message text
-    phoneNumber: "The phone number must be started with '+'!"
-  }
+    phoneNumber: "The phone number must be started with '+'!",
+  },
 });
 
 const updateBio = async (req, res, next) => {
   try {
-    const user = req.user
-    const {
-      firstName,
-      lastName,
-      gender,
-      phoneNumber,
-      address,
-      nationality
-    } = req.body;
+    const user = req.user;
+    const { firstName, lastName, gender, phoneNumber, address, nationality } =
+      req.body;
 
     const schema = {
       firstName: { type: "string" },
       lastName: { type: "string" },
       gender: { type: "string" },
       phoneNumber: {
-        type: "string", min: 12, custom: (v, err) => {
-          if (!v.startsWith("+")) err.push({ type: "phoneNumber" })
+        type: "string",
+        min: 12,
+        custom: (v, err) => {
+          if (!v.startsWith("+")) err.push({ type: "phoneNumber" });
           return v.replace(/[^\d+]/g, ""); // Sanitize: remove all special chars except numbers
-        }
+        },
       },
       address: { type: "string" },
-      nationality: { type: "string" }
+      nationality: { type: "string" },
     };
     const check = await v.compile(schema);
 
@@ -55,19 +51,19 @@ const updateBio = async (req, res, next) => {
     await UserBiodata.update(
       { firstName, lastName, gender, phoneNumber, address, nationality },
       { where: { user_id: user.id } }
-    )
+    );
 
     return res.status(201).json({
       status: true,
       message: "Success update user!",
       data: {
         id: user.id,
-        email: user.email
-      }
-    })
+        email: user.email,
+      },
+    });
   } catch (err) {
-    next(err)
+    next(err);
   }
-}
+};
 
-module.exports = updateBio
+module.exports = updateBio;
