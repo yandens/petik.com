@@ -48,14 +48,21 @@ paths:
               properties:
                 email:
                   type: string
+                  format: email
                 password:
                   type: string
+                  format: password
                 confirm_password:
                   type: string
-              example: # Sample object
-                email: dedensetyawan17@gmail.com
-                password: deden123
-                confirm_password: deden123
+                  format: password
+              required:
+                - email
+                - password
+                - confirm_password
+            example: # Sample object
+              email: dedensetyawan17@gmail.com
+              password: deden123
+              confirm_password: deden123
       responses:
         "201":
           description: Created
@@ -253,8 +260,10 @@ paths:
               properties:
                 email:
                   type: string
+                  format: email
                 password:
                   type: string
+                  format: password
               required:
                 - email
             examples:
@@ -335,10 +344,13 @@ paths:
               properties:
                 oldPassword:
                   type: string
+                  format: password
                 newPassword:
                   type: string
+                  format: password
                 confirmNewPassword:
                   type: string
+                  format: password
               required:
                 - oldPassword
                 - newPassword
@@ -408,6 +420,7 @@ paths:
               properties:
                 email:
                   type: string
+                  format: email
               required:
                 - email
             examples:
@@ -490,8 +503,13 @@ paths:
               properties:
                 newPass:
                   type: string
+                  format: password
                 confirmNewPass:
                   type: string
+                  format: password
+              required:
+                - newPass
+                - confirmNewPass
             examples:
               example-1:
                 value:
