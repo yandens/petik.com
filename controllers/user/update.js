@@ -4,24 +4,20 @@ const v = new Validator();
 
 const updateBio = async (req, res, next) => {
   try {
-    const user = req.user
-    const {
-      firstName,
-      lastName,
-      phoneNumber
-    } = req.body;
+    const user = req.user;
+    const { firstName, lastName, phoneNumber } = req.body;
 
     const schema = {
       firstName: { type: "string" },
       lastName: { type: "string" },
-      phoneNumber: { type: "string", min: 12 }
+      phoneNumber: { type: "string", min: 12 },
     };
     const check = await v.compile(schema);
 
     const validate = check({
       firstName: `${firstName}`,
       lastName: `${lastName}`,
-      phoneNumber: `${phoneNumber}`
+      phoneNumber: `${phoneNumber}`,
     });
 
     if (validate.length > 0) {
@@ -35,19 +31,19 @@ const updateBio = async (req, res, next) => {
     await UserBiodata.update(
       { firstName, lastName, phoneNumber },
       { where: { user_id: user.id } }
-    )
+    );
 
     return res.status(201).json({
       status: true,
       message: "Success update user!",
       data: {
         id: user.id,
-        email: user.email
-      }
-    })
+        email: user.email,
+      },
+    });
   } catch (err) {
-    next(err)
+    next(err);
   }
-}
+};
 
-module.exports = updateBio
+module.exports = updateBio;
