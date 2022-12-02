@@ -1,10 +1,10 @@
-const { User } = require("../../models");
-const { Role } = require("../../models");
+const { User, Role } = require("../../models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET_KEY } = process.env;
 const Validator = require("fastest-validator");
 const v = new Validator();
+const { Op } = require("sequelize");
 
 const login = async (req, res, next) => {
   try {
@@ -43,11 +43,11 @@ const login = async (req, res, next) => {
     }
 
     const match = await bcrypt.compare(password, user.password);
-    if (!match) {
+    if (!match || user.isActive == false) {
       return res.status(400).json({
         status: false,
-        message: 'Wrong email or password!',
-        data: null
+        message: "Wrong email or password!",
+        data: null,
       });
     }
 

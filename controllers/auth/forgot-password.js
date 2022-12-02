@@ -37,7 +37,7 @@ const forgotPassword = async (req, res, next) => {
       email: findUser.email,
     };
     const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: "900s" });
-    const link = `http://localhost:3000/auth/reset-password?token=${token}`;
+    const link = `https://petikcom-api-dev.km3ggwp.com/auth/reset-password?token=${token}`;
     const htmlEmail = await templateHtml("forgot-password.ejs", {
       email: findUser.email,
       link: link,
