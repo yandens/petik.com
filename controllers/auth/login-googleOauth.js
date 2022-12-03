@@ -1,7 +1,7 @@
-const { User, Role } = require("../../models");
+const { User, Role, Avatar } = require("../../models");
 // const googleOauth2 = require("../../utils/oauth/google");
 const jwt = require("jsonwebtoken");
-const axios = require('axios')
+const axios = require("axios");
 const { JWT_SECRET_KEY } = process.env;
 
 const google = async (req, res, next) => {
@@ -21,7 +21,7 @@ const google = async (req, res, next) => {
     const response = await axios.get(
       `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${access_token}`
     );
-    const { email } = response.data;
+    const { email, picture } = response.data;
 
     let user = await User.findOne({
       where: { email },
@@ -46,13 +46,19 @@ const google = async (req, res, next) => {
     let payload;
     if (!user) {
       user = await User.create({
-        email: data.email,
+        email: email,
         password: null,
         role_id: userRole.id,
         status: true,
         user_type: "GOOGLE",
-        isAvtive: true,
+        isActive: true,
       });
+
+      var createdAvatar = await Avatar.create({
+        user_id: user.id,
+        avatar: picture,
+      });
+
       const role = await Role.findOne({ where: { id: user.role_id } });
       payload = {
         id: user.id,
@@ -75,6 +81,7 @@ const google = async (req, res, next) => {
       data: {
         user_id: user.id,
         token: token,
+        avatar: createdAvatar,
       },
     });
   } catch (error) {
