@@ -51,6 +51,7 @@ const google = async (req, res, next) => {
         role_id: userRole.id,
         status: true,
         user_type: "GOOGLE",
+        isAvtive: true,
       });
       const role = await Role.findOne({ where: { id: user.role_id } });
       payload = {
