@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">57.44% </span>
+                <span class="strong">89.36% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>27/47</span>
+                <span class='fraction'>42/47</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">57.44% </span>
+                <span class="strong">89.36% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>27/47</span>
+                <span class='fraction'>42/47</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -133,21 +133,21 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -179,22 +179,22 @@ oauth2Client.setCredentials({ refresh_token: GOOGLE_REFRESH_TOKEN });
 const sendEmail = (to, subject, html) =&gt; {
   return new Promise(async (resolve, reject) =&gt; {
     try {
-      const accessToken = await oauth2Client.getAccessToken()<span class="branch-0 cbranch-no" title="branch not covered" >;</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >      const transport = nodemailer.createTransport({</span>
-<span class="cstat-no" title="statement not covered" >        service: "gmail",</span>
-<span class="cstat-no" title="statement not covered" >        auth: {</span>
-<span class="cstat-no" title="statement not covered" >          type: "OAuth2",</span>
-<span class="cstat-no" title="statement not covered" >          user: GOOGLE_SENDER_EMAIL,</span>
-<span class="cstat-no" title="statement not covered" >          clientId: GOOGLE_CLIENT_ID,</span>
-<span class="cstat-no" title="statement not covered" >          clientSecret: GOOGLE_CLIENT_SECRET,</span>
-<span class="cstat-no" title="statement not covered" >          refreshToken: GOOGLE_REFRESH_TOKEN,</span>
-<span class="cstat-no" title="statement not covered" >          accessToken: accessToken,</span>
-<span class="cstat-no" title="statement not covered" >        },</span>
-<span class="cstat-no" title="statement not covered" >      });</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >      const mailOptions = { to, subject, html };</span>
-<span class="cstat-no" title="statement not covered" >      const response = await transport.sendMail(mailOptions);</span>
+      const accessToken = await oauth2Client.getAccessToken();
+&nbsp;
+      const transport = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          type: "OAuth2",
+          user: GOOGLE_SENDER_EMAIL,
+          clientId: GOOGLE_CLIENT_ID,
+          clientSecret: GOOGLE_CLIENT_SECRET,
+          refreshToken: GOOGLE_REFRESH_TOKEN,
+          accessToken: accessToken,
+        },
+      });
+&nbsp;
+      const mailOptions = { to, subject, html };
+      const response = await transport.sendMail(mailOptions)<span class="branch-0 cbranch-no" title="branch not covered" >;</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >      resolve(response);</span>
 <span class="cstat-no" title="statement not covered" >    } catch (err) {</span>
@@ -211,7 +211,7 @@ module.exports = sendEmail;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-12-02T08:01:46.902Z
+                at 2022-12-02T14:15:44.624Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

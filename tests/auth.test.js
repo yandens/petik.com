@@ -368,7 +368,7 @@ describe("PUT /auth/change-password", () => {
 
 // Forgot Password Gagal Email Not Valid
 describe("POST /auth/forgot-password", () => {
-  test("Login Berhasil", async () => {
+  test("Forgot Password Gagal Email Not Valid", async () => {
     try {
       const res = await request(app).post("/auth/forgot-password").send({
         email: "rarjen57gmail.com",
@@ -389,7 +389,7 @@ describe("POST /auth/forgot-password", () => {
 
 // Forgot Password Gagal Email Not found
 describe("POST /auth/forgot-password", () => {
-  test("Login Berhasil", async () => {
+  test("Forgot Password Berhasil", async () => {
     try {
       const res = await request(app).post("/auth/forgot-password").send({
         email: "otnielkevin.ok@gmail.com",
@@ -405,3 +405,5 @@ describe("POST /auth/forgot-password", () => {
     }
   });
 });
+
+// Login Google Gagal Email Used

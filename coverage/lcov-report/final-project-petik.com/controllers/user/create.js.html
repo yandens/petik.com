@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">18.05% </span>
+                <span class="strong">17.56% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>13/72</span>
+                <span class='fraction'>13/74</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">18.05% </span>
+                <span class="strong">17.56% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>13/72</span>
+                <span class='fraction'>13/74</span>
             </div>
         
             
@@ -135,7 +135,9 @@
 <a name='L70'></a><a href='#L70'>70</a>
 <a name='L71'></a><a href='#L71'>71</a>
 <a name='L72'></a><a href='#L72'>72</a>
-<a name='L73'></a><a href='#L73'>73</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -205,39 +207,37 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const { User, UserBiodata } = require('../../models');
-const Validator = require('fastest-validator');
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const { User, UserBiodata } = require("../../models");
+const Validator = require("fastest-validator");
 const v = new Validator({
   useNewCustomCheckerFunction: true, // using new version
   messages: {
     // Register our new error message text
-    phoneNumber: "The phone number must be started with '+'!"
-  }
+    phoneNumber: "The phone number must be started with '+'!",
+  },
 });
 &nbsp;
 const createBio = <span class="fstat-no" title="function not covered" >async (req, res, next) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >  try {</span>
-<span class="cstat-no" title="statement not covered" >    const user = req.user</span>
-<span class="cstat-no" title="statement not covered" >    const {</span>
-<span class="cstat-no" title="statement not covered" >      firstName,</span>
-<span class="cstat-no" title="statement not covered" >      lastName,</span>
-<span class="cstat-no" title="statement not covered" >      gender,</span>
-<span class="cstat-no" title="statement not covered" >      phoneNumber,</span>
-<span class="cstat-no" title="statement not covered" >      address,</span>
-<span class="cstat-no" title="statement not covered" >      nationality</span>
-<span class="cstat-no" title="statement not covered" >    } = req.body;</span>
+<span class="cstat-no" title="statement not covered" >    const user = req.user;</span>
+<span class="cstat-no" title="statement not covered" >    const { firstName, lastName, gender, phoneNumber, address, nationality } =</span>
+<span class="cstat-no" title="statement not covered" >      req.body;</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >    const schema = {</span>
 <span class="cstat-no" title="statement not covered" >      firstName: { type: "string" },</span>
 <span class="cstat-no" title="statement not covered" >      lastName: { type: "string" },</span>
 <span class="cstat-no" title="statement not covered" >      gender: { type: "string" },</span>
 <span class="cstat-no" title="statement not covered" >      phoneNumber: {</span>
-<span class="cstat-no" title="statement not covered" >        type: "string", min: 12, custom: (v, err) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >          if (!v.startsWith("+")) err.push({ type: "phoneNumber" })</span>
+<span class="cstat-no" title="statement not covered" >        type: "string",</span>
+<span class="cstat-no" title="statement not covered" >        min: 12,</span>
+<span class="cstat-no" title="statement not covered" >        custom: (v, err) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >          if (!v.startsWith("+")) err.push({ type: "phoneNumber" });</span>
 <span class="cstat-no" title="statement not covered" >          return v.replace(/[^\d+]/g, ""); // Sanitize: remove all special chars except numbers</span>
-<span class="cstat-no" title="statement not covered" >        }</span>
+<span class="cstat-no" title="statement not covered" >        },</span>
 <span class="cstat-no" title="statement not covered" >      },</span>
 <span class="cstat-no" title="statement not covered" >      address: { type: "string" },</span>
 <span class="cstat-no" title="statement not covered" >      nationality: { type: "string" },</span>
@@ -262,23 +262,29 @@ const createBio = <span class="fstat-no" title="function not covered" >async (re
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >    await UserBiodata.create({</span>
-<span class="cstat-no" title="statement not covered" >      user_id: user.id, firstName, lastName, gender, phoneNumber, address, nationality</span>
+<span class="cstat-no" title="statement not covered" >      user_id: user.id,</span>
+<span class="cstat-no" title="statement not covered" >      firstName,</span>
+<span class="cstat-no" title="statement not covered" >      lastName,</span>
+<span class="cstat-no" title="statement not covered" >      gender,</span>
+<span class="cstat-no" title="statement not covered" >      phoneNumber,</span>
+<span class="cstat-no" title="statement not covered" >      address,</span>
+<span class="cstat-no" title="statement not covered" >      nationality,</span>
 <span class="cstat-no" title="statement not covered" >    });</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >    return res.status(201).json({</span>
 <span class="cstat-no" title="statement not covered" >      status: true,</span>
-<span class="cstat-no" title="statement not covered" >      message: 'success',</span>
+<span class="cstat-no" title="statement not covered" >      message: "success",</span>
 <span class="cstat-no" title="statement not covered" >      data: {</span>
 <span class="cstat-no" title="statement not covered" >        id: user.id,</span>
-<span class="cstat-no" title="statement not covered" >        email: user.email</span>
-<span class="cstat-no" title="statement not covered" >      }</span>
+<span class="cstat-no" title="statement not covered" >        email: user.email,</span>
+<span class="cstat-no" title="statement not covered" >      },</span>
 <span class="cstat-no" title="statement not covered" >    });</span>
 <span class="cstat-no" title="statement not covered" >  } catch (err) {</span>
-<span class="cstat-no" title="statement not covered" >    next(err)</span>
+<span class="cstat-no" title="statement not covered" >    next(err);</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
-<span class="cstat-no" title="statement not covered" >}</span>
+<span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
-module.exports = createBio
+module.exports = createBio;
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -286,7 +292,7 @@ module.exports = createBio
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-12-02T08:01:46.902Z
+                at 2022-12-02T14:15:44.624Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
