@@ -5,7 +5,6 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Validator = require("fastest-validator");
 const v = new Validator();
-const { Op } = require("sequelize");
 const { JWT_SECRET_KEY } = process.env;
 
 const sendingEmail = async (email) => {
