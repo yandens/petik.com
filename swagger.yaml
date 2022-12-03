@@ -64,14 +64,16 @@ paths:
                     status: false
                     message: Your account is already used
                     data: null
-      operationId: auth-login-google
-      parameters:
-        - schema:
-            type: string
-          in: query
-          name: access_token
-          description: access token from Front End
-          required: true
+      requestBody: 
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                access_token:
+                  type: string
+              required:
+                - access_token
   /auth/register:
     post:
       summary: Register

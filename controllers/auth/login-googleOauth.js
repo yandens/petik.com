@@ -17,14 +17,14 @@ const google = async (req, res, next) => {
 
     const { data } = await googleOauth2.getUserData();*/
 
-    const { access_token } = req.query;
+    const { access_token } = req.body;
     const response = await axios.get(
       `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${access_token}`
     );
     const { email, picture } = response.data;
 
     let user = await User.findOne({
-      where: { email },
+      where: { email: email },
       include: [
         {
           model: Role,
