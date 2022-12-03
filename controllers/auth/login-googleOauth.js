@@ -1,11 +1,12 @@
-const { User, Role } = require("../../models");
-const googleOauth2 = require("../../utils/oauth/google");
+const { User, Role, Avatar } = require("../../models");
+// const googleOauth2 = require("../../utils/oauth/google");
 const jwt = require("jsonwebtoken");
+const axios = require("axios");
 const { JWT_SECRET_KEY } = process.env;
 
 const google = async (req, res, next) => {
   try {
-    const code = req.query.code;
+    /*const code = req.query.code;
 
     if (!code) {
       const url = googleOauth2.generateAuthURL();
@@ -14,10 +15,16 @@ const google = async (req, res, next) => {
 
     await googleOauth2.setCredentials(code);
 
-    const { data } = await googleOauth2.getUserData();
+    const { data } = await googleOauth2.getUserData();*/
+
+    const { access_token } = req.query;
+    const response = await axios.get(
+      `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${access_token}`
+    );
+    const { email, picture } = response.data;
 
     let user = await User.findOne({
-      where: { email: data.email },
+      where: { email },
       include: [
         {
           model: Role,
@@ -39,12 +46,19 @@ const google = async (req, res, next) => {
     let payload;
     if (!user) {
       user = await User.create({
-        email: data.email,
+        email: email,
         password: null,
         role_id: userRole.id,
         status: true,
         user_type: "GOOGLE",
+        isActive: true,
       });
+
+      var createdAvatar = await Avatar.create({
+        user_id: user.id,
+        avatar: picture,
+      });
+
       const role = await Role.findOne({ where: { id: user.role_id } });
       payload = {
         id: user.id,
@@ -67,6 +81,7 @@ const google = async (req, res, next) => {
       data: {
         user_id: user.id,
         token: token,
+        avatar: createdAvatar,
       },
     });
   } catch (error) {

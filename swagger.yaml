@@ -1,15 +1,15 @@
 openapi: 3.0.0
+x-stoplight:
+  id: ccmvu53jqi0gc
 info:
   title: petik.com API
   description: API petik.com Documentation for Final Project MSIB Batch 3 in Binar Academy
   version: 1.0.0
-
 servers:
-  - url: http://localhost:3000/
+  - url: "http://localhost:3000/"
     description: My Localhost
-  - url: https://petikcom-dev.up.railway.app
+  - url: "https://petikcom-api-dev.km3ggwp.com/"
     description: Railway Deployment/
-
 paths:
   /auth/login-google:
     get:
@@ -24,7 +24,18 @@ paths:
             application/json:
               schema:
                 type: object
-                properties: {}
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      user_id:
+                        type: integer
+                      token:
+                        type: string
               examples:
                 example-1:
                   value:
@@ -33,7 +44,34 @@ paths:
                     data:
                       user_id: 1
                       token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJkZWRlbnNldHlhd2FuMTdAZ21haWwuY29tIiwicm9sZSI6IkJVWUVSIiwiaWF0IjoxNjY5NDY1MDk3LCJleHAiOjE2Njk0Njg2OTd9.0ashbxN_rTFEQNujTYgwnn3nLP0UI66cItxd5YepCOs
+        "400":
+          description: Bad Request
+          headers: {}
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    nullable: true
+              examples:
+                example-1:
+                  value:
+                    status: false
+                    message: Your account is already used
+                    data: null
       operationId: auth-login-google
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: access_token
+          description: access token from Front End
+          required: true
   /auth/register:
     post:
       summary: Register
@@ -43,7 +81,7 @@ paths:
       requestBody:
         content:
           application/json:
-            schema: # Request body contents
+            schema:
               type: object
               properties:
                 email:
@@ -59,7 +97,7 @@ paths:
                 - email
                 - password
                 - confirm_password
-            example: # Sample object
+            example:
               email: dedensetyawan17@gmail.com
               password: deden123
               confirm_password: deden123
@@ -1037,7 +1075,7 @@ paths:
     put:
       summary: Upload User Avatar
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
@@ -1059,7 +1097,7 @@ paths:
                     message: Avatar Uploaded!
                     data:
                       - 1
-        '500':
+        "500":
           description: Internal Server Error
           content:
             application/json:
@@ -1074,7 +1112,7 @@ paths:
                 example-1:
                   value:
                     status: false
-                    message: 'only png, jpg, and jpeg allowed to upload!'
+                    message: "only png, jpg, and jpeg allowed to upload!"
       description: Upload user avatar endpoint
       security:
         - bearerAuth: []
@@ -1087,12 +1125,12 @@ paths:
                 avatar:
                   type: string
                   format: binary
-        description: 'Only png, jpg, and jpeg allowed to upload'
+        description: "Only png, jpg, and jpeg allowed to upload"
   /user/delete-avatar:
     put:
       summary: Delete User Avatar
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
@@ -1120,6 +1158,6 @@ paths:
 components:
   schemas: {}
   securitySchemes:
-    bearerAuth: # arbitrary name for the security scheme
+    bearerAuth:
       type: http
       scheme: bearer
