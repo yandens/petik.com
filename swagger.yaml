@@ -1076,6 +1076,8 @@ paths:
   /user/upload-avatar:
     put:
       summary: Upload User Avatar
+      tags:
+        - User
       responses:
         "200":
           description: OK
@@ -1131,6 +1133,8 @@ paths:
   /user/delete-avatar:
     put:
       summary: Delete User Avatar
+      tags:
+        - User
       responses:
         "200":
           description: OK
