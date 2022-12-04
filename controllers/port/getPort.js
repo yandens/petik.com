@@ -1,21 +1,25 @@
-const axios = require("axios");
+const fetch = (...args) =>
+  import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
 const getPort = async (req, res, next) => {
   try {
     const { search } = req.params;
 
-    const response = await axios.get(
-      `https://port-api.com/port/search/${search}`
-    );
+    const url = `https://port-api.com/port/code/${search}`;
+    const options = {
+      method: "GET",
+      headers: {
+        "X-RapidAPI-Host": "port-api.com",
+      },
+    };
+    const result = await fetch(url, options);
+    const json = await result.json();
 
-    // const result = JSON.stringify(response);
-
-    // return res.status(200).json({
-    //   status: true,
-    //   message: "Success Get Data",
-    //   data: result,
-    // });
-    console.log(response);
+    return res.status(200).json({
+      status: true,
+      message: "Success Get Data",
+      data: json,
+    });
   } catch (error) {
     next(error);
   }
