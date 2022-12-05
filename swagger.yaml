@@ -77,6 +77,8 @@ paths:
   /auth/whoami:
     get:
       summary: Who Am I
+      security:
+        - bearerAuth: []
       description: Who Am I Endpoint
       tags:
         - Auth
@@ -111,8 +113,6 @@ paths:
                       email: dedensetyawan17@gmail.com
                       role: BUYER
     parameters: []
-    security:
-        - bearerAuth: []
   /auth/register:
     post:
       summary: Register
@@ -1205,6 +1205,8 @@ paths:
     parameters: []
     get:
       summary: Search Airport by IATA, ICAO or Name
+      security:
+        - bearerAuth: []
       tags:
         - Airport
       responses:
