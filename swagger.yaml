@@ -116,6 +116,8 @@ paths:
             schema:
               type: object
     parameters: []
+    security:
+        - bearerAuth: []
   /auth/register:
     post:
       summary: Register
@@ -1207,8 +1209,7 @@ paths:
   /port/search:
     parameters: []
     get:
-      summary: ""
-      operationId: get-port-search
+      summary: Search Airport by IATA and ICAO code
       responses:
         "200":
           description: OK
@@ -1345,8 +1346,9 @@ paths:
       parameters:
         - schema:
             type: string
-          in: query
+          in: path
           name: search
+          required: true
           description: User Input Search by IATA/ICAO code
       description: Search Airport By ICAO/IATA code
 components:
