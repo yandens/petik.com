@@ -110,11 +110,6 @@ paths:
                       id: 1
                       email: dedensetyawan17@gmail.com
                       role: BUYER
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
     parameters: []
     security:
         - bearerAuth: []
@@ -1210,7 +1205,7 @@ paths:
     parameters: []
     get:
       summary: Search Airport by IATA, ICAO or Name
-      paths:
+      tags:
         - Airport
       responses:
         "200":
