@@ -64,7 +64,7 @@ paths:
                     status: false
                     message: Your account is already used
                     data: null
-      requestBody: 
+      requestBody:
         content:
           application/json:
             schema:
@@ -74,6 +74,48 @@ paths:
                   type: string
               required:
                 - access_token
+  /auth/whoami:
+    get:
+      summary: Who Am I
+      description: Who Am I Endpoint
+      tags:
+        - Auth
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      email:
+                        type: string
+                      role:
+                        type: string
+              examples:
+                example-1:
+                  value:
+                    status: true
+                    message: Success
+                    data:
+                      id: 1
+                      email: dedensetyawan17@gmail.com
+                      role: BUYER
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+    parameters: []
   /auth/register:
     post:
       summary: Register
@@ -1161,6 +1203,152 @@ paths:
       description: Delete user avatar endpoint
       security:
         - bearerAuth: []
+    parameters: []
+  /port/search:
+    parameters: []
+    get:
+      summary: ""
+      operationId: get-port-search
+      responses:
+        "200":
+          description: OK
+          headers: {}
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+              examples:
+                "ICAO: /port/search/WSSS":
+                  value:
+                    status: true
+                    message: Success Get Data
+                    data:
+                      type: FeatureCollection
+                      features:
+                        - type: Feature
+                          geometry:
+                            type: Point
+                            coordinates:
+                              - 103.994003
+                              - 1.35019
+                          properties:
+                            id: 26887
+                            country:
+                              code: SG
+                              name: Singapore
+                              continent: Asia
+                              wikipedia: "https://en.wikipedia.org/wiki/Singapore"
+                            name: Singapore Changi Airport
+                            source: ourairports
+                            distance: null
+                            match_relevance:
+                              code: 0.75
+                              country: null
+                              levenshtein: null
+                              ts_rank: null
+                              trgm_similarity: null
+                              skipped_chunks: 0
+                            match_level: 1
+                            region:
+                              code: SG-04
+                              local_code: "04"
+                              name: South East
+                              wikipedia: "https://en.wikipedia.org/wiki/South_East"
+                            elevation: 22
+                            functions:
+                              - scheduled_service
+                            gps_code: WSSS
+                            home_link: "http://www.changiairport.com/"
+                            iata: SIN
+                            local_code: null
+                            municipality: Singapore
+                            type: large_airport
+                            wikipedia: "https://en.wikipedia.org/wiki/Singapore_Changi_Airport"
+                      properties: {}
+                "IATA: /port/search/SIN":
+                  value:
+                    status: true
+                    message: Success Get Data
+                    data:
+                      type: FeatureCollection
+                      features:
+                        - type: Feature
+                          geometry:
+                            type: Point
+                            coordinates:
+                              - 103.994003
+                              - 1.35019
+                          properties:
+                            id: 26887
+                            country:
+                              code: SG
+                              name: Singapore
+                              continent: Asia
+                              wikipedia: "https://en.wikipedia.org/wiki/Singapore"
+                            name: Singapore Changi Airport
+                            source: ourairports
+                            distance: null
+                            match_relevance:
+                              code: 0.75
+                              country: null
+                              levenshtein: null
+                              ts_rank: null
+                              trgm_similarity: null
+                              skipped_chunks: 0
+                            match_level: 1
+                            region:
+                              code: SG-04
+                              local_code: "04"
+                              name: South East
+                              wikipedia: "https://en.wikipedia.org/wiki/South_East"
+                            elevation: 22
+                            functions:
+                              - scheduled_service
+                            gps_code: WSSS
+                            home_link: "http://www.changiairport.com/"
+                            iata: SIN
+                            local_code: null
+                            municipality: Singapore
+                            type: large_airport
+                            wikipedia: "https://en.wikipedia.org/wiki/Singapore_Changi_Airport"
+                      properties: {}
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+              examples:
+                "Airport Not Found : port/search/changi":
+                  value:
+                    status: true
+                    message: Success Get Data
+                    data:
+                      status: 404
+                      error:
+                        - Not Found
+                      message: We could not find anything with 'changi'
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: search
+          description: User Input Search by IATA/ICAO code
+      description: Search Airport By ICAO/IATA code
 components:
   schemas: {}
   securitySchemes:
