@@ -1206,10 +1206,10 @@ paths:
       security:
         - bearerAuth: []
     parameters: []
-  /port/search:
+  /airport/search:
     parameters: []
     get:
-      summary: Search Airport by IATA and ICAO code
+      summary: Search Airport by IATA, ICAO or Name
       paths:
         - Airport
       responses:
@@ -1228,7 +1228,7 @@ paths:
                   data:
                     type: object
               examples:
-                "ICAO: /port/search/WSSS":
+                "ICAO: /airport/search/WSSS":
                   value:
                     status: true
                     message: Success Get Data
@@ -1275,7 +1275,7 @@ paths:
                             type: large_airport
                             wikipedia: "https://en.wikipedia.org/wiki/Singapore_Changi_Airport"
                       properties: {}
-                "IATA: /port/search/SIN":
+                "IATA: /airport/search/SIN":
                   value:
                     status: true
                     message: Success Get Data
@@ -1351,8 +1351,8 @@ paths:
           in: path
           name: search
           required: true
-          description: User Input Search by IATA/ICAO code
-      description: Search Airport By ICAO/IATA code
+          description: User Input Search by IATA, ICAO, and Name
+      description: Search Airport By ICAO, IATA, and Name
 components:
   schemas: {}
   securitySchemes:
