@@ -1,7 +1,8 @@
 const { User, Role, Avatar } = require("../../models");
 // const googleOauth2 = require("../../utils/oauth/google");
 const jwt = require("jsonwebtoken");
-const axios = require("axios");
+const fetch = (...args) =>
+  import("node-fetch").then(({ default: fetch }) => fetch(...args));
 const { JWT_SECRET_KEY } = process.env;
 
 const google = async (req, res, next) => {
@@ -18,10 +19,16 @@ const google = async (req, res, next) => {
     const { data } = await googleOauth2.getUserData();*/
 
     const { access_token } = req.body;
-    const response = await axios.get(
-      `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${access_token}`
-    );
-    const { email, picture } = response.data;
+    const url = `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${access_token}`
+    const options = {
+      method: "GET",
+      headers: {
+        "X-RapidAPI-Host": "www.googleapis.com",
+      },
+    }
+    const response = await fetch(url, options);
+    const jsonResponse = await response.json();
+    const { email, picture } = jsonResponse;
 
     let user = await User.findOne({
       where: { email: email },
