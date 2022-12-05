@@ -5,7 +5,7 @@ const getPort = async (req, res, next) => {
   try {
     const { search } = req.params;
 
-    const url = `https://port-api.com/port/code/${search}`;
+    const url = `https://port-api.com/airport/search/${search}`;
     const options = {
       method: "GET",
       headers: {
