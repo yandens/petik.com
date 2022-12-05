@@ -13,6 +13,6 @@ router.get("/", (req, res) => {
 
 router.use("/auth", auth);
 router.use("/user", user);
-router.use("/port", port);
+router.use("/airport", port);
 
 module.exports = router;

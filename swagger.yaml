@@ -1210,6 +1210,8 @@ paths:
     parameters: []
     get:
       summary: Search Airport by IATA and ICAO code
+      paths:
+        - Airport
       responses:
         "200":
           description: OK
