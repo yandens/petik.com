@@ -1,4 +1,5 @@
 const { Flight, Airlines } = require("../../models");
+const { Op } = require("sequelize");
 
 const createFlight = async (req, res, next) => {
   try {
@@ -10,6 +11,26 @@ const createFlight = async (req, res, next) => {
         message: "Please fill all the form",
       });
     }
+
+    const flightExist = await Flight.findOne({
+      where: {
+        [Op.in]: [
+          { id_airlines },
+          { departure },
+          { destination },
+          { date },
+          { time },
+        ],
+      },
+    });
+
+    if (!flightExist) {
+      return res.status(400).json({
+        status: false,
+        message: "Flight Already Exist",
+      });
+    }
+
     const created = await Flight.create({
       id_airlines,
       departure,
