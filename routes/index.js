@@ -2,6 +2,7 @@ const router = require("express").Router();
 const auth = require("./auth");
 const user = require("./user");
 const port = require("./port");
+const flight = require("./flight");
 
 router.get("/", (req, res) => {
   return res.status(200).json({
@@ -14,5 +15,6 @@ router.get("/", (req, res) => {
 router.use("/auth", auth);
 router.use("/user", user);
 router.use("/airport", port);
+router.use("/flight", flight);
 
 module.exports = router;
