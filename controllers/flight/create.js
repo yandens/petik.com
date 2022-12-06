@@ -14,7 +14,7 @@ const createFlight = async (req, res, next) => {
 
     const flightExist = await Flight.findOne({
       where: {
-        [Op.in]: [
+        [Op.and]: [
           { id_airlines },
           { departure },
           { destination },
