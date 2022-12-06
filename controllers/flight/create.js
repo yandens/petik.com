@@ -24,7 +24,7 @@ const createFlight = async (req, res, next) => {
       },
     });
 
-    if (!flightExist) {
+    if (flightExist) {
       return res.status(400).json({
         status: false,
         message: "Flight Already Exist",
