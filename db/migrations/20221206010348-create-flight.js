@@ -11,14 +11,11 @@ module.exports = {
       id_airlines: {
         type: Sequelize.INTEGER,
       },
-      origin: {
+      departure: {
         type: Sequelize.STRING,
       },
-      destination: {
+      arrival: {
         type: Sequelize.STRING,
-      },
-      date: {
-        type: Sequelize.DATE,
       },
       departureTime: {
         type: Sequelize.TIME,
