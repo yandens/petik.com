@@ -7,6 +7,6 @@ const role = require("../utils/role-based/role");
 
 router.get("/schedule", show.showFlight);
 router.post("/create-flight", authorize(role.admin), create.createFlight);
-router.put("update-flight/:id", authorize(role.admin), update.updateFlight);
+router.put("/update-flight/:id", authorize(role.admin), update.updateFlight);
 
 module.exports = router;
