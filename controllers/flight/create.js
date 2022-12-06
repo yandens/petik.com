@@ -6,7 +6,7 @@ const createFlight = async (req, res, next) => {
     const {
       id_airlines,
       departure,
-      destination,
+      arrival,
       departureTime,
       arrivalTime,
     } = req.body;
@@ -14,7 +14,7 @@ const createFlight = async (req, res, next) => {
     if (
       !id_airlines ||
       !departure ||
-      !destination ||
+      !arrival ||
       !departureTime ||
       !arrivalTime
     ) {
@@ -29,7 +29,7 @@ const createFlight = async (req, res, next) => {
         [Op.and]: [
           { id_airlines },
           { departure },
-          { destination },
+          { arrival },
           { departureTime },
           { arrivalTime },
         ],
@@ -46,7 +46,7 @@ const createFlight = async (req, res, next) => {
     const created = await Flight.create({
       id_airlines,
       departure,
-      destination,
+      arrival,
       departureTime,
       arrivalTime,
     });
