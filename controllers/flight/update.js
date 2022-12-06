@@ -5,9 +5,8 @@ const updateFlight = async (req, res, next) => {
     const { id } = req.params;
     const {
       id_airlines,
-      origin,
-      destination,
-      date,
+      departure,
+      arrival,
       departureTime,
       arrivalTime,
     } = req.body;
@@ -15,9 +14,8 @@ const updateFlight = async (req, res, next) => {
     const update = await Flight.update(
       {
         id_airlines,
-        origin,
-        destination,
-        date,
+        departure,
+        arrival,
         departureTime,
         arrivalTime,
       },
