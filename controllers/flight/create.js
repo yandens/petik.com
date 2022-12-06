@@ -5,18 +5,16 @@ const createFlight = async (req, res, next) => {
   try {
     const {
       id_airlines,
-      origin,
+      departure,
       destination,
-      date,
       departureTime,
       arrivalTime,
     } = req.body;
 
     if (
       !id_airlines ||
-      !origin ||
+      !departure ||
       !destination ||
-      !date ||
       !departureTime ||
       !arrivalTime
     ) {
@@ -30,9 +28,8 @@ const createFlight = async (req, res, next) => {
       where: {
         [Op.and]: [
           { id_airlines },
-          { origin },
+          { departure },
           { destination },
-          { date },
           { departureTime },
           { arrivalTime },
         ],
@@ -48,9 +45,8 @@ const createFlight = async (req, res, next) => {
 
     const created = await Flight.create({
       id_airlines,
-      origin,
+      departure,
       destination,
-      date,
       departureTime,
       arrivalTime,
     });
