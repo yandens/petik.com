@@ -1,12 +1,24 @@
 const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
+const { GOFLIGHTLABS_ACCESS_KEY } = process.env
+
+const searchAirport = async (iataCode) => {
+  const url = `https://port-api.com/airport/iata/${iataCode}`
+  const options = {
+    method: "GET",
+    headers: {
+      "X-RapidAPI-Host": "port-api.com",
+    }
+  }
+  const result = await fetch(url, options)
+  const json = await result.json()
+  const airport = json.properties.name
+  return airport
+}
 
 const showFlight = async (req, res, next) => {
   try {
-    const {
-      access_key = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI0IiwianRpIjoiMThjMWJiODNhZjg1NmMxNTA1MjIwY2Q2OWNhNjU2MWE1NjViNDQ5YjdiNjQ3ZjJhNmFkYWVhNGIwY2Y5NTY0MGY3NTA5NjNiNDdkOWQ1NzAiLCJpYXQiOjE2NzAyOTQyODQsIm5iZiI6MTY3MDI5NDI4NCwiZXhwIjoxNzAxODMwMjg0LCJzdWIiOiIxOTExOCIsInNjb3BlcyI6W119.cKuLO9G357-ExLVkvVt0QBoKYizZgg6JaK5bp3_nfSpHmttlghw0dwzm31uufhqqMW13QV0pFDgc1oy08jz09Q",
-    } = req.query;
-    const url = `https://app.goflightlabs.com/advanced-flights-schedules?access_key=${access_key}`;
+    const url = `https://app.goflightlabs.com/advanced-flights-schedules?access_key=${GOFLIGHTLABS_ACCESS_KEY}&status=active`;
     const options = {
       method: "GET",
       headers: {
@@ -15,11 +27,24 @@ const showFlight = async (req, res, next) => {
     };
     const result = await fetch(url, options);
     const json = await result.json();
+    const flights = json.data
 
+    const flightSchedule = []
+    for (const flight of flights) {
+      const schedule = {
+        airline: flight.airline.name,
+        departure: flight.departure.iataCode,
+        arrival: flight.arrival.iataCode,
+        departureTime: flight.departure.scheduledTime,
+        arrivalTime: flight.arrival.scheduledTime
+      }
+
+      flightSchedule.push(schedule)
+    }
     return res.status(200).json({
       status: true,
       message: "Success Get All Data",
-      data: json.data,
+      data: flightSchedule,
     });
   } catch (error) {
     next(error);
