@@ -1,6 +1,6 @@
 const { Flight } = require("../../models");
 
-updateFlight = async (req, res, next) => {
+const updateFlight = async (req, res, next) => {
   try {
     const { id } = req.params;
     const {
@@ -33,3 +33,5 @@ updateFlight = async (req, res, next) => {
     next(error);
   }
 };
+
+module.exports = updateFlight;
