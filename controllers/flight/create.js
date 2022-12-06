@@ -3,9 +3,23 @@ const { Op } = require("sequelize");
 
 const createFlight = async (req, res, next) => {
   try {
-    const { id_airlines, departure, destination, date, time } = req.body;
+    const {
+      id_airlines,
+      origin,
+      destination,
+      date,
+      departureTime,
+      arrivalTime,
+    } = req.body;
 
-    if (!id_airlines || !departure || !destination || !date || !time) {
+    if (
+      !id_airlines ||
+      !origin ||
+      !destination ||
+      !date ||
+      !departureTime ||
+      !arrivalTime
+    ) {
       return res.status(400).json({
         status: false,
         message: "Please fill all the form",
@@ -16,10 +30,11 @@ const createFlight = async (req, res, next) => {
       where: {
         [Op.and]: [
           { id_airlines },
-          { departure },
+          { origin },
           { destination },
           { date },
-          { time },
+          { departureTime },
+          { arrivalTime },
         ],
       },
     });
@@ -33,10 +48,11 @@ const createFlight = async (req, res, next) => {
 
     const created = await Flight.create({
       id_airlines,
-      departure,
+      origin,
       destination,
       date,
-      time,
+      departureTime,
+      arrivalTime,
     });
 
     return res.status(201).json({
