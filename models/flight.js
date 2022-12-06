@@ -18,9 +18,9 @@ module.exports = (sequelize, DataTypes) => {
     {
       id_airlines: DataTypes.INTEGER,
       departure: DataTypes.STRING,
-      destination: DataTypes.STRING,
-      date: DataTypes.DATE,
-      time: DataTypes.TIME,
+      arrival: DataTypes.STRING,
+      departureTime: DataTypes.DATE,
+      arrivalTime: DataTypes.DATE,
     },
     {
       sequelize,
