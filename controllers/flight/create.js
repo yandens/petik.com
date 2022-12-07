@@ -1,63 +1,38 @@
-const { Flight, Airlines } = require("../../models");
-const { Op } = require("sequelize");
+const { Flight } = require("../../models");
+const fetch = (...args) =>
+  import("node-fetch").then(({ default: fetch }) => fetch(...args));
+const { GOFLIGHTLABS_ACCESS_KEY } = process.env;
 
-const createFlight = async (req, res, next) => {
+const createFlight = async () => {
   try {
-    const {
-      id_airlines,
-      departure,
-      arrival,
-      departureTime,
-      arrivalTime,
-    } = req.body;
-
-    if (
-      !id_airlines ||
-      !departure ||
-      !arrival ||
-      !departureTime ||
-      !arrivalTime
-    ) {
-      return res.status(400).json({
-        status: false,
-        message: "Please fill all the form",
-      });
-    }
-
-    const flightExist = await Flight.findOne({
-      where: {
-        [Op.and]: [
-          { id_airlines },
-          { departure },
-          { arrival },
-          { departureTime },
-          { arrivalTime },
-        ],
+    const url = `https://app.goflightlabs.com/advanced-flights-schedules?access_key=${GOFLIGHTLABS_ACCESS_KEY}&status=active`;
+    const options = {
+      method: "GET",
+      headers: {
+        "X-RapidAPI-Host": "app.goflightlabs.com",
       },
-    });
+    };
+    const result = await fetch(url, options);
+    const json = await result.json();
+    const flights = json.data;
 
-    if (flightExist) {
-      return res.status(400).json({
-        status: false,
-        message: "Flight Already Exist",
-      });
+    for (const flight of flights) {
+      const departureDate = flight.departure.scheduledTime.split('T')[0]
+      const departureTime = flight.departure.scheduledTime.split('T')[1].split('.')[0]
+      const arrivalDate = flight.arrival.scheduledTime.split('T')[0]
+      const arrivalTime = flight.arrival.scheduledTime.split('T')[1].split('.')[0]
+      await Flight.create({
+        airline: flight.airline.name,
+        origin: flight.departure.iataCode,
+        destination: flight.arrival.iataCode,
+        departureDate,
+        departureTime,
+        arrivalDate,
+        arrivalTime
+      })
     }
-
-    const created = await Flight.create({
-      id_airlines,
-      departure,
-      arrival,
-      departureTime,
-      arrivalTime,
-    });
-
-    return res.status(201).json({
-      status: true,
-      message: "Flight Created",
-      data: created,
-    });
   } catch (error) {
-    next(error);
+    console.log(error);
   }
 };
 
