@@ -8,20 +8,26 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      id_airlines: {
-        type: Sequelize.INTEGER,
-      },
-      departure: {
+      airline: {
         type: Sequelize.STRING,
       },
-      arrival: {
+      origin: {
         type: Sequelize.STRING,
+      },
+      destination: {
+        type: Sequelize.STRING,
+      },
+      departureDate: {
+        type: Sequelize.DATE,
       },
       departureTime: {
+        type: Sequelize.TIME,
+      },
+      arrivalDate: {
         type: Sequelize.DATE,
       },
       arrivalTime: {
-        type: Sequelize.DATE,
+        type: Sequelize.TIME,
       },
       createdAt: {
         allowNull: false,
