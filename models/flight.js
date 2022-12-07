@@ -8,10 +8,10 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Flight.belongsTo(models.Airlines, {
+      /*Flight.belongsTo(models.Airlines, {
         foreignKey: "id_airlines",
         as: "airlines",
-      });
+      });*/
 
       Flight.hasMany(models.BookingDetails, {
         foreignKey: 'flight_id',
@@ -21,11 +21,13 @@ module.exports = (sequelize, DataTypes) => {
   }
   Flight.init(
     {
-      id_airlines: DataTypes.INTEGER,
-      departure: DataTypes.STRING,
-      arrival: DataTypes.STRING,
-      departureTime: DataTypes.DATE,
-      arrivalTime: DataTypes.DATE,
+      airline: DataTypes.STRING,
+      origin: DataTypes.STRING,
+      destination: DataTypes.STRING,
+      departureDate: DataTypes.DATE,
+      departureTime: DataTypes.TIME,
+      arrivalDate: DataTypes.DATE,
+      arrivalTime: DataTypes.TIME
     },
     {
       sequelize,
