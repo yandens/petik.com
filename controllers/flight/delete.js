@@ -2,13 +2,15 @@ const { Flight } = require('../../models');
 
 const deleteFlight = async  (req, res, next) => {
     try {
-        const airlines = req.airlines;
+        const { id } = req.body;
         const deleted = await Flight.destroy(
-            { id_airlines },
-            { departure },
-            { arrival },
-            { departureTime },
-            { arrivalTime },
+            { id_airlines,
+              departure,
+              arrival,
+              departureTime,
+              arrivalTime
+            },
+            { where: { id } }
         );
 
         return res.status(200).json({
