@@ -16,9 +16,9 @@ module.exports = (sequelize, DataTypes) => {
         as: 'details'
       })
 
-      Ticket.belongsTo(models.Flight, {
-        foreignKey: 'flight_id',
-        as: 'flight'
+      Ticket.belongsTo(models.ClassType, {
+        foreignKey: 'class_type_id',
+        as: 'type'
       })
     }
   }

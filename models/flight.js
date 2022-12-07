@@ -13,9 +13,9 @@ module.exports = (sequelize, DataTypes) => {
         as: "airlines",
       });
 
-      Flight.hasMany(models.Ticket, {
+      Flight.hasMany(models.BookingDetails, {
         foreignKey: 'flight_id',
-        as: 'ticket'
+        as: 'details'
       })
     }
   }

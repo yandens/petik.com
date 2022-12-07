@@ -8,13 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      flight_id: {
-        type: Sequelize.INTEGER
-      },
-      class: {
-        type: Sequelize.STRING
-      },
-      price: {
+      class_type_id: {
         type: Sequelize.INTEGER
       },
       seatNumber: {
