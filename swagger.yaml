@@ -1350,6 +1350,159 @@ paths:
           required: true
           description: User Input Search by IATA, ICAO, and Name
       description: Search Airport By ICAO, IATA, and Name
+  /flight/schedule:
+    get:
+      summary: Get Flight Schedule
+      tags:
+        - Flight
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        airline:
+                          type: string
+                        origin:
+                          type: string
+                        destination:
+                          type: string
+                        departure:
+                          type: string
+                        departureDate:
+                          type: string
+                        departureTime:
+                          type: string
+                        arrival:
+                          type: string
+                        arrivalDate:
+                          type: string
+                        arrivalTime:
+                          type: string
+              examples:
+                example-1:
+                  value:
+                    status: true
+                    message: Success Get All Data
+                    data:
+                      - airline: Calm Air International
+                        origin: YZS
+                        destination: YRT
+                        departure: '2022-12-07T07:00:00.000Z'
+                        departureDate: Wed Dec 07 2022
+                        departureTime: '3:00:00 PM'
+                        arrival: '2022-12-07T07:15:00.000Z'
+                        arrivalDate: Wed Dec 07 2022
+                        arrivalTime: '3:15:00 PM'
+      description: Flight Schedule Endpoint
+  /flight/schedule/search:
+    post:
+      summary: Filter Flight Schedule
+      tags:
+        - Flight
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        airline:
+                          type: string
+                        origin:
+                          type: string
+                        destination:
+                          type: string
+                        departure:
+                          type: string
+                        departureDate:
+                          type: string
+                        departureTime:
+                          type: string
+                        arrival:
+                          type: string
+                        arrivalDate:
+                          type: string
+                        arrivalTime:
+                          type: string
+              examples:
+                example-1:
+                  value:
+                    status: true
+                    message: Success Get Data
+                    data:
+                      - airline: Calm Air International
+                        origin: YZS
+                        destination: YRT
+                        departure: '2022-12-07T07:00:00.000Z'
+                        departureDate: Wed Dec 07 2022
+                        departureTime: '3:00:00 PM'
+                        arrival: '2022-12-07T07:15:00.000Z'
+                        arrivalDate: Wed Dec 07 2022
+                        arrivalTime: '3:15:00 PM'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: 'null'
+              examples:
+                example-1:
+                  value:
+                    status: false
+                    message: Empty Flight
+                    data: null
+      description: Filter Flight Schedule Endpoint
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                origin:
+                  type: string
+                  minLength: 3
+                  maxLength: 3
+                destination:
+                  type: string
+                  minLength: 3
+                  maxLength: 3
+              required:
+                - origin
+                - destination
+            examples:
+              example-1:
+                value:
+                  origin: YZS
+                  destination: YRT
 components:
   schemas: {}
   securitySchemes:
