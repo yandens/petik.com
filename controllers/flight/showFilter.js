@@ -26,6 +26,7 @@ const showFilter = async (req, res, next) => {
       const arrivalDate = flightSearch.arrival.toDateString();
       const arrivalTime = flightSearch.arrival.toLocaleTimeString();
       const showFlight = {
+        id: flightSearch.id,
         airline: flightSearch.airline,
         origin: flightSearch.origin,
         destination: flightSearch.destination,

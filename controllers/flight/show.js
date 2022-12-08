@@ -18,6 +18,7 @@ const showFlight = async (req, res, next) => {
       const arrivalDate = flight.arrival.toDateString();
       const arrivalTime = flight.arrival.toLocaleTimeString();
       const showFlight = {
+        id: flight.id,
         airline: flight.airline,
         origin: flight.origin,
         destination: flight.destination,
