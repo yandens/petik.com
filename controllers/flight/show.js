@@ -11,23 +11,25 @@ const showFlight = async (req, res, next) => {
       });
     }
 
-    const result = []
+    const result = [];
     for (const flight of allFlight) {
-      const departureDate = flight.departure.split('T')[0]
-      const departureTime = flight.departure.split('T')[1].split('.')[0]
-      const arrivalDate = flight.arrival.split('T')[0]
-      const arrivalTime = flight.arrival.split('T')[1].split('.')[0]
+      const departureDate = flight.departure.toDateString();
+      const departureTime = flight.departure.toLocaleTimeString();
+      const arrivalDate = flight.arrival.toDateString();
+      const arrivalTime = flight.arrival.toLocaleTimeString();
       const showFlight = {
         airline: flight.airline,
         origin: flight.origin,
         destination: flight.destination,
+        departure: flight.departure,
         departureDate,
         departureTime,
-        arrivalDate,
+        arrival: flight.arrival,
+        arrivalDate: arrivalDate,
         arrivalTime,
-      }
+      };
 
-      result.push(showFlight)
+      result.push(showFlight);
     }
     return res.status(200).json({
       status: true,
