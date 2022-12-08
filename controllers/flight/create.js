@@ -17,18 +17,12 @@ const createFlight = async () => {
     const flights = json.data;
 
     for (const flight of flights) {
-      const departureDate = flight.departure.scheduledTime.split('T')[0]
-      const departureTime = flight.departure.scheduledTime.split('T')[1].split('.')[0]
-      const arrivalDate = flight.arrival.scheduledTime.split('T')[0]
-      const arrivalTime = flight.arrival.scheduledTime.split('T')[1].split('.')[0]
       await Flight.create({
         airline: flight.airline.name,
         origin: flight.departure.iataCode,
         destination: flight.arrival.iataCode,
-        departureDate,
-        departureTime,
-        arrivalDate,
-        arrivalTime
+        departure: flight.departure.scheduledTime,
+        arrival: flight.arrival.scheduledTime,
       })
     }
   } catch (error) {

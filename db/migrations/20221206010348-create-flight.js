@@ -17,17 +17,11 @@ module.exports = {
       destination: {
         type: Sequelize.STRING,
       },
-      departureDate: {
+      departure: {
         type: Sequelize.DATE,
       },
-      departureTime: {
-        type: Sequelize.TIME,
-      },
-      arrivalDate: {
+      arrival: {
         type: Sequelize.DATE,
-      },
-      arrivalTime: {
-        type: Sequelize.TIME,
       },
       createdAt: {
         allowNull: false,

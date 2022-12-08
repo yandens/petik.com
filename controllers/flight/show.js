@@ -11,10 +11,28 @@ const showFlight = async (req, res, next) => {
       });
     }
 
+    const result = []
+    for (const flight of allFlight) {
+      const departureDate = flight.departure.scheduledTime.split('T')[0]
+      const departureTime = flight.departure.scheduledTime.split('T')[1].split('.')[0]
+      const arrivalDate = flight.arrival.scheduledTime.split('T')[0]
+      const arrivalTime = flight.arrival.scheduledTime.split('T')[1].split('.')[0]
+      const showFlight = {
+        airline: flight.airline,
+        origin: flight.origin,
+        destination: flight.destination,
+        departureDate,
+        departureTime,
+        arrivalDate,
+        arrivalTime,
+      }
+
+      result.push(showFlight)
+    }
     return res.status(200).json({
       status: true,
       message: "Success Get All Data",
-      data: allFlight,
+      data: result,
     });
   } catch (error) {
     next(error);
