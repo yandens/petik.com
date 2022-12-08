@@ -13,10 +13,10 @@ const showFlight = async (req, res, next) => {
 
     const result = []
     for (const flight of allFlight) {
-      const departureDate = flight.departure.scheduledTime.split('T')[0]
-      const departureTime = flight.departure.scheduledTime.split('T')[1].split('.')[0]
-      const arrivalDate = flight.arrival.scheduledTime.split('T')[0]
-      const arrivalTime = flight.arrival.scheduledTime.split('T')[1].split('.')[0]
+      const departureDate = flight.departure.split('T')[0]
+      const departureTime = flight.departure.split('T')[1].split('.')[0]
+      const arrivalDate = flight.arrival.split('T')[0]
+      const arrivalTime = flight.arrival.split('T')[1].split('.')[0]
       const showFlight = {
         airline: flight.airline,
         origin: flight.origin,
