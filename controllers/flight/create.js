@@ -5,7 +5,7 @@ const { GOFLIGHTLABS_ACCESS_KEY } = process.env;
 
 const createFlight = async () => {
   try {
-    const url = `https://app.goflightlabs.com/advanced-flights-schedules?access_key=${GOFLIGHTLABS_ACCESS_KEY}&status=active`;
+    const url = `https://app.goflightlabs.com/advanced-flights-schedules?access_key=${GOFLIGHTLABS_ACCESS_KEY}&status=scheduled`;
     const options = {
       method: "GET",
       headers: {
