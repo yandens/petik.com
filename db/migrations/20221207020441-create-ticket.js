@@ -11,6 +11,9 @@ module.exports = {
       class_type_id: {
         type: Sequelize.INTEGER
       },
+      booking_details_id: {
+        type: Sequelize.INTEGER
+      },
       seatNumber: {
         type: Sequelize.STRING
       },

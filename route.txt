@@ -1,0 +1,7 @@
+user input departure and arrival for search avaliable flight
+user choose flight (the button will redirect into form page for input data passanger, like nik, passport, and ticket class) -> the url will embedded with flight id
+user input data (passanger name, nik, passport, ticket class)
+user submit data and will redirect into payment page -> the url will embedded with ticket class and booking id
+user will see the total price to pay 
+user choose payment method and do the payment
+user will get the ticket after payment

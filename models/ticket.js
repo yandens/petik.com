@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Ticket.hasOne(models.BookingDetails, {
-        foreignKey: 'ticket_id',
+      Ticket.belongsTo(models.BookingDetails, {
+        foreignKey: 'booking_details_id',
         as: 'details'
       })
 
@@ -24,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Ticket.init({
     class_type_id: DataTypes.INTEGER,
+    booking_details_id: DataTypes.INTEGER,
     seatNumber: DataTypes.STRING
   }, {
     sequelize,
