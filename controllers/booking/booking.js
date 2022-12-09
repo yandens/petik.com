@@ -20,10 +20,22 @@ const createBooking = async (req, res, next) => {
       passport
     })
 
+    let totalPrice, different
+    if (ticketClass == 'economy') {
+      different = 321.37 - 64.27
+      totalPrice = Math.floor((Math.random() * different) + 64.27);
+    } else if (ticketClass == 'business') {
+      different = 642.74 - 321.37
+      totalPrice = Math.floor((Math.random() * different) + 321.37);
+    } else {
+      different = 1606.84 - 642.74
+      totalPrice = Math.floor((Math.random() * different) + 642.74);
+    }
+
     return res.status(201).json({
       status: true,
       message: 'Booking Created!',
-      data: { booking, bookingDetails }
+      data: { booking, bookingDetails, totalPrice }
     })
   } catch (error) {
     next(error);

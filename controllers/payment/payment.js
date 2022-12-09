@@ -1,10 +1,11 @@
-const { Booking, Payment, PaymentMethod } = require("../../models")
+const { Booking, BookingDetails, Flight, Payment, PaymentMethod, Ticket } = require("../../models")
 const { Op } = require("sequelize");
 
 const payment = async (req, res, next) => {
   try {
-    const { paymentMethod } = req.body
-    const { booking_id, ticket_class } = req.params
+    const user = req.user
+    const { paymentMethod, totalPrice } = req.body
+    const { booking_id, ticketClass } = req.params
 
     /*const booking = await Booking.findOne({
       where: {
@@ -24,11 +25,25 @@ const payment = async (req, res, next) => {
     const payment = await Payment.create({
       booking_id,
       payement_method_id: method.id,
-      total_price: null,
+      total_price: totalPrice,
       date: new Date()
     })
 
-    await Booking.update({ status: 'paid off' }, { where: { id: booking_id } })
+    await Booking.update({ status: 'paid' }, { where: { id: booking_id } })
+    const booking = await Booking.findOne({
+      where: {
+        [Op.and]: [{ user_id: user.id }, { status: 'paid' }]
+      }
+    })
+    const bookingDetails = await BookingDetails.findAll({ where: { booking_id: booking.id } })
+
+    for (const details of bookingDetails) {
+      await Ticket.create({
+        booking_details_id: details.id,
+        seatNumber: null,
+        class: ticketClass
+      })
+    }
 
     return res.status(201).json({
       status: true,
