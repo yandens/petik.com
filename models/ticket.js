@@ -15,17 +15,13 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'booking_details_id',
         as: 'details'
       })
-
-      Ticket.belongsTo(models.ClassType, {
-        foreignKey: 'class_type_id',
-        as: 'type'
-      })
     }
   }
   Ticket.init({
-    class_type_id: DataTypes.INTEGER,
     booking_details_id: DataTypes.INTEGER,
-    seatNumber: DataTypes.STRING
+    seatNumber: DataTypes.STRING,
+    class: DataTypes.STRING,
+    price: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Ticket',
