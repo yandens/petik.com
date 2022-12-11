@@ -21,7 +21,6 @@ const uploadQRCode = async (file) => {
 
 const printTicket = async (req, res, next) => {
   try {
-    const user = req.user;
     const { id } = req.params;
 
     const getTickets = await Booking.findOne(
@@ -49,7 +48,8 @@ const printTicket = async (req, res, next) => {
     );
 
     const payload = {
-      id: getTickets.details.booking_id,
+      id: getTickets.user_id,
+      booking_id: getTickets.details.booking_id,
       name: getTickets.details.passangerName,
       airline: getTickets.details.flight.airline,
       from: getTickets.details.flight.origin,
@@ -66,7 +66,8 @@ const printTicket = async (req, res, next) => {
       status: true,
       message: "Success",
       data: {
-        id: getTickets.details.booking_id,
+        id: getTickets.user_id,
+        booking_id: getTickets.details.booking_id,
         name: getTickets.details.passangerName,
         airline: getTickets.details.flight.airline,
         from: getTickets.details.flight.origin,
