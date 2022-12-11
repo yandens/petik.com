@@ -56,7 +56,7 @@ const printTicket = async (req, res, next) => {
       to: getTickets.details.flight.destination,
       date: getTickets.details.flight.departure.toDateString(),
       boarding_time: getTickets.details.flight.departure.toLocaleTimeString(),
-      class: getTickets.ticket.class,
+      class: getTickets.details.ticket.class,
     };
 
     const qrCode = generateQRCode(JSON.stringify(payload));
@@ -73,7 +73,7 @@ const printTicket = async (req, res, next) => {
         to: getTickets.details.flight.destination,
         date: getTickets.details.flight.departure.toDateString(),
         boarding_time: getTickets.details.flight.departure.toLocaleTimeString(),
-        class: getTickets.ticket.class,
+        class: getTickets.details.ticket.class,
         qr_code: uploadQR.url,
       },
     });
