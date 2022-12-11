@@ -24,9 +24,9 @@ const printTicket = async (req, res, next) => {
     const user = req.user;
     const { id } = req.params;
 
-    const getTickets = await Ticket.findAll(
+    const getTickets = await Booking.findOne(
       {
-        where: { booking_details_id: id },
+        where: { id },
       },
       {
         include: [
@@ -35,12 +35,12 @@ const printTicket = async (req, res, next) => {
             as: "details",
             include: [
               {
-                model: Booking,
-                as: "booking",
-              },
-              {
                 model: Flight,
                 as: "flight",
+              },
+              {
+                model: Ticket,
+                as: "ticket",
               },
             ],
           },
@@ -49,9 +49,16 @@ const printTicket = async (req, res, next) => {
     );
 
     const payload = {
-      id: user.id,
-      email: user.email,
+      id: getTickets.details.booking_id,
+      name: getTickets.details.passangerName,
+      airline: getTickets.details.flight.airline,
+      from: getTickets.details.flight.origin,
+      to: getTickets.details.flight.destination,
+      date: getTickets.details.flight.departure.toDateString(),
+      boarding_time: getTickets.details.flight.departure.toLocaleTimeString(),
+      class: getTickets.ticket.class,
     };
+
     const qrCode = generateQRCode(JSON.stringify(payload));
     const uploadQR = await uploadQRCode(qrCode.toString("base64"));
 
@@ -59,14 +66,14 @@ const printTicket = async (req, res, next) => {
       status: true,
       message: "Success",
       data: {
-        id: getTickets.details.booking.user_id,
+        id: getTickets.details.booking_id,
         name: getTickets.details.passangerName,
         airline: getTickets.details.flight.airline,
         from: getTickets.details.flight.origin,
         to: getTickets.details.flight.destination,
         date: getTickets.details.flight.departure.toDateString(),
         boarding_time: getTickets.details.flight.departure.toLocaleTimeString(),
-        class: getTickets.class,
+        class: getTickets.ticket.class,
         qr_code: uploadQR.url,
       },
     });
