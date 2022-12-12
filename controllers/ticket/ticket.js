@@ -1,13 +1,6 @@
 const { Booking, BookingDetails, Flight, Ticket } = require("../../models");
 const generateQRCode = require("../../utils/media/generateQrCode");
 const imagekit = require("../../utils/media/imageKit");
-// const { Op } = require("sequelize");
-
-function subtractHours(numOfHours, date = new Date()) {
-  date.setHours(date.getHours() - numOfHours);
-
-  return date;
-}
 
 const uploadQRCode = async (file) => {
   try {
