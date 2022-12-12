@@ -1,7 +1,6 @@
 const {
   Booking,
   BookingDetails,
-  Flight,
   Payment,
   PaymentMethod,
   Ticket,
