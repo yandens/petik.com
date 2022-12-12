@@ -8,11 +8,17 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      class_type_id: {
+      booking_details_id: {
         type: Sequelize.INTEGER
       },
       seatNumber: {
         type: Sequelize.STRING
+      },
+      class: {
+        type: Sequelize.STRING
+      },
+      price: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,

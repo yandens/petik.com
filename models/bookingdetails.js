@@ -16,8 +16,8 @@ module.exports = (sequelize, DataTypes) => {
         as: 'booking'
       })
 
-      BookingDetails.belongsTo(models.Ticket, {
-        foreignKey: 'ticket_id',
+      BookingDetails.hasOne(models.Ticket, {
+        foreignKey: 'booking_details_id',
         as: 'ticket'
       })
 
@@ -29,7 +29,6 @@ module.exports = (sequelize, DataTypes) => {
   }
   BookingDetails.init({
     booking_id: DataTypes.INTEGER,
-    ticket_id: DataTypes.INTEGER,
     flight_id: DataTypes.INTEGER,
     passangerName: DataTypes.STRING,
     NIK: DataTypes.STRING,

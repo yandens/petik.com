@@ -43,11 +43,11 @@ app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 // module.exports = app;
 
 // delete flight
-cron.schedule('59 23 * * *', () => {
+cron.schedule('59 23 * * 6', () => {
   flight.deleteFlight()
 })
 
 // create flight
-cron.schedule('0 0 * * *', () => {
+cron.schedule('0 0 * * 0', () => {
   flight.createFlight()
 })

@@ -1,45 +1,49 @@
-const { Booking, Flight } = require("../../models");
-const fetch = (...args) =>
-  import("node-fetch").then(({ default: fetch }) => fetch(...args));
-const { GOFLIGHTLABS_ACCESS_KEY } = process.env
-
-const filterFlight = async (departure, arrival) => {
-  const url = `https://app.goflightlabs.com/advanced-flights-schedules?access_key=${GOFLIGHTLABS_ACCESS_KEY}&status=active`;
-  const options = {
-    method: "GET",
-    headers: {
-      "X-RapidAPI-Host": "app.goflightlabs.com",
-    },
-  };
-  const result = await fetch(url, options);
-  const json = await result.json();
-  const flights = json.data;
-
-  const chosenFlight = flights.filter(flight => flight.departure.iataCode == departure && flight.arrival.iataCode == arrival)
-  return chosenFlight
-}
+const { Booking, BookingDetails } = require("../../models");
 
 const createBooking = async (req, res, next) => {
   try {
     const user = req.user;
-    const { departure = 'TOG', arrival = 'DLG' } = req.body
+    const { flight_id } = req.params;
+    const { passangerName, NIK, passport, ticketClass } = req.body;
 
-    /*const booking = await Booking.create({
+    const booking = await Booking.create({
       user_id: user.id,
-      status: true,
+      status: "pending",
       date: new Date(),
-    });*/
+    });
 
-    const flight = await filterFlight(departure, arrival);
-    const createFlight = await Flight.create({
-      departure: flight.departure.iataCode,
-      arrival: flight.arrival.iataCode,
-      departureTime: flight.departure.scheduledTime,
-      arrivalTime: flight.arrival.scheduledTime
-    })
+    const bookingDetails = await BookingDetails.create({
+      booking_id: booking.id,
+      flight_id,
+      passangerName,
+      NIK,
+      passport,
+    });
+
+    let totalPrice, different;
+    if (ticketClass == "economy") {
+      different = 321.37 - 64.27;
+      totalPrice = Math.floor(Math.random() * different + 64.27);
+    } else if (ticketClass == "business") {
+      different = 642.74 - 321.37;
+      totalPrice = Math.floor(Math.random() * different + 321.37);
+    } else {
+      different = 1606.84 - 642.74;
+      totalPrice = Math.floor(Math.random() * different + 642.74);
+    }
+
+    return res.status(201).json({
+      status: true,
+      message: "Booking Created!",
+      data: {
+        booking: booking,
+        booking_details: bookingDetails,
+        total_price: totalPrice,
+      },
+    });
   } catch (error) {
     next(error);
   }
 };
 
-module.exports = createBooking
+module.exports = createBooking;
