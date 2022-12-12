@@ -3,6 +3,12 @@ const generateQRCode = require("../../utils/media/generateQrCode");
 const imagekit = require("../../utils/media/imageKit");
 // const { Op } = require("sequelize");
 
+function subtractHours(numOfHours, date = new Date()) {
+  date.setHours(date.getHours() - numOfHours);
+
+  return date;
+}
+
 const uploadQRCode = async (file) => {
   try {
     const uploadedFile = await imagekit.upload({
@@ -23,40 +29,37 @@ const printTicket = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const getTickets = await Booking.findOne(
-      {
-        where: { id },
-      },
-      {
-        include: [
-          {
-            model: BookingDetails,
-            as: "details",
-            include: [
-              {
-                model: Flight,
-                as: "flight",
-              },
-              {
-                model: Ticket,
-                as: "ticket",
-              },
-            ],
-          },
-        ],
-      }
-    );
+    const getTickets = await Booking.findOne({
+      where: { id },
+      include: [
+        {
+          model: BookingDetails,
+          as: "details",
+          include: [
+            {
+              model: Flight,
+              as: "flight",
+            },
+            {
+              model: Ticket,
+              as: "ticket",
+            },
+          ],
+        },
+      ],
+    });
 
     const payload = {
       id: getTickets.user_id,
-      booking_id: getTickets.details.booking_id,
-      name: getTickets.details.passangerName,
-      airline: getTickets.details.flight.airline,
-      from: getTickets.details.flight.origin,
-      to: getTickets.details.flight.destination,
-      date: getTickets.details.flight.departure.toDateString(),
-      boarding_time: getTickets.details.flight.departure.toLocaleTimeString(),
-      class: getTickets.details.ticket.class,
+      booking_id: getTickets.id,
+      name: getTickets.details[0].passangerName,
+      airline: getTickets.details[0].flight.airline,
+      from: getTickets.details[0].flight.origin,
+      to: getTickets.details[0].flight.destination,
+      date: getTickets.details[0].flight.departure.toDateString(),
+      departureTime:
+        getTickets.details[0].flight.departure.toLocaleTimeString(),
+      class: getTickets.details[0].ticket.class,
     };
 
     const qrCode = generateQRCode(JSON.stringify(payload));
@@ -67,14 +70,15 @@ const printTicket = async (req, res, next) => {
       message: "Success",
       data: {
         id: getTickets.user_id,
-        booking_id: getTickets.details.booking_id,
-        name: getTickets.details.passangerName,
-        airline: getTickets.details.flight.airline,
-        from: getTickets.details.flight.origin,
-        to: getTickets.details.flight.destination,
-        date: getTickets.details.flight.departure.toDateString(),
-        boarding_time: getTickets.details.flight.departure.toLocaleTimeString(),
-        class: getTickets.details.ticket.class,
+        booking_id: getTickets.id,
+        name: getTickets.details[0].passangerName,
+        airline: getTickets.details[0].flight.airline,
+        from: getTickets.details[0].flight.origin,
+        to: getTickets.details[0].flight.destination,
+        date: getTickets.details[0].flight.departure.toDateString(),
+        departureTime:
+          getTickets.details[0].flight.departure.toLocaleTimeString(),
+        class: getTickets.details[0].ticket.class,
         qr_code: uploadQR.url,
       },
     });
