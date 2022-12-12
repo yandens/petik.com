@@ -17,13 +17,18 @@ const createFlight = async () => {
     const flights = json.data;
 
     for (const flight of flights) {
-      await Flight.create({
+      const data = await Flight.create({
         airline: flight.airline.name,
         origin: flight.departure.iataCode,
         destination: flight.arrival.iataCode,
         departure: flight.departure.scheduledTime,
         arrival: flight.arrival.scheduledTime,
       })
+
+      const random = Math.random() * (7 - 2) + 2
+      const newDeparture = data.departure.setDate(data.departure.getDate() + random)
+      const newArrival = data.arrival.setDate(data.arrival.getDate() + random)
+      await Flight.update({ departure: newDeparture, arrival: newArrival }, { where: { id: data.id } })
     }
   } catch (error) {
     console.log(error);
