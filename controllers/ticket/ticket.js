@@ -2,6 +2,13 @@ const { Booking, BookingDetails, Flight, Ticket } = require("../../models");
 const generateQRCode = require("../../utils/media/generateQrCode");
 const imagekit = require("../../utils/media/imageKit");
 
+function subtractHours(date, hours) {
+  date.setHours(date.getHours() - hours);
+
+  return date;
+}
+
+
 const uploadQRCode = async (file) => {
   try {
     const uploadedFile = await imagekit.upload({
@@ -42,6 +49,8 @@ const printTicket = async (req, res, next) => {
       ],
     });
 
+    const departureTime = getTickets.details[0].flight.departure;
+
     const payload = {
       id: getTickets.user_id,
       booking_id: getTickets.id,
@@ -52,6 +61,7 @@ const printTicket = async (req, res, next) => {
       date: getTickets.details[0].flight.departure.toDateString(),
       departureTime:
         getTickets.details[0].flight.departure.toLocaleTimeString(),
+      dep: departureTime,
       class: getTickets.details[0].ticket.class,
     };
 
@@ -69,9 +79,8 @@ const printTicket = async (req, res, next) => {
         from: getTickets.details[0].flight.origin,
         to: getTickets.details[0].flight.destination,
         date: getTickets.details[0].flight.departure.toDateString(),
-        departureTime:
-          getTickets.details[0].flight.departure.toLocaleTimeString(),
-        class: getTickets.details[0].ticket.class,
+        departureTime: departureTime.toLocaleTimeString(),
+        boardingTime: subtractHours(departureTime, 1).toLocaleTimeString(),
         qr_code: uploadQR.url,
       },
     });
