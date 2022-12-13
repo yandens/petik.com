@@ -60,7 +60,6 @@ const printTicket = async (req, res, next) => {
         to: ticket.flight.destination,
         date: ticket.flight.departure.toDateString(),
         departureTime: ticket.flight.departure.toLocaleTimeString(),
-        dep: departureTime,
         class: ticket.ticket.class,
       }
 
