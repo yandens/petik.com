@@ -12,12 +12,16 @@ const createBooking = async (req, res, next) => {
       date: new Date(),
     });
 
-    const bookingDetails = await BookingDetails.create({
-      booking_id: booking.id,
-      flight_id,
-      passangerName,
-      NIK,
-      passport,
+    var body = req.body;
+
+    body.forEach(async (data) => {
+      await BookingDetails.create({
+        booking_id: booking.id,
+        flight_id: flight_id,
+        passangerName: data.passangerName,
+        NIK: data.NIK,
+        passport: data.passport,
+      });
     });
 
     let totalPrice, different;
@@ -37,8 +41,9 @@ const createBooking = async (req, res, next) => {
       message: "Booking Created!",
       data: {
         booking: booking,
-        booking_details: bookingDetails,
-        total_price: totalPrice,
+        // booking_details: bookingDetails,
+        total: totalPrice,
+        grandTotal: totalPrice * body.length,
       },
     });
   } catch (error) {
