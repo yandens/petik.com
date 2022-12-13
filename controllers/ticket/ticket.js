@@ -8,7 +8,6 @@ function subtractHours(date, hours) {
   return date;
 }
 
-
 const uploadQRCode = async (file) => {
   try {
     const uploadedFile = await imagekit.upload({

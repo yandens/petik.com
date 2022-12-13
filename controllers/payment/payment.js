@@ -10,7 +10,7 @@ const { Op } = require("sequelize");
 const payment = async (req, res, next) => {
   try {
     const user = req.user;
-    const { paymentMethod, totalPrice } = req.body;
+    const { paymentMethod, grandTotal } = req.body;
     const { booking_id, ticketClass } = req.params;
 
     const book = await Booking.findOne({ where: { id: booking_id } });
@@ -30,7 +30,7 @@ const payment = async (req, res, next) => {
     const payment = await Payment.create({
       booking_id,
       payment_method_id: payMethod.id,
-      total_price: totalPrice,
+      total_price: grandTotal,
       date: new Date(),
     });
 
