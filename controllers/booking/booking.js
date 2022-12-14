@@ -39,7 +39,6 @@ const createBooking = async (req, res, next) => {
       message: "Booking Created!",
       data: {
         booking: booking,
-        // booking_details: bookingDetails,
         total: totalPrice,
         grandTotal: totalPrice * body.length,
       },

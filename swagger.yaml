@@ -1201,16 +1201,16 @@ paths:
       security:
         - bearerAuth: []
     parameters: []
-  /airport/search/{search}:
+  "/airport/search/{search}":
     parameters:
       - schema:
           type: string
         name: search
         in: path
-        description: 'User Input Search by IATA, ICAO, and Name'
+        description: "User Input Search by IATA, ICAO, and Name"
         required: true
     get:
-      summary: Search Airport by IATA, ICAO or Name
+      summary: "Search Airport by IATA, ICAO or Name"
       tags:
         - Airport
       responses:
@@ -1346,14 +1346,14 @@ paths:
                       error:
                         - Not Found
                       message: We could not find anything with 'changi'
-      description: Search Airport By ICAO, IATA, and Name
+      description: "Search Airport By ICAO, IATA, and Name"
   /flight/schedule:
     get:
       summary: Get Flight Schedule
       tags:
         - Flight
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
@@ -1399,12 +1399,12 @@ paths:
                         airline: Calm Air International
                         origin: YZS
                         destination: YRT
-                        departure: '2022-12-07T07:00:00.000Z'
+                        departure: "2022-12-07T07:00:00.000Z"
                         departureDate: Wed Dec 07 2022
-                        departureTime: '3:00:00 PM'
-                        arrival: '2022-12-07T07:15:00.000Z'
+                        departureTime: "3:00:00 PM"
+                        arrival: "2022-12-07T07:15:00.000Z"
                         arrivalDate: Wed Dec 07 2022
-                        arrivalTime: '3:15:00 PM'
+                        arrivalTime: "3:15:00 PM"
       description: Flight Schedule Endpoint
   /flight/schedule/search:
     post:
@@ -1412,7 +1412,7 @@ paths:
       tags:
         - Flight
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
@@ -1458,13 +1458,13 @@ paths:
                         airline: Calm Air International
                         origin: YZS
                         destination: YRT
-                        departure: '2022-12-07T07:00:00.000Z'
+                        departure: "2022-12-07T07:00:00.000Z"
                         departureDate: Wed Dec 07 2022
-                        departureTime: '3:00:00 PM'
-                        arrival: '2022-12-07T07:15:00.000Z'
+                        departureTime: "3:00:00 PM"
+                        arrival: "2022-12-07T07:15:00.000Z"
                         arrivalDate: Wed Dec 07 2022
-                        arrivalTime: '3:15:00 PM'
-        '400':
+                        arrivalTime: "3:15:00 PM"
+        "400":
           description: Bad Request
           content:
             application/json:
@@ -1476,7 +1476,7 @@ paths:
                   message:
                     type: string
                   data:
-                    type: 'null'
+                    type: "null"
               examples:
                 example-1:
                   value:
@@ -1506,6 +1506,329 @@ paths:
                 value:
                   origin: YZS
                   destination: YRT
+      parameters: []
+  "/payment/{booking_id}/{ticketClass}":
+    post:
+      summary: Create Payment
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      booking_id:
+                        type: integer
+                      payment_method_id:
+                        type: integer
+                      total_price:
+                        type: integer
+                      date:
+                        type: string
+                      updatedAt:
+                        type: string
+                      createdAt:
+                        type: string
+              examples:
+                Payment Success:
+                  value:
+                    status: true
+                    message: Successful Payment
+                    data:
+                      id: 13
+                      booking_id: 34
+                      payment_method_id: 2
+                      total_price: 4197
+                      date: "2022-12-13T03:32:59.731Z"
+                      updatedAt: "2022-12-13T03:32:59.732Z"
+                      createdAt: "2022-12-13T03:32:59.732Z"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+              examples:
+                Booking has been paid / canceled by User:
+                  value:
+                    status: false
+                    message: You can't pay paid booking or canceled booking!
+                    data: null
+      description: Payment Endpoint
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                paymentMethod:
+                  type: string
+                  minLength: 3
+                  maxLength: 3
+                grandTotal:
+                  type: integer
+              required:
+                - paymentMethod
+                - grandTotal
+            examples:
+              "Payment Method : E-Wallet":
+                value:
+                  paymentMethod: E-Wallet
+                  grandTotal: 4197
+              "Payment Method : Virtual Account":
+                value:
+                  paymentMethod: Virtual Account
+                  grandTotal: 4197
+      tags:
+        - Payment
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: booking_id
+          description: Get booking_id from booking
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: ticketClass
+          required: true
+      security:
+        - bearerAuth: []
+    parameters:
+      - schema:
+          type: string
+        name: booking_id
+        in: path
+        required: true
+        description: Get booking_id from booking
+      - schema:
+          type: string
+        name: ticketClass
+        in: path
+        required: true
+        description: Get ticketClass from booking
+  "/booking/{flight_id}":
+    post:
+      summary: Create Booking
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      booking_id:
+                        type: integer
+                      payment_method_id:
+                        type: integer
+                      total_price:
+                        type: integer
+                      date:
+                        type: string
+                      updatedAt:
+                        type: string
+                      createdAt:
+                        type: string
+              examples:
+                Booking Created:
+                  value:
+                    status: true
+                    message: Booking Created!
+                    data:
+                      booking:
+                        id: 34
+                        user_id: 7
+                        status: pending
+                        date: "2022-12-13T03:31:57.053Z"
+                        updatedAt: "2022-12-13T03:31:57.056Z"
+                        createdAt: "2022-12-13T03:31:57.056Z"
+                      total: 1275
+                      grandTotal: 3825
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+              examples:
+                Booking has been paid / canceled by User:
+                  value:
+                    status: false
+                    message: You can't pay paid booking or canceled booking!
+                    data: null
+        "":
+          description: ""
+      description: Create Booking Endpoint
+      tags:
+        - Booking
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: flight_id
+          description: Get flight_id from Flight
+          required: true
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                body:
+                  type: object
+                  required:
+                    - passangerName
+                    - NIK
+                    - passport
+                  properties:
+                    passangerName:
+                      type: string
+                    NIK:
+                      type: string
+                    passport:
+                      type: string
+              required:
+                - body
+            examples:
+              Input multiple passangers:
+                value:
+                  body:
+                    - passangerName: Kevin
+                      NIK: "11111111111111111"
+                      passport: 134e5f
+                    - passangerName: Deden
+                      NIK: "222222222222222"
+                      passport: 134rf
+                    - passangerName: Faza
+                      NIK: "333333333333"
+                      passport: 134cf
+              Input single passanger:
+                value:
+                  body:
+                    - passangerName: Kevin
+                      NIK: "11111111111111111"
+                      passport: 134e5f
+        description: ""
+    parameters:
+      - schema:
+          type: string
+        name: flight_id
+        in: path
+        required: true
+        description: Get flight_id from Flight
+  "/booking/{id}":
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Get id from Booking
+    put:
+      summary: Cancel Booking
+      operationId: ""
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Booking Not Found / Booking has been paid
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                required:
+                  - status
+                  - message
+              examples:
+                Data Not Found:
+                  value:
+                    status: false
+                    message: Booking not found!
+                    data:
+                      "null": null
+                Booking Has Been Paid:
+                  value:
+                    status: true
+                    message: You cannot cancel a booking that has already been paid for
+                    data:
+                      "null": null
+        "":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items: {}
+              examples:
+                Success cancel booking:
+                  value:
+                    status: true
+                    message: Successful cancellation!
+                    data:
+                      - 1
+      description: Cancel Booking Endpoint
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: id
+          description: Get id from booking
+          required: true
+      security:
+        - bearerAuth: []
+      tags:
+        - Booking
 components:
   schemas: {}
   securitySchemes:
