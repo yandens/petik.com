@@ -16,7 +16,9 @@ const createFlight = async () => {
     const json = await result.json();
     const flights = json.data;
 
-    const filterFlights = flights.filter(flight => flight.airline.iataCode == 'GA' || flight.airline.iataCode == 'IW' || flight.airline.iataCode == 'ID' || flight.airline.iataCode == 'JT')
+    const filterFlights = flights.filter(flight =>
+      flight.airline.iataCode == 'GA' || flight.airline.iataCode == 'IW' || flight.airline.iataCode == 'ID' || flight.airline.iataCode == 'JT'
+      || flight.airline.iataCode == 'QG' || flight.airline.iataCode == 'AK' || flight.airline.iataCode == 'SJ')
 
     for (const flight of filterFlights) {
       const data = await Flight.create({
