@@ -1598,18 +1598,6 @@ paths:
                   grandTotal: 4197
       tags:
         - Payment
-      parameters:
-        - schema:
-            type: string
-          in: query
-          name: booking_id
-          description: Get booking_id from booking
-          required: true
-        - schema:
-            type: string
-          in: query
-          name: ticketClass
-          required: true
       security:
         - bearerAuth: []
     parameters:
@@ -1691,18 +1679,9 @@ paths:
                     status: false
                     message: You can't pay paid booking or canceled booking!
                     data: null
-        "":
-          description: ""
       description: Create Booking Endpoint
       tags:
         - Booking
-      parameters:
-        - schema:
-            type: string
-          in: query
-          name: flight_id
-          description: Get flight_id from Flight
-          required: true
       security:
         - bearerAuth: []
       requestBody:
@@ -1765,8 +1744,6 @@ paths:
       summary: Cancel Booking
       operationId: ""
       responses:
-        "200":
-          description: OK
         "400":
           description: Booking Not Found / Booking has been paid
           content:
@@ -1796,7 +1773,7 @@ paths:
                     message: You cannot cancel a booking that has already been paid for
                     data:
                       "null": null
-        "":
+        "200":
           description: OK
           content:
             application/json:
@@ -1818,13 +1795,6 @@ paths:
                     data:
                       - 1
       description: Cancel Booking Endpoint
-      parameters:
-        - schema:
-            type: string
-          in: query
-          name: id
-          description: Get id from booking
-          required: true
       security:
         - bearerAuth: []
       tags:
