@@ -12,7 +12,7 @@ servers:
     description: Railway Deployment/
 paths:
   /auth/login-google:
-    get:
+    post:
       summary: Login Google Oauth2
       description: Login Google Endpoint
       tags:
