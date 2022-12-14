@@ -20,7 +20,6 @@ module.exports = (sequelize, DataTypes) => {
       booking_details_id: DataTypes.INTEGER,
       seatNumber: DataTypes.STRING,
       class: DataTypes.STRING,
-      price: DataTypes.INTEGER,
     },
     {
       sequelize,
