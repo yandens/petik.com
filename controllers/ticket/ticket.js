@@ -48,9 +48,9 @@ const printTicket = async (req, res, next) => {
       ],
     });
 
-    const data = []
+    const data = [];
     for (const ticket of getTickets.details) {
-      const departureTime = ticket.flight.departure
+      const departureTime = ticket.flight.departure;
       const payload = {
         id: getTickets.user_id,
         booking_id: getTickets.id,
@@ -61,7 +61,7 @@ const printTicket = async (req, res, next) => {
         date: ticket.flight.departure.toDateString(),
         departureTime: ticket.flight.departure.toLocaleTimeString(),
         class: ticket.ticket.class,
-      }
+      };
 
       const qrCode = generateQRCode(JSON.stringify(payload));
       const uploadQR = await uploadQRCode(qrCode.toString("base64"));
@@ -77,15 +77,15 @@ const printTicket = async (req, res, next) => {
         departureTime: departureTime.toLocaleTimeString(),
         boardingTime: subtractHours(departureTime, 1).toLocaleTimeString(),
         qr_code: uploadQR.url,
-      }
+      };
 
-      data.push(dataResponse)
+      data.push(dataResponse);
     }
 
     return res.status(200).json({
       status: true,
       message: "Success",
-      data
+      data,
     });
   } catch (err) {
     next(err);
