@@ -50,7 +50,13 @@ const showFlight = async (req, res, next) => {
     return res.status(200).json({
       status: true,
       message: "Success Get All Data",
-      data: result,
+      data: {
+        result,
+        pageNumber,
+        limitPage,
+        totalRows: allFlight,
+        totalPage
+      },
     });
   } catch (error) {
     next(error);
