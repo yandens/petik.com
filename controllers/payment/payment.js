@@ -33,7 +33,7 @@ const payment = async (req, res, next) => {
     }
 
     const seatData = await BookingDetails.findAll({
-      where: { flight_id: bookingSeat.flight_id },
+      where: { flight_id: bookingSeat[0].flight_id },
       include: [{
         model: Ticket,
         as: "ticket"
