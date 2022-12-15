@@ -1,5 +1,4 @@
 const { Avatar } = require("../../models");
-const imagekit = require("../../utils/media/imageKit");
 
 const deleteAvatar = async (req, res, next) => {
   try {
