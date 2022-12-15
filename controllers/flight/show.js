@@ -3,9 +3,19 @@ const convert = require("../../utils/time/minutes-hour");
 
 const showFlight = async (req, res, next) => {
   try {
-    const allFlight = await Flight.findAll();
+    const { page, limit } = req.query
 
-    if (allFlight <= 0) {
+    const pageNumber = parseInt(page)
+    const limitPage = parseInt(limit)
+    const offset = pageNumber * limitPage - limitPage
+    const allFlight = await Flight.count();
+    const totalPage = Math.ceil(allFlight.length / limit)
+    const flightPagination = await Flight.findAll({
+      offset: offset,
+      limit: limitPage,
+    })
+
+    if (flightPagination <= 0) {
       return res.status(400).json({
         status: false,
         message: "No Flight",
@@ -13,7 +23,7 @@ const showFlight = async (req, res, next) => {
     }
 
     const result = [];
-    for (const flight of allFlight) {
+    for (const flight of flightPagination) {
       const departureDate = flight.departure.toDateString();
       const departureTime = flight.departure.toLocaleTimeString();
       const arrivalDate = flight.arrival.toDateString();
