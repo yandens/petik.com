@@ -1,10 +1,4 @@
-const {
-  Booking,
-  BookingDetails,
-  Payment,
-  PaymentMethod,
-  Ticket,
-} = require("../../models");
+const { Booking, BookingDetails, Payment, PaymentMethod, Ticket } = require("../../models");
 
 const payment = async (req, res, next) => {
   try {
@@ -29,9 +23,7 @@ const payment = async (req, res, next) => {
       });
     }
 
-    const result = seatNumber.filter(
-      (item, index) => seatNumber.indexOf(item) !== index
-    );
+    const result = seatNumber.filter((item, index) => seatNumber.indexOf(item) !== index);
 
     if (result.length > 0) {
       return res.status(400).json({
@@ -72,9 +64,7 @@ const payment = async (req, res, next) => {
       });
     }
 
-    const payMethod = await PaymentMethod.findOne({
-      where: { method: paymentMethod },
-    });
+    const payMethod = await PaymentMethod.findOne({ where: { method: paymentMethod } });
     const payment = await Payment.create({
       booking_id,
       payment_method_id: payMethod.id,
