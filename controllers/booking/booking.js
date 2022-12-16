@@ -1,4 +1,4 @@
-const { Booking, BookingDetails } = require("../../models");
+const { Booking, BookingDetails, Notification } = require("../../models");
 
 const createBooking = async (req, res, next) => {
   try {
@@ -32,6 +32,18 @@ const createBooking = async (req, res, next) => {
     } else {
       different = 1606.84 - 642.74;
       totalPrice = Math.floor(Math.random() * different + 642.74);
+    }
+
+    if (booking) {
+      await Notification.create({
+        user_id: user.id,
+        title: "Booking",
+        message:
+          "You've booked some flight and please pay it before the due time. For further information please check your Email!",
+        isRead: false,
+        date: new Date().toDateString(),
+        time: new Date().toLocaleTimeString(),
+      });
     }
 
     return res.status(201).json({

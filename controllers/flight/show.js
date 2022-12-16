@@ -3,17 +3,17 @@ const convert = require("../../utils/time/minutes-hour");
 
 const showFlight = async (req, res, next) => {
   try {
-    const { page, limit } = req.query
+    const { page, limit } = req.query;
 
-    const pageNumber = parseInt(page)
-    const limitPage = parseInt(limit)
-    const offset = pageNumber * limitPage - limitPage
+    const pageNumber = parseInt(page);
+    const limitPage = parseInt(limit);
+    const offset = pageNumber * limitPage - limitPage;
     const allFlight = await Flight.count();
-    const totalPage = Math.ceil(allFlight.length / limit)
+    const totalPage = Math.ceil(allFlight.length / limit);
     const flightPagination = await Flight.findAll({
       offset: offset,
       limit: limitPage,
-    })
+    });
 
     if (flightPagination <= 0) {
       return res.status(400).json({
@@ -55,7 +55,7 @@ const showFlight = async (req, res, next) => {
         pageNumber,
         limitPage,
         totalRows: allFlight,
-        totalPage
+        totalPage,
       },
     });
   } catch (error) {
