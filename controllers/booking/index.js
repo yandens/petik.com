@@ -1,5 +1,5 @@
 const booking = require("./booking");
-const getAllBooking = require("./booking");
+const getAllBooking = require("./getAllBooking");
 const cancelBooking = require("./cancelBooking");
 
 module.exports = {
