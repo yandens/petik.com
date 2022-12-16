@@ -4,15 +4,13 @@ const createBooking = async (req, res, next) => {
   try {
     const user = req.user;
     const { flight_id } = req.params;
-    const { passangerName, NIK, passport, ticketClass } = req.body;
+    const { body, ticketClass } = req.body;
 
     const booking = await Booking.create({
       user_id: user.id,
       status: "pending",
       date: new Date(),
     });
-
-    var body = req.body;
 
     body.forEach(async (data) => {
       await BookingDetails.create({
@@ -41,7 +39,6 @@ const createBooking = async (req, res, next) => {
       message: "Booking Created!",
       data: {
         booking: booking,
-        // booking_details: bookingDetails,
         total: totalPrice,
         grandTotal: totalPrice * body.length,
       },
