@@ -1708,7 +1708,6 @@ paths:
                   required:
                     - passangerName
                     - NIK
-                    - passport
                   properties:
                     passangerName:
                       type: string
