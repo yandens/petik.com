@@ -1406,6 +1406,19 @@ paths:
                         arrivalDate: Wed Dec 07 2022
                         arrivalTime: "3:15:00 PM"
       description: Flight Schedule Endpoint
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: page
+          description: number of page
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: limit
+          description: data limit in one page
+          required: true
   /flight/schedule/search:
     post:
       summary: Filter Flight Schedule
@@ -1703,8 +1716,11 @@ paths:
                       type: string
                     passport:
                       type: string
+                ticketClass:
+                  type: string
               required:
                 - body
+                - ticketClass
             examples:
               Input multiple passangers:
                 value:
@@ -1742,7 +1758,6 @@ paths:
         description: Get id from Booking
     put:
       summary: Cancel Booking
-      operationId: ""
       responses:
         "400":
           description: Booking Not Found / Booking has been paid
