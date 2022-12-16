@@ -3,8 +3,7 @@ const { Booking, BookingDetails } = require("../../models");
 const createBooking = async (req, res, next) => {
   try {
     const user = req.user;
-    const { flight_id } = req.params;
-    const { body, ticketClass } = req.body;
+    const { flight_id, body, ticketClass } = req.body;
 
     const booking = await Booking.create({
       user_id: user.id,
