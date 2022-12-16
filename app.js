@@ -39,8 +39,7 @@ app.use((err, req, res, next) => {
 });
 
 const { PORT } = process.env;
-app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
-// module.exports = app;
+const server = app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
 // delete flight
 cron.schedule("59 23 * * 6", () => {
@@ -51,3 +50,5 @@ cron.schedule("59 23 * * 6", () => {
 cron.schedule("0 0 * * 0", () => {
   flight.createFlight();
 });
+
+module.exports = server;

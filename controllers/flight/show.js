@@ -9,7 +9,7 @@ const showFlight = async (req, res, next) => {
     const limitPage = parseInt(limit);
     const offset = pageNumber * limitPage - limitPage;
     const allFlight = await Flight.count();
-    const totalPage = Math.ceil(allFlight.length / limit);
+    const totalPage = Math.ceil(allFlight / limit);
     const flightPagination = await Flight.findAll({
       offset: offset,
       limit: limitPage,
