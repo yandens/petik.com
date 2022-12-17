@@ -2,9 +2,9 @@ const { Booking, Notification } = require("../../models");
 
 const cancelBooking = async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const user = req.user;
-    const booking = await Booking.findOne({ where: { id } });
+    const { booking_id } = req.body;
+
+    const booking = await Booking.findOne({ where: { id: booking_id } });
     if (!booking) {
       return res.status(400).json({
         status: false,

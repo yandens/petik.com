@@ -9,9 +9,8 @@ const {
 
 const payment = async (req, res, next) => {
   try {
-    const user = req.user;
-    const { paymentMethod, grandTotal, seatNumber } = req.body;
-    const { booking_id, ticketClass } = req.params;
+    const { booking_id, ticketClass, paymentMethod, grandTotal, seatNumber } =
+      req.body;
 
     const book = await Booking.findOne({ where: { id: booking_id } });
     if (book.status !== "pending") {
