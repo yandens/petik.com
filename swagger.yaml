@@ -1520,7 +1520,7 @@ paths:
                   origin: YZS
                   destination: YRT
       parameters: []
-  "/payment/{booking_id}/{ticketClass}":
+  /payment:
     post:
       summary: Create Payment
       responses:
@@ -1591,15 +1591,21 @@ paths:
             schema:
               type: object
               properties:
+                booking_id:
+                  type: integer
                 paymentMethod:
                   type: string
                   minLength: 3
                   maxLength: 3
                 grandTotal:
                   type: integer
+                ticketClass:
+                  type: string
               required:
+                - booking_id
                 - paymentMethod
                 - grandTotal
+                  ticketClass
             examples:
               "Payment Method : E-Wallet":
                 value:
@@ -1613,20 +1619,8 @@ paths:
         - Payment
       security:
         - bearerAuth: []
-    parameters:
-      - schema:
-          type: string
-        name: booking_id
-        in: path
-        required: true
-        description: Get booking_id from booking
-      - schema:
-          type: string
-        name: ticketClass
-        in: path
-        required: true
-        description: Get ticketClass from booking
-  "/booking/{flight_id}":
+    parameters: []
+  /booking:
     post:
       summary: Create Booking
       responses:
@@ -1717,9 +1711,12 @@ paths:
                       type: string
                 ticketClass:
                   type: string
+                flight_id:
+                  type: integer
               required:
                 - body
                 - ticketClass
+                - flight_id
             examples:
               Input multiple passangers:
                 value:
@@ -1740,21 +1737,9 @@ paths:
                       NIK: "11111111111111111"
                       passport: 134e5f
         description: ""
-    parameters:
-      - schema:
-          type: string
-        name: flight_id
-        in: path
-        required: true
-        description: Get flight_id from Flight
-  "/booking/{id}":
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: Get id from Booking
+    parameters: []
+  /booking/cancel:
+    parameters: []
     put:
       summary: Cancel Booking
       responses:
@@ -1813,6 +1798,162 @@ paths:
         - bearerAuth: []
       tags:
         - Booking
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                booking_id:
+                  type: integer
+            examples:
+              Example 1:
+                value:
+                  booking_id: 3
+          application/xml:
+            schema:
+              type: object
+              properties: {}
+  /booking/list-booking:
+    parameters: []
+    get:
+      summary: Get Bookings by id user
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      user_id:
+                        type: integer
+                      date:
+                        type: string
+                      createdAt:
+                        type: string
+                      updatedAt:
+                        type: string
+              examples:
+                Example 2:
+                  value:
+                    status: true
+                    message: Success Get Data
+                    data:
+                      - id: 1
+                        user_id: 3
+                        status: paid
+                        date: "2022-12-16T05:12:14.153Z"
+                        createdAt: "2022-12-16T05:12:14.154Z"
+                        updatedAt: "2022-12-16T05:14:14.947Z"
+                      - id: 2
+                        user_id: 3
+                        status: paid
+                        date: "2022-12-16T05:39:56.640Z"
+                        createdAt: "2022-12-16T05:39:56.642Z"
+                        updatedAt: "2022-12-16T05:40:10.114Z"
+                      - id: 4
+                        user_id: 3
+                        status: paid
+                        date: "2022-12-16T05:48:11.962Z"
+                        createdAt: "2022-12-16T05:48:11.964Z"
+                        updatedAt: "2022-12-16T05:48:50.811Z"
+                      - id: 3
+                        user_id: 3
+                        status: paid
+                        date: "2022-12-16T05:41:54.633Z"
+                        createdAt: "2022-12-16T05:41:54.633Z"
+                        updatedAt: "2022-12-16T05:50:03.083Z"
+                      - id: 6
+                        user_id: 3
+                        status: paid
+                        date: "2022-12-16T06:09:36.031Z"
+                        createdAt: "2022-12-16T06:09:36.033Z"
+                        updatedAt: "2022-12-16T06:10:17.509Z"
+                      - id: 5
+                        user_id: 3
+                        status: cancel
+                        date: "2022-12-16T06:09:19.305Z"
+                        createdAt: "2022-12-16T06:09:19.305Z"
+                        updatedAt: "2022-12-16T06:30:02.493Z"
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      user_id:
+                        type: integer
+                      status:
+                        type: string
+                      createdAt:
+                        type: string
+                      updatedAt:
+                        type: string
+              examples:
+                Success get all bookings:
+                  value:
+                    status: true
+                    message: Success Get Data
+                    data:
+                      - id: 1
+                        user_id: 3
+                        status: paid
+                        date: "2022-12-16T05:12:14.153Z"
+                        createdAt: "2022-12-16T05:12:14.154Z"
+                        updatedAt: "2022-12-16T05:14:14.947Z"
+                      - id: 2
+                        user_id: 3
+                        status: paid
+                        date: "2022-12-16T05:39:56.640Z"
+                        createdAt: "2022-12-16T05:39:56.642Z"
+                        updatedAt: "2022-12-16T05:40:10.114Z"
+                      - id: 4
+                        user_id: 3
+                        status: paid
+                        date: "2022-12-16T05:48:11.962Z"
+                        createdAt: "2022-12-16T05:48:11.964Z"
+                        updatedAt: "2022-12-16T05:48:50.811Z"
+                      - id: 3
+                        user_id: 3
+                        status: paid
+                        date: "2022-12-16T05:41:54.633Z"
+                        createdAt: "2022-12-16T05:41:54.633Z"
+                        updatedAt: "2022-12-16T05:50:03.083Z"
+                      - id: 6
+                        user_id: 3
+                        status: paid
+                        date: "2022-12-16T06:09:36.031Z"
+                        createdAt: "2022-12-16T06:09:36.033Z"
+                        updatedAt: "2022-12-16T06:10:17.509Z"
+                      - id: 5
+                        user_id: 3
+                        status: cancel
+                        date: "2022-12-16T06:09:19.305Z"
+                        createdAt: "2022-12-16T06:09:19.305Z"
+                        updatedAt: "2022-12-16T06:30:02.493Z"
+      description: Get all booking by user
+      security:
+        - bearerAuth: []
 components:
   schemas: {}
   securitySchemes:
