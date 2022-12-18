@@ -1595,16 +1595,19 @@ paths:
                   type: integer
                 paymentMethod:
                   type: string
-                  minLength: 3
-                  maxLength: 3
                 grandTotal:
                   type: integer
+                seatNumber:
+                  type: array
+                  items:
+                    type: string
                 ticketClass:
                   type: string
               required:
                 - booking_id
                 - paymentMethod
                 - grandTotal
+                - seatNumber
                 - ticketClass
             examples:
               "Payment Method : E-Wallet":
@@ -1612,12 +1615,14 @@ paths:
                   booking_id: 1
                   paymentMethod: E-Wallet
                   grandTotal: 4197
+                  seatNumber: ["A01", "A02", "A03"]
                   ticketClass: business
               "Payment Method : Virtual Account":
                 value:
                   booking_id: 1
                   paymentMethod: Virtual Account
                   grandTotal: 4197
+                  seatNumber: ["A01", "A02", "A03"] 
                   ticketClass: business
       tags:
         - Payment
@@ -1702,17 +1707,19 @@ paths:
               type: object
               properties:
                 body:
-                  type: object
-                  required:
-                    - passangerName
-                    - NIK
-                  properties:
-                    passangerName:
-                      type: string
-                    NIK:
-                      type: string
-                    passport:
-                      type: string
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      passangerName:
+                        type: string
+                      NIK:
+                        type: string
+                      passport:
+                        type: string
+                    required:
+                      - passangerName
+                      - NIK
                 ticketClass:
                   type: string
                 flight_id:
