@@ -1605,16 +1605,20 @@ paths:
                 - booking_id
                 - paymentMethod
                 - grandTotal
-                  ticketClass
+                - ticketClass
             examples:
               "Payment Method : E-Wallet":
                 value:
+                  booking_id: 1
                   paymentMethod: E-Wallet
                   grandTotal: 4197
+                  ticketClass: business
               "Payment Method : Virtual Account":
                 value:
+                  booking_id: 1
                   paymentMethod: Virtual Account
                   grandTotal: 4197
+                  ticketClass: business
       tags:
         - Payment
       security:
@@ -1730,13 +1734,16 @@ paths:
                     - passangerName: Faza
                       NIK: "333333333333"
                       passport: 134cf
+                  ticketClass: business
+                  flight_id: 1
               Input single passanger:
                 value:
                   body:
                     - passangerName: Kevin
                       NIK: "11111111111111111"
                       passport: 134e5f
-        description: ""
+                  ticketClass: business
+                  flight_id: 1
     parameters: []
   /booking/cancel:
     parameters: []
