@@ -71,19 +71,31 @@ const payment = async (req, res, next) => {
       date: new Date(),
     });
 
-    await Booking.update({ status: "paid" }, { where: { id: booking_id } });
+    const updateBooking = await Booking.update({ status: "paid" }, { where: { id: booking_id } });
     const bookingDetails = await BookingDetails.findAll({
       where: { booking_id },
     });
 
     let i = 0;
     for (const details of bookingDetails) {
-      await Ticket.create({
+      var createTicket = await Ticket.create({
         booking_details_id: details.id,
         seatNumber: seatNumber[i],
         class: ticketClass,
       });
       i++;
+    }
+
+    if (updateBooking && createTicket && payment) {
+      await Notification.create({
+        user_id: user.id,
+        title: "Payment",
+        message:
+          "Your payment has been confirmed!. Please make sure you check your Email for further detail",
+        isRead: false,
+        date: new Date().toDateString(),
+        time: new Date().toLocaleTimeString(),
+      });
     }
 
     return res.status(201).json({
