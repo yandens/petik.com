@@ -2068,6 +2068,72 @@ paths:
                         seatNumber: A12
                         class: business
                         qr_code: 'https://ik.imagekit.io/yandens/qrCode_J7zk-osa7'
+  /notifications:
+    parameters: []
+    get:
+      summary: Get Notifications
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  date:
+                    type: array
+                    items: {}
+              examples:
+                Get all notifications:
+                  value:
+                    status: true
+                    message: Success Get Notifications
+                    data:
+                      - title: Payment
+                        message: Your payment has been confirmed!. Please make sure you check your Email for further detail
+                        date: Fri Dec 16 2022
+                        time: 12/16/2022
+                      - title: Payment
+                        message: Your payment has been confirmed!. Please make sure you check your Email for further detail
+                        date: Fri Dec 16 2022
+                        time: "12:50:03"
+                      - title: Booking
+                        message: You've booked some flight and please pay it before the due time. For further information please check your Email!
+                        date: Fri Dec 16 2022
+                        time: "13:09:36"
+                      - title: Payment
+                        message: Your payment has been confirmed!. Please make sure you check your Email for further detail
+                        date: Fri Dec 16 2022
+                        time: "13:10:17"
+                      - title: Cancel Booking
+                        message: You've canceled your booking. Please check email for further information
+                        date: Fri Dec 16 2022
+                        time: "13:30:02"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+              examples:
+                Empty notifications:
+                  value:
+                    status: true
+                    message: Empty Notifications
+      description: Get all notif by user
+      security:
+        - bearerAuth: []
+      tags:
+        - Notifications
 components:
   schemas: {}
   securitySchemes:
