@@ -4,12 +4,12 @@ const morgan = require("morgan");
 const router = require("./routes");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const ejs = require("ejs");
 const swaggerUi = require("swagger-ui-express");
 const YAML = require("yamljs");
 const swaggerDocument = YAML.load("./swagger.yaml");
 const cron = require('node-cron')
 const flight = require('./controllers/flight')
+const io = require("./utils/socket/socket")
 
 const app = express();
 
@@ -40,7 +40,8 @@ app.use((err, req, res, next) => {
 
 const { PORT } = process.env;
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
-// module.exports = app;
+
+io.on("connection", async (socket) => { });
 
 // delete flight
 cron.schedule('59 23 * * 6', () => {
@@ -51,3 +52,5 @@ cron.schedule('59 23 * * 6', () => {
 cron.schedule('0 0 * * 0', () => {
   flight.createFlight()
 })
+
+module.exports = app
