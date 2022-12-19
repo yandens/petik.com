@@ -1597,10 +1597,18 @@ paths:
                   type: string
                 grandTotal:
                   type: integer
+                seatNumber:
+                  type: array
+                  items:
+                    type: string
+                ticketClass:
+                  type: string
               required:
                 - booking_id
                 - paymentMethod
                 - grandTotal
+                - seatNumber
+                - ticketClass
             examples:
               "Payment Method : E-Wallet":
                 value:
