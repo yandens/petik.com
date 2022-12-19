@@ -3,11 +3,11 @@ const { Op } = require("sequelize");
 
 const showFilter = async (req, res, next) => {
   try {
-    const { origin, destination } = req.body;
+    const { origin, destination, date } = req.body;
 
     const filterSearch = await Flight.findAll({
       where: {
-        [Op.and]: [{ origin }, { destination }],
+        [Op.and]: [{ origin }, { destination }, { departure: date }],
       },
     });
 
