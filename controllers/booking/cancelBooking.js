@@ -25,6 +25,19 @@ const cancelBooking = async (req, res, next) => {
       { status: "cancel" },
       { where: { id: booking.id } }
     );
+
+    if (cancel) {
+      await Notification.create({
+        user_id: user.id,
+        title: "Cancel Booking",
+        message:
+          "You've canceled your booking. Please check email for further information",
+        isRead: false,
+        date: new Date().toDateString(),
+        time: new Date().toLocaleTimeString(),
+      });
+    }
+
     return res.status(200).json({
       status: true,
       message: "Successful cancellation!",
