@@ -1595,26 +1595,27 @@ paths:
                   type: integer
                 paymentMethod:
                   type: string
-                  minLength: 3
-                  maxLength: 3
                 grandTotal:
                   type: integer
-                ticketClass:
-                  type: string
               required:
                 - booking_id
                 - paymentMethod
                 - grandTotal
-                - ticketClass
             examples:
               "Payment Method : E-Wallet":
                 value:
+                  booking_id: 1
                   paymentMethod: E-Wallet
                   grandTotal: 4197
+                  seatNumber: ["A01", "A02", "A03"]
+                  ticketClass: business
               "Payment Method : Virtual Account":
                 value:
+                  booking_id: 1
                   paymentMethod: Virtual Account
                   grandTotal: 4197
+                  seatNumber: ["A01", "A02", "A03"]
+                  ticketClass: business
       tags:
         - Payment
       security:
@@ -1698,25 +1699,24 @@ paths:
               type: object
               properties:
                 body:
-                  type: object
-                  required:
-                    - passangerName
-                    - NIK
-                  properties:
-                    passangerName:
-                      type: string
-                    NIK:
-                      type: string
-                    passport:
-                      type: string
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      passangerName:
+                        type: string
+                      NIK:
+                        type: string
+                      passport:
+                        type: string
+                    required:
+                      - passangerName
+                      - NIK
                 ticketClass:
                   type: string
-                fligh_id:
-                  type: integer
               required:
                 - body
                 - ticketClass
-                - fligh_id
             examples:
               Input multiple passangers:
                 value:
@@ -1730,6 +1730,8 @@ paths:
                     - passangerName: Faza
                       NIK: "333333333333"
                       passport: 134cf
+                  ticketClass: business
+                  flight_id: 1
               Input single passanger:
                 value:
                   body:
@@ -1737,9 +1739,21 @@ paths:
                       NIK: "11111111111111111"
                       passport: 134e5f
         description: ""
-    parameters: []
-  /booking/cancel:
-    parameters: []
+    parameters:
+      - schema:
+          type: string
+        name: flight_id
+        in: path
+        required: true
+        description: Get flight_id from Flight
+  "/booking/{id}":
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Get id from Booking
     put:
       summary: Cancel Booking
       responses:
@@ -1955,6 +1969,8 @@ paths:
       description: Get all booking by user
       security:
         - bearerAuth: []
+      tags:
+        - Booking
 components:
   schemas: {}
   securitySchemes:
