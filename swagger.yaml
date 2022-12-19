@@ -1607,14 +1607,20 @@ paths:
                   booking_id: 1
                   paymentMethod: E-Wallet
                   grandTotal: 4197
-                  seatNumber: ["A01", "A02", "A03"]
+                  seatNumber:
+                    - A01
+                    - A02
+                    - A03
                   ticketClass: business
               "Payment Method : Virtual Account":
                 value:
                   booking_id: 1
                   paymentMethod: Virtual Account
                   grandTotal: 4197
-                  seatNumber: ["A01", "A02", "A03"]
+                  seatNumber:
+                    - A01
+                    - A02
+                    - A03
                   ticketClass: business
       tags:
         - Payment
@@ -1971,6 +1977,121 @@ paths:
         - bearerAuth: []
       tags:
         - Booking
+  /notifications:
+    parameters: []
+    get:
+      summary: Get Notifications
+      operationId: ""
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  date:
+                    type: array
+                    items: {}
+              examples:
+                Get all notifications:
+                  value:
+                    status: true
+                    message: Success Get Notifications
+                    data:
+                      - title: Payment
+                        message: Your payment has been confirmed!. Please make sure you check your Email for further detail
+                        date: Fri Dec 16 2022
+                        time: 12/16/2022
+                      - title: Payment
+                        message: Your payment has been confirmed!. Please make sure you check your Email for further detail
+                        date: Fri Dec 16 2022
+                        time: "12:50:03"
+                      - title: Booking
+                        message: You've booked some flight and please pay it before the due time. For further information please check your Email!
+                        date: Fri Dec 16 2022
+                        time: "13:09:36"
+                      - title: Payment
+                        message: Your payment has been confirmed!. Please make sure you check your Email for further detail
+                        date: Fri Dec 16 2022
+                        time: "13:10:17"
+                      - title: Cancel Booking
+                        message: You've canceled your booking. Please check email for further information
+                        date: Fri Dec 16 2022
+                        time: "13:30:02"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+              examples:
+                Empty notifications:
+                  value:
+                    status: true
+                    message: Empty Notifications
+        "":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      title:
+                        type: string
+                      message:
+                        type: string
+                      date:
+                        type: string
+                      time:
+                        type: string
+              examples:
+                Success get all notifications:
+                  value:
+                    status: true
+                    message: Success Get Notifications
+                    data:
+                      - title: Payment
+                        message: Your payment has been confirmed!. Please make sure you check your Email for further detail
+                        date: Fri Dec 16 2022
+                        time: 12/16/2022
+                      - title: Payment
+                        message: Your payment has been confirmed!. Please make sure you check your Email for further detail
+                        date: Fri Dec 16 2022
+                        time: "12:50:03"
+                      - title: Booking
+                        message: You've booked some flight and please pay it before the due time. For further information please check your Email!
+                        date: Fri Dec 16 2022
+                        time: "13:09:36"
+                      - title: Payment
+                        message: Your payment has been confirmed!. Please make sure you check your Email for further detail
+                        date: Fri Dec 16 2022
+                        time: "13:10:17"
+                      - title: Cancel Booking
+                        message: You've canceled your booking. Please check email for further information
+                        date: Fri Dec 16 2022
+                        time: "13:30:02"
+      description: Get all notif by user
+      security:
+        - bearerAuth: []
+      tags:
+        - Notifications
 components:
   schemas: {}
   securitySchemes:
