@@ -1,4 +1,5 @@
 const { Flight } = require("../../models");
+const { Op } = require("sequelize");
 const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
 const { GOFLIGHTLABS_ACCESS_KEY } = process.env;
@@ -16,9 +17,16 @@ const createFlight = async () => {
     const json = await result.json();
     const flights = json.data;
 
-    const filterFlights = flights.filter(flight =>
-      flight.airline.iataCode == 'GA' || flight.airline.iataCode == 'IW' || flight.airline.iataCode == 'ID' || flight.airline.iataCode == 'JT'
-      || flight.airline.iataCode == 'QG' || flight.airline.iataCode == 'AK' || flight.airline.iataCode == 'SJ')
+    const filterFlights = flights.filter(
+      (flight) =>
+        flight.airline.iataCode == "GA" ||
+        flight.airline.iataCode == "IW" ||
+        flight.airline.iataCode == "ID" ||
+        flight.airline.iataCode == "JT" ||
+        flight.airline.iataCode == "QG" ||
+        flight.airline.iataCode == "AK" ||
+        flight.airline.iataCode == "SJ"
+    );
 
     for (const flight of filterFlights) {
       const data = await Flight.create({
@@ -27,16 +35,80 @@ const createFlight = async () => {
         destination: flight.arrival.iataCode,
         departure: flight.departure.scheduledTime,
         arrival: flight.arrival.scheduledTime,
-      })
+      });
 
-      const random = Math.random() * (7 - 2) + 2
-      const newDeparture = data.departure.setDate(data.departure.getDate() + random)
-      const newArrival = data.arrival.setDate(data.arrival.getDate() + random)
-      await Flight.update({ departure: newDeparture, arrival: newArrival }, { where: { id: data.id } })
+      const random = Math.random() * (7 - 2) + 2;
+      const newDeparture = data.departure.setDate(
+        data.departure.getDate() + random
+      );
+      const newArrival = data.arrival.setDate(data.arrival.getDate() + random);
+      await Flight.update(
+        { departure: newDeparture, arrival: newArrival },
+        { where: { id: data.id } }
+      );
     }
   } catch (error) {
     console.log(error);
   }
 };
 
-module.exports = createFlight;
+const createFlightAdmin = async (req, res, next) => {
+  try {
+    const { airline, origin, destination, departure, arrival, logo } = req.body;
+
+    if (new Date(departure).getTime() >= new Date(arrival).getTime()) {
+      return res.status(400).json({
+        status: false,
+        message: "Check Departure & Arrival Time!",
+      });
+    }
+
+    const exist = await Flight.findOne({
+      where: {
+        [Op.and]: [
+          { airline },
+          { origin },
+          { destination },
+          { departure },
+          { arrival },
+        ],
+      },
+    });
+
+    if (exist) {
+      return res.status(409).json({
+        status: false,
+        message: "Flight Already Exist!",
+        data: exist,
+      });
+    }
+
+    const createFlight = await Flight.create({
+      airline,
+      origin,
+      destination,
+      departure,
+      arrival,
+      logo,
+    });
+
+    return res.status(201).json({
+      status: true,
+      message: "Success Create Flight!",
+      data: {
+        airline: createFlight.airline,
+        origin: createFlight.origin,
+        destination: createFlight.destination,
+        departure: createFlight.departure.toLocaleDateString(),
+        departureTime: createFlight.departure.toLocaleTimeString(),
+        arrival: createFlight.arrival.toLocaleDateString(),
+        arrivalTime: createFlight.arrival.toLocaleTimeString(),
+        logo: createFlight.logo,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { createFlight, createFlightAdmin };

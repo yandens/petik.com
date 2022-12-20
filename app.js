@@ -7,9 +7,9 @@ const cors = require("cors");
 const swaggerUi = require("swagger-ui-express");
 const YAML = require("yamljs");
 const swaggerDocument = YAML.load("./swagger.yaml");
-const cron = require('node-cron')
-const flight = require('./controllers/flight')
-const io = require("./utils/socket/socket")
+const cron = require("node-cron");
+const flight = require("./controllers/flight");
+const io = require("./utils/socket/socket");
 
 const app = express();
 
@@ -41,16 +41,16 @@ app.use((err, req, res, next) => {
 const { PORT } = process.env;
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
-io.on("connection", async (socket) => { });
+io.on("connection", async (socket) => {});
 
 // delete flight
-cron.schedule('59 23 * * 6', () => {
-  flight.deleteFlight()
-})
+cron.schedule("59 23 * * 6", () => {
+  flight.deleteFlight.deleteFlight();
+});
 
 // create flight
-cron.schedule('0 0 * * 0', () => {
-  flight.createFlight()
-})
+cron.schedule("0 0 * * 0", () => {
+  flight.createFlight.createFlight();
+});
 
-module.exports = app
+module.exports = app;
