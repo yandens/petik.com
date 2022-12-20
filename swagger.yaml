@@ -1533,45 +1533,32 @@ paths:
               schema:
                 type: object
                 properties:
-                  status:
-                    type: boolean
-                  message:
+                  airline:
                     type: string
-                  data:
-                    type: object
-                    properties:
-                      airline:
-                        type: string
-                      origin:
-                        type: string
-                      destination:
-                        type: string
-                      departure:
-                        type: string
-                      departureTime:
-                        type: string
-                      arrival:
-                        type: string
-                      arrivalTime:
-                        type: string
+                  origin:
+                    type: string
+                  destination:
+                    type: string
+                  departure:
+                    type: string
+                  arrival:
+                    type: string
+                  logo:
+                    type: string
                 x-examples:
                   Example 1:
-                    status: true
-                    message: Success Create Flight!
-                    data:
-                      airline: Garuda Indonesia
-                      origin: CGK
-                      destination: DPS
-                      departure: 12/24/2022
-                      departureTime: "15:15:00"
-                      arrival: 12/24/2022
-                      arrivalTime: "16:15:00"
+                    airline: Garuda Indonesia
+                    origin: CGK
+                    destination: SUB
+                    departure: "2022-12-24T15:15:00"
+                    arrival: "2022-12-24T16:15:00"
+                    logo: "https://ik.imagekit.io/6v306xm58/garuda.png?ik-sdk-version=javascript-1.4.3&updatedAt=1671498104092"
               examples:
-                Create Flight:
+                Success Create Flight:
                   value:
                     airline: Garuda Indonesia
                     origin: CGK
-                    destination: DPS
+                    destination: SUB
                     departure: "2022-12-24T15:15:00"
                     arrival: "2022-12-24T16:15:00"
                     logo: "https://ik.imagekit.io/6v306xm58/garuda.png?ik-sdk-version=javascript-1.4.3&updatedAt=1671498104092"
@@ -1591,14 +1578,14 @@ paths:
                     status: false
                     message: Check Departure & Arrival Time!
               examples:
-                Departure time = Arrival time:
+                Departure time = Arrival Time:
                   value:
                     status: false
                     message: Check Departure & Arrival Time!
-                Departure time < Arrival time:
+                Departure time < Arrival Time:
                   value:
-                    status: true
-                    message: string
+                    status: false
+                    message: Check Departure & Arrival Time!
         "401":
           description: Unauthorized
           content:
@@ -1611,14 +1598,18 @@ paths:
                   message:
                     type: string
                   data:
-                    type: object
+                    type: "null"
+                x-examples:
+                  Example 1:
+                    status: false
+                    message: you're not authorized!
+                    data: null
               examples:
-                Unautorized:
+                Unauthorized:
                   value:
                     status: false
                     message: you're not authorized!
-                    data:
-                      "null": null
+                    data: null
         "409":
           description: Flight Already Exist
           content:
@@ -1654,84 +1645,47 @@ paths:
                     status: false
                     message: Flight Already Exist!
                     data:
-                      id: 301
+                      id: 304
                       airline: Garuda Indonesia
                       origin: CGK
-                      destination: DPS
+                      destination: SOC
                       departure: "2022-12-24T08:15:00.000Z"
                       arrival: "2022-12-24T09:15:00.000Z"
-                      createdAt: "2022-12-20T02:08:20.487Z"
-                      updatedAt: "2022-12-20T02:08:20.487Z"
+                      createdAt: "2022-12-20T03:23:10.352Z"
+                      updatedAt: "2022-12-20T03:23:10.352Z"
               examples:
-                Flight Exist:
+                Flight Already Exist:
                   value:
                     status: false
                     message: Flight Already Exist!
                     data:
-                      id: 301
+                      id: 304
                       airline: Garuda Indonesia
                       origin: CGK
-                      destination: DPS
+                      destination: SOC
                       departure: "2022-12-24T08:15:00.000Z"
                       arrival: "2022-12-24T09:15:00.000Z"
-                      createdAt: "2022-12-20T02:08:20.487Z"
-                      updatedAt: "2022-12-20T02:08:20.487Z"
-        "":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: boolean
-                  message:
-                    type: string
-                  data:
-                    type: object
-                    properties:
-                      airline:
-                        type: string
-                      origin:
-                        type: string
-                      destination:
-                        type: string
-                      departure:
-                        type: string
-                      departureTime:
-                        type: string
-                      arrival:
-                        type: string
-                      arrivalTime:
-                        type: string
-              examples:
-                Success create flight:
-                  value:
-                    status: true
-                    message: Success Create Flight!
-                    data:
-                      airline: Garuda Indonesia
-                      origin: CGK
-                      destination: DPS
-                      departure: 12/24/2022
-                      departureTime: "15:15:00"
-                      arrival: 12/24/2022
-                      arrivalTime: "16:15:00"
-      description: Create Flight only by admin
+                      createdAt: "2022-12-20T03:23:10.352Z"
+                      updatedAt: "2022-12-20T03:23:10.352Z"
+      description: Create Flight by admin
       requestBody:
         content:
           application/json:
             schema:
               type: object
+              x-examples:
+                Example 1:
+                  airline: Garuda Indonesia
+                  origin: CGK
+                  destination: SOC
+                  departure: "2022-12-24T15:15:00"
+                  arrival: "2022-12-24T16:15:00"
+                  logo: "https://ik.imagekit.io/6v306xm58/garuda.png?ik-sdk-version=javascript-1.4.3&updatedAt=1671498104092"
               properties:
                 airline:
                   type: string
-                  minLength: 3
-                  maxLength: 3
                 origin:
                   type: string
-                  minLength: 3
-                  maxLength: 3
                 destination:
                   type: string
                 departure:
@@ -1752,12 +1706,13 @@ paths:
                 value:
                   airline: Garuda Indonesia
                   origin: CGK
-                  destination: DPS
+                  destination: SUB
                   departure: "2022-12-24T15:15:00"
                   arrival: "2022-12-24T16:15:00"
                   logo: "https://ik.imagekit.io/6v306xm58/garuda.png?ik-sdk-version=javascript-1.4.3&updatedAt=1671498104092"
-        description: All Fields are required
+        description: All fields are required
       parameters: []
+      operationId: ""
       security:
         - bearerAuth: []
     parameters: []
@@ -1768,13 +1723,13 @@ paths:
         name: flight_id
         in: path
         required: true
-        description: flight_id from Flight id
+        description: Flight id from Flights
     put:
       summary: Update Flight
-      operationId: ""
+      operationId: put-flight-edit-flight_id
       responses:
         "200":
-          description: OK
+          description: Updated
           content:
             application/json:
               schema:
@@ -1795,59 +1750,13 @@ paths:
                     data:
                       - 1
               examples:
-                Success Update Data:
+                Flight Updated:
                   value:
                     status: true
                     message: Data Updated!
                     data:
                       - 1
-            application/xml:
-              schema:
-                type: object
-                properties: {}
-        "401":
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: boolean
-                  message:
-                    type: string
-                  data:
-                    type: object
-              examples:
-                Unauthorized:
-                  value:
-                    value:
-                      status: false
-                      message: you're not authorized!
-                      data:
-                        "null": null
-        "":
-          description: Success Update
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: boolean
-                  message:
-                    type: string
-                  data:
-                    type: array
-                    items: {}
-              examples:
-                Success Update Flight:
-                  value:
-                    status: true
-                    message: Data Updated!
-                    data:
-                      - 1
-      description: Edit Flight by Admin
+      description: Update flight by admin
       security:
         - bearerAuth: []
       requestBody:
@@ -1855,6 +1764,14 @@ paths:
           application/json:
             schema:
               type: object
+              x-examples:
+                Example 1:
+                  airline: Garuda Indonesia
+                  origin: CGK
+                  destination: SIN
+                  departure: "2022-12-24T13:50:00"
+                  arrival: "2022-12-24T14:50:00"
+                  logo: "https://ik.imagekit.io/6v306xm58/garuda.png?ik-sdk-version=javascript-1.4.3&updatedAt=1671498104092"
               properties:
                 airline:
                   type: string
@@ -1884,7 +1801,7 @@ paths:
                   departure: "2022-12-24T13:50:00"
                   arrival: "2022-12-24T14:50:00"
                   logo: "https://ik.imagekit.io/6v306xm58/garuda.png?ik-sdk-version=javascript-1.4.3&updatedAt=1671498104092"
-        description: All Fields are required
+        description: All fields are required
       tags:
         - Flight
     delete:
@@ -1915,7 +1832,7 @@ paths:
                     status: true
                     message: Success Delete Flight!
                     data: 1
-      description: Delete flight by admin
+      description: Delete Flight by admin
       security:
         - bearerAuth: []
       tags:
@@ -2128,9 +2045,12 @@ paths:
                       - NIK
                 ticketClass:
                   type: string
+                flight_id:
+                  type: integer
               required:
                 - body
                 - ticketClass
+                - flight_id
             examples:
               Input multiple passangers:
                 value:
@@ -2152,22 +2072,11 @@ paths:
                     - passangerName: Kevin
                       NIK: "11111111111111111"
                       passport: 134e5f
-        description: ""
-    parameters:
-      - schema:
-          type: string
-        name: flight_id
-        in: path
-        required: true
-        description: Get flight_id from Flight
-  "/booking/{id}":
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: Get id from Booking
+                  ticketClass: business
+                  flight_id: 1
+    parameters: []
+  /booking/cancel:
+    parameters: []
     put:
       summary: Cancel Booking
       responses:
@@ -2245,8 +2154,9 @@ paths:
   /booking/list-booking:
     parameters: []
     get:
+      tags:
+        - Booking
       summary: Get Bookings by id user
-      operationId: ""
       responses:
         "200":
           description: OK
@@ -2314,7 +2224,7 @@ paths:
                         date: "2022-12-16T06:09:19.305Z"
                         createdAt: "2022-12-16T06:09:19.305Z"
                         updatedAt: "2022-12-16T06:30:02.493Z"
-        "":
+        "201":
           description: OK
           content:
             application/json:
@@ -2383,13 +2293,108 @@ paths:
       description: Get all booking by user
       security:
         - bearerAuth: []
+  "/ticket/print-ticket/{id}":
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: booking id
+    get:
+      summary: Print Ticket
       tags:
-        - Booking
+        - Ticket
+      description: Print Ticket Endpoint
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        booking_id:
+                          type: integer
+                        name:
+                          type: string
+                        airline:
+                          type: string
+                        from:
+                          type: string
+                        to:
+                          type: string
+                        date:
+                          type: string
+                        departureTime:
+                          type: string
+                        boardingTime:
+                          type: string
+                        seatNumber:
+                          type: string
+                        class:
+                          type: string
+                        qr_code:
+                          type: string
+              examples:
+                Example 1:
+                  value:
+                    status: true
+                    message: Success
+                    data:
+                      - id: 1
+                        booking_id: 8
+                        name: deden
+                        airline: Wings Air (Indonesia)
+                        from: LBJ
+                        to: ENE
+                        date: Tue Dec 20 2022
+                        departureTime: "9:40:00 AM"
+                        boardingTime: "8:40:00 AM"
+                        seatNumber: A10
+                        class: business
+                        qr_code: "https://ik.imagekit.io/yandens/qrCode_vwlw7YYJh"
+                      - id: 1
+                        booking_id: 8
+                        name: kevin
+                        airline: Wings Air (Indonesia)
+                        from: LBJ
+                        to: ENE
+                        date: Tue Dec 20 2022
+                        departureTime: "9:40:00 AM"
+                        boardingTime: "8:40:00 AM"
+                        seatNumber: A11
+                        class: business
+                        qr_code: "https://ik.imagekit.io/yandens/qrCode_1lWRF8QKQ"
+                      - id: 1
+                        booking_id: 8
+                        name: faza
+                        airline: Wings Air (Indonesia)
+                        from: LBJ
+                        to: ENE
+                        date: Tue Dec 20 2022
+                        departureTime: "9:40:00 AM"
+                        boardingTime: "8:40:00 AM"
+                        seatNumber: A12
+                        class: business
+                        qr_code: "https://ik.imagekit.io/yandens/qrCode_J7zk-osa7"
   /notifications:
     parameters: []
     get:
       summary: Get Notifications
-      operationId: ""
       responses:
         "200":
           description: OK
@@ -2447,54 +2452,6 @@ paths:
                   value:
                     status: true
                     message: Empty Notifications
-        "":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: boolean
-                  message:
-                    type: string
-                  data:
-                    type: object
-                    properties:
-                      title:
-                        type: string
-                      message:
-                        type: string
-                      date:
-                        type: string
-                      time:
-                        type: string
-              examples:
-                Success get all notifications:
-                  value:
-                    status: true
-                    message: Success Get Notifications
-                    data:
-                      - title: Payment
-                        message: Your payment has been confirmed!. Please make sure you check your Email for further detail
-                        date: Fri Dec 16 2022
-                        time: 12/16/2022
-                      - title: Payment
-                        message: Your payment has been confirmed!. Please make sure you check your Email for further detail
-                        date: Fri Dec 16 2022
-                        time: "12:50:03"
-                      - title: Booking
-                        message: You've booked some flight and please pay it before the due time. For further information please check your Email!
-                        date: Fri Dec 16 2022
-                        time: "13:09:36"
-                      - title: Payment
-                        message: Your payment has been confirmed!. Please make sure you check your Email for further detail
-                        date: Fri Dec 16 2022
-                        time: "13:10:17"
-                      - title: Cancel Booking
-                        message: You've canceled your booking. Please check email for further information
-                        date: Fri Dec 16 2022
-                        time: "13:30:02"
       description: Get all notif by user
       security:
         - bearerAuth: []
