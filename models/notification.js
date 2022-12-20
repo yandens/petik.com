@@ -22,8 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     title: DataTypes.STRING,
     message: DataTypes.TEXT,
     isRead: DataTypes.BOOLEAN,
-    date: DataTypes.DATEONLY,
-    time: DataTypes.TIME
+    date: DataTypes.DATE,
   }, {
     sequelize,
     modelName: 'Notification',
