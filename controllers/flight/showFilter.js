@@ -1,4 +1,4 @@
-const { Flight } = require("../../models");
+const { Flight, sequelize } = require("../../models");
 const { Op } = require("sequelize");
 
 const showFilter = async (req, res, next) => {
@@ -7,7 +7,12 @@ const showFilter = async (req, res, next) => {
 
     const filterSearch = await Flight.findAll({
       where: {
-        [Op.and]: [{ origin }, { destination }, { departure: date }],
+        [Op.and]: [
+          { origin },
+          { destination },
+          //{ departure: date }
+          sequelize.where(sequelize.fn('date', sequelize.col('departure')), '=', date)
+        ],
       },
     });
 
