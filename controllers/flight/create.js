@@ -29,8 +29,26 @@ const createFlight = async () => {
     );
 
     for (const flight of filterFlights) {
+      let airlineLogo
+      if (flight.airline.iataCode == 'GA') {
+        airlineLogo = 'http://bit.ly/3Ytqr3w'
+      } else if (flight.airline.iataCode == 'IW') {
+        airlineLogo = 'http://bit.ly/3G4OO0p'
+      } else if (flight.airline.iataCode == 'ID') {
+        airlineLogo = 'http://bit.ly/3Ytqr3w'
+      } else if (flight.airline.iataCode == 'JT') {
+        airlineLogo = 'https://bit.ly/3WbvdBj'
+      } else if (flight.airline.iataCode == 'QG') {
+        airlineLogo = 'https://bit.ly/3v6DYAJ'
+      } else if (flight.airline.iataCode == 'AK') {
+        airlineLogo = 'https://bit.ly/3PF90Jm'
+      } else {
+        airlineLogo = 'https://bit.ly/3FDlHzT'
+      }
+
       const data = await Flight.create({
         airline: flight.airline.name,
+        airline_logo: airlineLogo,
         origin: flight.departure.iataCode,
         destination: flight.arrival.iataCode,
         departure: flight.departure.scheduledTime,
@@ -89,7 +107,7 @@ const createFlightAdmin = async (req, res, next) => {
       destination,
       departure,
       arrival,
-      logo,
+      airline_logo: logo,
     });
 
     return res.status(201).json({
@@ -103,7 +121,7 @@ const createFlightAdmin = async (req, res, next) => {
         departureTime: createFlight.departure.toLocaleTimeString(),
         arrival: createFlight.arrival.toLocaleDateString(),
         arrivalTime: createFlight.arrival.toLocaleTimeString(),
-        logo: createFlight.logo,
+        logo: createFlight.airline_logo,
       },
     });
   } catch (error) {

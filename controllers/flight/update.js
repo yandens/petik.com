@@ -5,7 +5,7 @@ const updateFlight = async (req, res, next) => {
     const { flight_id } = req.params;
     const { airline, origin, destination, departure, arrival, logo } = req.body;
     const updated = await Flight.update(
-      { airline, origin, destination, departure, arrival, logo },
+      { airline, origin, destination, departure, arrival, airline_logo: logo },
       { where: { id: flight_id } }
     );
 

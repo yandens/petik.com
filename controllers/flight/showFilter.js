@@ -28,6 +28,7 @@ const showFilter = async (req, res, next) => {
       const showFlight = {
         id: flightSearch.id,
         airline: flightSearch.airline,
+        airlineLogo: flightSearch.airline_logo,
         origin: flightSearch.origin,
         destination: flightSearch.destination,
         departure: flightSearch.departure,
