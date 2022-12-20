@@ -93,8 +93,7 @@ const payment = async (req, res, next) => {
         message:
           "Your payment has been confirmed!. Please make sure you check your Email for further detail",
         isRead: false,
-        date: new Date().toDateString(),
-        time: new Date().toLocaleTimeString(),
+        date: new Date(),
       });
     }
 

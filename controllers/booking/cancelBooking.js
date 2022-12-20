@@ -33,8 +33,7 @@ const cancelBooking = async (req, res, next) => {
         message:
           "You've canceled your booking. Please check email for further information",
         isRead: false,
-        date: new Date().toDateString(),
-        time: new Date().toLocaleTimeString(),
+        date: new Date()
       });
     }
 

@@ -40,8 +40,7 @@ const createBooking = async (req, res, next) => {
         message:
           "You've booked some flight and please pay it before the due time. For further information please check your Email!",
         isRead: false,
-        date: new Date().toDateString(),
-        time: new Date().toLocaleTimeString(),
+        date: new Date(),
       });
     }
 

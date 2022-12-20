@@ -21,8 +21,8 @@ const getNotifications = async (req, res, next) => {
       const dataResponse = {
         title: notif.title,
         message: notif.message,
-        date: notif.date,
-        time: notif.time,
+        date: notif.date.toDateString(),
+        time: notif.date.toLocaleTimeString()
       };
       data.push(dataResponse);
     }
