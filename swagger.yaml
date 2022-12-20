@@ -1659,14 +1659,14 @@ paths:
                     status: false
                     message: Flight Already Exist!
                     data:
-                      id: 304
+                      id: 306
                       airline: Garuda Indonesia
                       origin: CGK
-                      destination: SOC
+                      destination: SUB
                       departure: "2022-12-24T08:15:00.000Z"
-                      arrival: "2022-12-24T09:15:00.000Z"
-                      createdAt: "2022-12-20T03:23:10.352Z"
-                      updatedAt: "2022-12-20T03:23:10.352Z"
+                      arrival: "2022-12-24T11:15:00.000Z"
+                      createdAt: "2022-12-20T06:30:58.391Z"
+                      updatedAt: "2022-12-20T06:30:58.391Z"
       description: Create Flight by admin
       requestBody:
         content:
