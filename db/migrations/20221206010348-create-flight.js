@@ -11,6 +11,9 @@ module.exports = {
       airline: {
         type: Sequelize.STRING,
       },
+      airline_logo: {
+        type: Sequelize.STRING,
+      },
       origin: {
         type: Sequelize.STRING,
       },
