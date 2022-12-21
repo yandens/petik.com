@@ -1511,14 +1511,18 @@ paths:
                   type: string
                   minLength: 3
                   maxLength: 3
+                date:
+                  type: string
               required:
                 - origin
                 - destination
+                - date
             examples:
               example-1:
                 value:
                   origin: YZS
                   destination: YRT
+                  date: "2022-12-21"
       parameters: []
   /flight/create-flight:
     post:
@@ -1545,14 +1549,6 @@ paths:
                     type: string
                   logo:
                     type: string
-                x-examples:
-                  Example 1:
-                    airline: Garuda Indonesia
-                    origin: CGK
-                    destination: SUB
-                    departure: "2022-12-24T15:15:00"
-                    arrival: "2022-12-24T16:15:00"
-                    logo: "https://ik.imagekit.io/6v306xm58/garuda.png?ik-sdk-version=javascript-1.4.3&updatedAt=1671498104092"
               examples:
                 Success Create Flight:
                   value:
@@ -1573,10 +1569,6 @@ paths:
                     type: boolean
                   message:
                     type: string
-                x-examples:
-                  Example 1:
-                    status: false
-                    message: Check Departure & Arrival Time!
               examples:
                 Departure time = Arrival Time:
                   value:
@@ -1599,11 +1591,6 @@ paths:
                     type: string
                   data:
                     type: "null"
-                x-examples:
-                  Example 1:
-                    status: false
-                    message: you're not authorized!
-                    data: null
               examples:
                 Unauthorized:
                   value:
@@ -1640,19 +1627,6 @@ paths:
                         type: string
                       updatedAt:
                         type: string
-                x-examples:
-                  Example 1:
-                    status: false
-                    message: Flight Already Exist!
-                    data:
-                      id: 304
-                      airline: Garuda Indonesia
-                      origin: CGK
-                      destination: SOC
-                      departure: "2022-12-24T08:15:00.000Z"
-                      arrival: "2022-12-24T09:15:00.000Z"
-                      createdAt: "2022-12-20T03:23:10.352Z"
-                      updatedAt: "2022-12-20T03:23:10.352Z"
               examples:
                 Flight Already Exist:
                   value:
@@ -1673,14 +1647,6 @@ paths:
           application/json:
             schema:
               type: object
-              x-examples:
-                Example 1:
-                  airline: Garuda Indonesia
-                  origin: CGK
-                  destination: SOC
-                  departure: "2022-12-24T15:15:00"
-                  arrival: "2022-12-24T16:15:00"
-                  logo: "https://ik.imagekit.io/6v306xm58/garuda.png?ik-sdk-version=javascript-1.4.3&updatedAt=1671498104092"
               properties:
                 airline:
                   type: string
@@ -1712,11 +1678,10 @@ paths:
                   logo: "https://ik.imagekit.io/6v306xm58/garuda.png?ik-sdk-version=javascript-1.4.3&updatedAt=1671498104092"
         description: All fields are required
       parameters: []
-      operationId: ""
       security:
         - bearerAuth: []
     parameters: []
-  "/flight/edit/{flight_id}":
+  /flight/edit/{flight_id}:
     parameters:
       - schema:
           type: string
@@ -1726,7 +1691,6 @@ paths:
         description: Flight id from Flights
     put:
       summary: Update Flight
-      operationId: put-flight-edit-flight_id
       responses:
         "200":
           description: Updated
@@ -1743,12 +1707,6 @@ paths:
                     type: array
                     items:
                       type: integer
-                x-examples:
-                  Example 1:
-                    status: true
-                    message: Data Updated!
-                    data:
-                      - 1
               examples:
                 Flight Updated:
                   value:
@@ -1764,14 +1722,6 @@ paths:
           application/json:
             schema:
               type: object
-              x-examples:
-                Example 1:
-                  airline: Garuda Indonesia
-                  origin: CGK
-                  destination: SIN
-                  departure: "2022-12-24T13:50:00"
-                  arrival: "2022-12-24T14:50:00"
-                  logo: "https://ik.imagekit.io/6v306xm58/garuda.png?ik-sdk-version=javascript-1.4.3&updatedAt=1671498104092"
               properties:
                 airline:
                   type: string
@@ -1804,7 +1754,7 @@ paths:
         description: All fields are required
       tags:
         - Flight
-  "/flight/delete/{flight_id}":
+  /flight/delete/{flight_id}:
     parameters:
       - schema:
           type: string
@@ -1814,7 +1764,6 @@ paths:
         description: Flight id from Flights
     delete:
       summary: Delete Flight
-      operationId: delete-flight-edit-flight_id
       responses:
         "200":
           description: OK
@@ -1829,11 +1778,6 @@ paths:
                     type: string
                   data:
                     type: integer
-                x-examples:
-                  Example 1:
-                    status: true
-                    message: Success Delete Flight!
-                    data: 1
               examples:
                 Success Delete Flight:
                   value:
@@ -2301,7 +2245,7 @@ paths:
       description: Get all booking by user
       security:
         - bearerAuth: []
-  "/ticket/print-ticket/{id}":
+  /ticket/print-ticket/{id}:
     parameters:
       - schema:
           type: string
