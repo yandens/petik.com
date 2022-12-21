@@ -1755,7 +1755,6 @@ paths:
       tags:
         - Flight
     /flight/delete/{flight_id}:
-      summary: Delete Flight
       parameters:
       - schema:
           type: string
@@ -1763,31 +1762,33 @@ paths:
         in: path
         required: true
         description: Flight id from Flights
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: boolean
-                  message:
-                    type: string
-                  data:
-                    type: integer
-              examples:
-                Success Delete Flight:
-                  value:
-                    status: true
-                    message: Success Delete Flight!
-                    data: 1
-      description: Delete Flight by admin
-      security:
-        - bearerAuth: []
-      tags:
-        - Flight
+      delete:
+        summary: Delete Flight
+        responses:
+          "200":
+            description: OK
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: boolean
+                    message:
+                      type: string
+                    data:
+                      type: integer
+                examples:
+                  Success Delete Flight:
+                    value:
+                      status: true
+                      message: Success Delete Flight!
+                      data: 1
+        description: Delete Flight by admin
+        security:
+          - bearerAuth: []
+        tags:
+          - Flight
   /payment:
     post:
       summary: Create Payment
