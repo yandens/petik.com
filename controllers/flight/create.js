@@ -72,7 +72,7 @@ const createFlight = async () => {
 
 const createFlightAdmin = async (req, res, next) => {
   try {
-    const { airline, origin, destination, departure, arrival, logo } = req.body;
+    const { airline, origin, destination, departure, arrival } = req.body;
 
     if (new Date(departure).getTime() >= new Date(arrival).getTime()) {
       return res.status(400).json({
@@ -101,13 +101,30 @@ const createFlightAdmin = async (req, res, next) => {
       });
     }
 
+    let airlineLogo
+    if (airline == 'Garuda Indonesia') {
+      airlineLogo = 'http://bit.ly/3Ytqr3w'
+    } else if (airline == 'Wings Air (Indonesia)') {
+      airlineLogo = 'http://bit.ly/3G4OO0p'
+    } else if (airline == 'Batik Air') {
+      airlineLogo = 'http://bit.ly/3Ytqr3w'
+    } else if (airline == 'Lion Air') {
+      airlineLogo = 'https://bit.ly/3WbvdBj'
+    } else if (airline == 'Citilink') {
+      airlineLogo = 'https://bit.ly/3v6DYAJ'
+    } else if (airline == 'AirAsia') {
+      airlineLogo = 'https://bit.ly/3PF90Jm'
+    } else {
+      airlineLogo = 'https://bit.ly/3FDlHzT'
+    }
+
     const createFlight = await Flight.create({
       airline,
       origin,
       destination,
       departure,
       arrival,
-      airline_logo: logo,
+      airline_logo: airlineLogo,
     });
 
     return res.status(201).json({
