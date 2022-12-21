@@ -9,7 +9,6 @@ const YAML = require("yamljs");
 const swaggerDocument = YAML.load("./swagger.yaml");
 const cron = require("node-cron");
 const flight = require("./controllers/flight");
-const io = require("./utils/socket/socket");
 
 const app = express();
 
@@ -39,9 +38,25 @@ app.use((err, req, res, next) => {
 });
 
 const { PORT } = process.env;
-app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+const server = app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
-io.on("connection", async (socket) => {});
+const io = require("socket.io")(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+  },
+});
+
+io.on("connection", (socket) => {
+  socket.on("LOAD_NOTIFICATIONS", async (userID) => {
+    const { Notification } = require("./models");
+    const notifUser = await Notification.findAll({
+      where: { user_id: userID },
+    });
+
+    io.emit(`NOTIFICATIONS-${userID}`, notifUser);
+  });
+});
 
 // delete flight
 cron.schedule("59 23 * * 6", () => {
