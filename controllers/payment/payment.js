@@ -1,8 +1,44 @@
-const { Booking, BookingDetails, Payment, PaymentMethod, Ticket } = require("../../models");
+const {
+  Booking,
+  BookingDetails,
+  UserBiodata,
+  Payment,
+  PaymentMethod,
+  Ticket,
+  User,
+  Notification,
+} = require("../../models");
+const sendEmail = require("../../utils/mailer/sendEmail");
+const templateHtml = require("../../utils/mailer/templateHtml");
+
+const sendingEmail = async (email, booking_id) => {
+  const userExist = await User.findOne({
+    where: { email: email },
+    include: [
+      {
+        model: UserBiodata,
+        as: "biodata",
+      },
+    ],
+  });
+
+  const paymentExist = await Payment.findOne({ where: { booking_id } });
+  const htmlEmail = await templateHtml("payment-email.ejs", {
+    firstName: userExist.biodata.firstName,
+    lastName: userExist.biodata.lastName,
+    phoneNumber: userExist.biodata.phoneNumber,
+    total: paymentExist.total_price,
+    time: paymentExist.createdAt.toLocaleTimeString(),
+    date: paymentExist.createdAt.toLocaleDateString(),
+  });
+  await sendEmail(email, "Payment Confirmed!", htmlEmail);
+};
 
 const payment = async (req, res, next) => {
   try {
-    const { booking_id, ticketClass, paymentMethod, grandTotal, seatNumber } = req.body;
+    const user = req.user;
+    const { booking_id, ticketClass, paymentMethod, grandTotal, seatNumber } =
+      req.body;
 
     const book = await Booking.findOne({ where: { id: booking_id } });
     if (book.status !== "pending") {
@@ -22,7 +58,9 @@ const payment = async (req, res, next) => {
       });
     }
 
-    const result = seatNumber.filter((item, index) => seatNumber.indexOf(item) !== index);
+    const result = seatNumber.filter(
+      (item, index) => seatNumber.indexOf(item) !== index
+    );
 
     if (result.length > 0) {
       return res.status(400).json({
@@ -63,7 +101,9 @@ const payment = async (req, res, next) => {
       });
     }
 
-    const payMethod = await PaymentMethod.findOne({ where: { method: paymentMethod } });
+    const payMethod = await PaymentMethod.findOne({
+      where: { method: paymentMethod },
+    });
     const payment = await Payment.create({
       booking_id,
       payment_method_id: payMethod.id,
@@ -71,7 +111,10 @@ const payment = async (req, res, next) => {
       date: new Date(),
     });
 
-    const updateBooking = await Booking.update({ status: "paid" }, { where: { id: booking_id } });
+    const updateBooking = await Booking.update(
+      { status: "paid" },
+      { where: { id: booking_id } }
+    );
     const bookingDetails = await BookingDetails.findAll({
       where: { booking_id },
     });
@@ -97,10 +140,14 @@ const payment = async (req, res, next) => {
       });
     }
 
+    sendingEmail(user.email, booking_id);
+
     return res.status(201).json({
       status: true,
       message: "Successful Payment",
-      data: payment,
+      data: {
+        payment: payment,
+      },
     });
   } catch (err) {
     next(err);
