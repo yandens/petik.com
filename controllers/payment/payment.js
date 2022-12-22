@@ -27,6 +27,7 @@ const sendingEmail = async (email, booking_id) => {
     firstName: userExist.biodata.firstName,
     lastName: userExist.biodata.lastName,
     phoneNumber: userExist.biodata.phoneNumber,
+    payment_id: paymentExist.id,
     total: paymentExist.total_price,
     time: paymentExist.createdAt.toLocaleTimeString(),
     date: paymentExist.createdAt.toLocaleDateString(),
