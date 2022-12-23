@@ -16,6 +16,11 @@ module.exports = (sequelize, DataTypes) => {
         as: 'details'
       })
 
+      Booking.belongsTo(models.User, {
+        foreignKey: 'user_id',
+        as: 'user'
+      })
+
       Booking.hasOne(models.Payment, {
         foreignKey: 'booking_id',
         as: 'payment'
