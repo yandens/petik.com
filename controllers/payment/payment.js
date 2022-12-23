@@ -1,7 +1,8 @@
-const { Booking, BookingDetails, Payment, PaymentMethod, Ticket } = require("../../models");
+const { Booking, BookingDetails, Payment, PaymentMethod, Ticket, Notification } = require("../../models");
 
 const payment = async (req, res, next) => {
   try {
+    const user = req.user
     const { booking_id, ticketClass, paymentMethod, grandTotal, seatNumber } = req.body;
 
     const book = await Booking.findOne({ where: { id: booking_id } });
