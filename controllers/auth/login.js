@@ -37,7 +37,7 @@ const login = async (req, res, next) => {
     if (!user) {
       return res.status(400).json({
         status: false,
-        message: "Wrong email or password!",
+        message: "User not found, Register first!",
         data: null,
       });
     }
