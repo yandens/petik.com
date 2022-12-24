@@ -1,6 +1,15 @@
 const { Booking, BookingDetails, Flight, Ticket } = require("../../models");
 const generateQRCode = require("../../utils/media/generateQrCode");
 const imagekit = require("../../utils/media/imageKit");
+const sendEmail = require("../../utils/mailer/sendEmail");
+const templateHtml = require("../../utils/mailer/templateHtml");
+
+const sendingEmail = async (email, data) => {
+  const htmlEmail = await templateHtml("ticket-email.ejs", {
+    data,
+  });
+  await sendEmail(email, "Your Ticket!", htmlEmail);
+};
 
 function subtractHours(date, hours) {
   date.setHours(date.getHours() - hours);
@@ -27,7 +36,7 @@ const uploadQRCode = async (file) => {
 const printTicket = async (req, res, next) => {
   try {
     const { id } = req.params;
-
+    const user = req.user;
     const getTickets = await Booking.findOne({
       where: { id },
       include: [
@@ -86,6 +95,8 @@ const printTicket = async (req, res, next) => {
 
       data.push(dataResponse);
     }
+
+    sendingEmail(user.email, data);
 
     return res.status(200).json({
       status: true,

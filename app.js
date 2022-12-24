@@ -18,6 +18,7 @@ app.use(express.json()); // read body type json
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use(express.static(__dirname + "/public"));
 
 app.use(router);
 
