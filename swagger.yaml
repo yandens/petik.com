@@ -1547,8 +1547,6 @@ paths:
                     type: string
                   arrival:
                     type: string
-                  logo:
-                    type: string
               examples:
                 Success Create Flight:
                   value:
@@ -1658,15 +1656,12 @@ paths:
                   type: string
                 arrival:
                   type: string
-                logo:
-                  type: string
               required:
                 - airline
                 - origin
                 - destination
                 - departure
                 - arrival
-                - logo
             examples:
               Create Flight:
                 value:
@@ -1675,7 +1670,6 @@ paths:
                   destination: SUB
                   departure: "2022-12-24T15:15:00"
                   arrival: "2022-12-24T16:15:00"
-                  logo: "https://ik.imagekit.io/6v306xm58/garuda.png?ik-sdk-version=javascript-1.4.3&updatedAt=1671498104092"
         description: All fields are required
       parameters: []
       security:
@@ -1733,15 +1727,12 @@ paths:
                   type: string
                 arrival:
                   type: string
-                logo:
-                  type: string
               required:
                 - airline
                 - origin
                 - destination
                 - departure
                 - arrival
-                - logo
             examples:
               Update Flight:
                 value:
