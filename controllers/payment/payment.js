@@ -1,39 +1,11 @@
 const {
   Booking,
   BookingDetails,
-  UserBiodata,
   Payment,
   PaymentMethod,
   Ticket,
-  User,
   Notification,
 } = require("../../models");
-const sendEmail = require("../../utils/mailer/sendEmail");
-const templateHtml = require("../../utils/mailer/templateHtml");
-
-const sendingEmail = async (email, booking_id) => {
-  const userExist = await User.findOne({
-    where: { email: email },
-    include: [
-      {
-        model: UserBiodata,
-        as: "biodata",
-      },
-    ],
-  });
-
-  const paymentExist = await Payment.findOne({ where: { booking_id } });
-  const htmlEmail = await templateHtml("payment-email.ejs", {
-    firstName: userExist.biodata.firstName,
-    lastName: userExist.biodata.lastName,
-    phoneNumber: userExist.biodata.phoneNumber,
-    payment_id: paymentExist.id,
-    total: paymentExist.total_price,
-    time: paymentExist.createdAt.toLocaleTimeString(),
-    date: paymentExist.createdAt.toLocaleDateString(),
-  });
-  await sendEmail(email, "Payment Confirmed!", htmlEmail);
-};
 
 const payment = async (req, res, next) => {
   try {

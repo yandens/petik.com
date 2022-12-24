@@ -1,7 +1,8 @@
-const { Booking } = require("../../models");
+const { Booking, Notification } = require("../../models");
 
 const cancelBooking = async (req, res, next) => {
   try {
+    const user = req.user
     const { booking_id } = req.body;
 
     const booking = await Booking.findOne({ where: { id: booking_id } });

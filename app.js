@@ -49,8 +49,17 @@ const io = require("socket.io")(server, {
 });
 
 io.on("connection", (socket) => {
+  const { Notification } = require("./models");
   socket.on("LOAD_NOTIFICATIONS", async (userID) => {
-    const { Notification } = require("./models");
+    const notifUser = await Notification.findAll({
+      where: { user_id: userID },
+    });
+
+    io.emit(`NOTIFICATIONS-${userID}`, notifUser);
+  });
+
+  socket.on("READ_NOTIFICATIONS", async (notifID, userID) => {
+    await Notification.update({ isRead: true }, { where: { id: notifID } });
     const notifUser = await Notification.findAll({
       where: { user_id: userID },
     });
