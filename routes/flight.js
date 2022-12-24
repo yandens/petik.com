@@ -12,6 +12,7 @@ router.post(
 );
 
 router.put("/edit/:flight_id", authorize(role.admin), flight.updateFlight);
+router.get("/getFlight/:flight_id", authorize(), flight.getFlight);
 
 router.delete(
   "/edit/:flight_id",
