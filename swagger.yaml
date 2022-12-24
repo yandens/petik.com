@@ -1741,7 +1741,6 @@ paths:
                   destination: SIN
                   departure: "2022-12-24T13:50:00"
                   arrival: "2022-12-24T14:50:00"
-                  logo: "https://ik.imagekit.io/6v306xm58/garuda.png?ik-sdk-version=javascript-1.4.3&updatedAt=1671498104092"
         description: All fields are required
       tags:
         - Flight
