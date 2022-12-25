@@ -1421,7 +1421,7 @@ paths:
           required: true
   "/flight/getFlight/{flight_id}":
     get:
-      summary: Get Flight
+      summary: Get Detail Flight
       tags:
         - Flight
       responses:
@@ -1505,23 +1505,23 @@ paths:
                     status: true
                     mesage: Success Get Data
                     data:
-                      airline: AirAsia
+                      airline: Batik Air
                       origin: LGK
                       destination: KUL
-                      departure: "2022-12-25T02:30:00.000Z"
-                      arrival: "2022-12-25T03:40:00.000Z"
+                      departure: "2022-12-27T03:00:00.000Z"
+                      arrival: "2022-12-27T04:05:00.000Z"
               examples:
-                Success Get Flight By Id:
+                Success Get Detail Flight:
                   value:
                     status: true
                     mesage: Success Get Data
                     data:
-                      airline: AirAsia
+                      airline: Batik Air
                       origin: LGK
                       destination: KUL
-                      departure: "2022-12-25T02:30:00.000Z"
-                      arrival: "2022-12-25T03:40:00.000Z"
-      description: "Get Flight By Id "
+                      departure: "2022-12-27T03:00:00.000Z"
+                      arrival: "2022-12-27T04:05:00.000Z"
+      description: Get Flight By Id
       parameters: []
     parameters:
       - schema:
@@ -1657,8 +1657,6 @@ paths:
                     type: string
                   arrival:
                     type: string
-                  logo:
-                    type: string
               examples:
                 Success Create Flight:
                   value:
@@ -1768,15 +1766,12 @@ paths:
                   type: string
                 arrival:
                   type: string
-                logo:
-                  type: string
               required:
                 - airline
                 - origin
                 - destination
                 - departure
                 - arrival
-                - logo
             examples:
               Create Flight:
                 value:
@@ -1785,7 +1780,6 @@ paths:
                   destination: SUB
                   departure: "2022-12-24T15:15:00"
                   arrival: "2022-12-24T16:15:00"
-                  logo: "https://ik.imagekit.io/6v306xm58/garuda.png?ik-sdk-version=javascript-1.4.3&updatedAt=1671498104092"
         description: All fields are required
       parameters: []
       security:
@@ -1843,15 +1837,12 @@ paths:
                   type: string
                 arrival:
                   type: string
-                logo:
-                  type: string
               required:
                 - airline
                 - origin
                 - destination
                 - departure
                 - arrival
-                - logo
             examples:
               Update Flight:
                 value:
@@ -1860,7 +1851,6 @@ paths:
                   destination: SIN
                   departure: "2022-12-24T13:50:00"
                   arrival: "2022-12-24T14:50:00"
-                  logo: "https://ik.imagekit.io/6v306xm58/garuda.png?ik-sdk-version=javascript-1.4.3&updatedAt=1671498104092"
         description: All fields are required
       tags:
         - Flight
