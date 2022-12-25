@@ -1,4 +1,35 @@
 const { Booking, BookingDetails, Notification } = require("../../models");
+const sendEmail = require("../../utils/mailer/sendEmail");
+const templateHtml = require("../../utils/mailer/templateHtml");
+
+const sendingEmail = async (email, date, total, booking_id, flight_id) => {
+  const userExist = await User.findOne({
+    where: { email: email },
+    include: [
+      {
+        model: UserBiodata,
+        as: "biodata",
+      },
+    ],
+  });
+
+  const flightExist = await Flight.findOne({ where: { id: flight_id } });
+  const htmlEmail = await templateHtml("booking-email.ejs", {
+    firstName: userExist.biodata.firstName,
+    lastName: userExist.biodata.lastName,
+    origin: flightExist.origin,
+    destination: flightExist.destination,
+    date: date.toLocaleDateString(),
+    time: date.toLocaleTimeString(),
+    dateLimit: new Date(date.setDate(date.getDate() + 1)).toLocaleDateString(),
+    timeLimit: new Date(date.setDate(date.getDate() + 1)).toLocaleTimeString(),
+    phoneNumber: userExist.biodata.phoneNumber,
+    total,
+    booking_id,
+  });
+
+  await sendEmail(email, "Flight Booked", htmlEmail);
+};
 
 const createBooking = async (req, res, next) => {
   try {
@@ -42,6 +73,8 @@ const createBooking = async (req, res, next) => {
         isRead: false,
         date: new Date(),
       });
+
+      sendingEmail(user.email, booking.date, totalPrice * body.length, booking.id, flight_id)
     }
 
     return res.status(201).json({
