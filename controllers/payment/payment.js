@@ -1,4 +1,31 @@
 const { Booking, BookingDetails, Payment, PaymentMethod, Ticket, Notification } = require("../../models");
+const sendEmail = require("../../utils/mailer/sendEmail");
+const templateHtml = require("../../utils/mailer/templateHtml");
+
+const sendingEmail = async (email, booking_id) => {
+  const userExist = await User.findOne({
+    where: { email: email },
+    include: [
+      {
+        model: UserBiodata,
+        as: "biodata",
+      },
+    ],
+  });
+
+  const paymentExist = await Payment.findOne({ where: { booking_id } });
+  const htmlEmail = await templateHtml("payment-email.ejs", {
+    firstName: userExist.biodata.firstName,
+    lastName: userExist.biodata.lastName,
+    phoneNumber: userExist.biodata.phoneNumber,
+    total: paymentExist.total_price,
+    time: paymentExist.date.toLocaleTimeString(),
+    date: paymentExist.date.toLocaleDateString(),
+    payment_id: paymentExist.id,
+  });
+
+  await sendEmail(email, "Payment Confirmed!", htmlEmail);
+};
 
 const payment = async (req, res, next) => {
   try {
@@ -73,9 +100,7 @@ const payment = async (req, res, next) => {
     });
 
     const updateBooking = await Booking.update({ status: "paid" }, { where: { id: booking_id } });
-    const bookingDetails = await BookingDetails.findAll({
-      where: { booking_id },
-    });
+    const bookingDetails = await BookingDetails.findAll({ where: { booking_id } });
 
     let i = 0;
     for (const details of bookingDetails) {
@@ -97,6 +122,8 @@ const payment = async (req, res, next) => {
         date: new Date(),
       });
     }
+
+    sendingEmail(user.email, booking_id);
 
     return res.status(201).json({
       status: true,
