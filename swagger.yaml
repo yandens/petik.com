@@ -1419,6 +1419,72 @@ paths:
           name: limit
           description: data limit in one page
           required: true
+  "/flight/get-flight/{flight_id}":
+    get:
+      summary: Get Detail Flight
+      tags:
+        - Flight
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        airline:
+                          type: string
+                        origin:
+                          type: string
+                        destination:
+                          type: string
+                        departure:
+                          type: string
+                        departureDate:
+                          type: string
+                        departureTime:
+                          type: string
+                        arrival:
+                          type: string
+                        arrivalDate:
+                          type: string
+                        arrivalTime:
+                          type: string
+              examples:
+                Success Get Detail Flight:
+                  value:
+                    status: true
+                    message: Success Get Data Flight
+                    data:
+                      - id: 1
+                        airline: Calm Air International
+                        origin: YZS
+                        destination: YRT
+                        departure: "2022-12-07T07:00:00.000Z"
+                        departureDate: Wed Dec 07 2022
+                        departureTime: "3:00:00 PM"
+                        arrival: "2022-12-07T07:15:00.000Z"
+                        arrivalDate: Wed Dec 07 2022
+                        arrivalTime: "3:15:00 PM"
+      description: Get Flight By Id
+      parameters: []
+    parameters:
+      - schema:
+          type: string
+        name: flight_id
+        in: path
+        required: true
   /flight/schedule/search:
     post:
       summary: Filter Flight Schedule
