@@ -1479,6 +1479,8 @@ paths:
                         arrivalTime: "3:15:00 PM"
       description: Get Flight By Id
       parameters: []
+      security:
+        - bearerAuth: []
     parameters:
       - schema:
           type: string
