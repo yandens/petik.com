@@ -2305,11 +2305,11 @@ paths:
         - bearerAuth: []
   /booking/list-seat/{flight_id}:
     get:
-      summary: Your GET endpoint
+      summary: List Seat Reserved Endpoint 
       tags:
         - Booking
       responses:
-        '204':
+        '400':
           description: No Content
           content:
             application/json:

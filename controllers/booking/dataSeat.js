@@ -16,7 +16,7 @@ const dataSeat = async (req, res, next) => {
     for (const seat of seatData) listSeat.push(seat.ticket.seatNumber)
 
     if (listSeat.length <= 0) {
-      return res.status(204).json({
+      return res.status(400).json({
         status: false,
         message: 'No reserved seats!',
         data: null
