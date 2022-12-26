@@ -2300,6 +2300,12 @@ paths:
       description: Get total user booking
       security:
         - bearerAuth: []
+    parameters:
+      - schema:
+          type: string
+        name: user_id
+        in: path
+        required: true
   /booking/list-seat/{flight_id}:
     get:
       summary: List Seat Reserved Endpoint 
