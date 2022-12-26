@@ -1,5 +1,4 @@
 const { Notification } = require("../../models");
-const io = require("../../utils/socket/socket")
 
 const getNotifications = async (req, res, next) => {
   try {
@@ -26,8 +25,6 @@ const getNotifications = async (req, res, next) => {
       };
       data.push(dataResponse);
     }
-
-    io.emit(`NOTIFICATIONS-${user.id}`, data)
 
     return res.status(200).json({
       status: true,
