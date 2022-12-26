@@ -17,7 +17,7 @@ const getTotalBooking = async (req, res, next) => {
     })
 
     if (totalBooking.length <= 0) {
-      return res.status(204).json({
+      return res.status(400).json({
         status: false,
         message: 'Never made a booking!',
         data: null

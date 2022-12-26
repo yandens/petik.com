@@ -2237,6 +2237,69 @@ paths:
       description: Get all booking by user
       security:
         - bearerAuth: []
+  '/booking/user-booking/{user_id}':
+    get:
+      summary: Total User Booking Endpoint
+      tags:
+        - Booking
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      userId:
+                        type: integer
+                      name:
+                        type: string
+                      totalBooking:
+                        type: integer
+              examples:
+                Example 1:
+                  value:
+                    status: true
+                    message: Success get total booking of user
+                    data:
+                      userId: 1
+                      name: Deden Setyawan
+                      totalBooking: 5
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: 'null'
+                x-examples:
+                  Example 1:
+                    status: false
+                    message: Never made a booking!
+                    data: null
+              examples:
+                Example 1:
+                  value:
+                    status: false
+                    message: Never made a booking!
+                    data: null
+        '500':
+          description: Internal Server Error
+      description: Get total user booking
+      security:
+        - bearerAuth: []
   /booking/list-seat/{flight_id}:
     get:
       summary: List Seat Reserved Endpoint 
