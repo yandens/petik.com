@@ -2303,6 +2303,65 @@ paths:
       description: Get all booking by user
       security:
         - bearerAuth: []
+  /booking/list-seat/{flight_id}:
+    get:
+      summary: Your GET endpoint
+      tags:
+        - Booking
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: 'null'
+              examples:
+                Example 1:
+                  value:
+                    status: true
+                    message: No reserved seat!
+                    data: null
+        '500':
+          description: Internal Server Error
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                Example 1:
+                  value:
+                    status: true
+                    message: Succes get the reserved seat!
+                    data:
+                      - A01
+                      - A02
+                      - A03
+      description: Get list reserved seat
+      security:
+        - bearerAuth: []
+    parameters:
+      - schema:
+          type: string
+        name: flight_id
+        in: path
+        required: true
   /ticket/print-ticket/{id}:
     parameters:
       - schema:
