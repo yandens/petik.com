@@ -1,4 +1,4 @@
-const { Booking, BookingDetails, Payment, PaymentMethod, Ticket, Notification } = require("../../models");
+const { User, UserBiodata, Booking, BookingDetails, Payment, PaymentMethod, Ticket, Notification } = require("../../models");
 const sendEmail = require("../../utils/mailer/sendEmail");
 const templateHtml = require("../../utils/mailer/templateHtml");
 
@@ -30,7 +30,7 @@ const sendingEmail = async (email, booking_id) => {
 const payment = async (req, res, next) => {
   try {
     const user = req.user
-    const { booking_id, ticketClass, paymentMethod, grandTotal, seatNumber } = req.body;
+    const { booking_id, ticketClass, paymentMethod, grandTotal/*, seatNumber*/ } = req.body;
 
     const book = await Booking.findOne({ where: { id: booking_id } });
     if (book.status !== "pending") {
@@ -42,7 +42,7 @@ const payment = async (req, res, next) => {
     }
 
     const bookingSeat = await BookingDetails.findAll({ where: { booking_id } });
-    if (seatNumber.length !== bookingSeat.length) {
+    /*if (seatNumber.length !== bookingSeat.length) {
       return res.status(400).json({
         status: false,
         message: "Input insufficient with number of passenger",
@@ -58,7 +58,7 @@ const payment = async (req, res, next) => {
         message: "Can't input same Seat Number",
         data: null,
       });
-    }
+    }*/
 
     const seatData = await BookingDetails.findAll({
       where: { flight_id: bookingSeat[0].flight_id },
@@ -78,7 +78,7 @@ const payment = async (req, res, next) => {
     const listSeat = [];
     for (const seat of seatData) listSeat.push(seat.ticket.seatNumber);
 
-    const sameSeat = [];
+    /*const sameSeat = [];
     for (const seat of listSeat) {
       if (seatNumber.includes(seat)) sameSeat.push(seat);
     }
@@ -89,7 +89,7 @@ const payment = async (req, res, next) => {
         message: "Seats are reserved!",
         data: null,
       });
-    }
+    }*/
 
     const payMethod = await PaymentMethod.findOne({ where: { method: paymentMethod } });
     const payment = await Payment.create({
@@ -102,11 +102,14 @@ const payment = async (req, res, next) => {
     const updateBooking = await Booking.update({ status: "paid" }, { where: { id: booking_id } });
     const bookingDetails = await BookingDetails.findAll({ where: { booking_id } });
 
-    let i = 0;
+    let i
+    const lastSeatNumber = listSeat.pop()
+
+    listSeat.length <= 0 ? i = 1 : i = parseInt(lastSeatNumber) + 1;
     for (const details of bookingDetails) {
       var createTicket = await Ticket.create({
         booking_details_id: details.id,
-        seatNumber: seatNumber[i],
+        seatNumber: i,
         class: ticketClass,
       });
       i++;
