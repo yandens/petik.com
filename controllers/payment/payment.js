@@ -1,4 +1,4 @@
-const { Booking, BookingDetails, Payment, PaymentMethod, Ticket, Notification } = require("../../models");
+const { User, UserBiodata, Booking, BookingDetails, Payment, PaymentMethod, Ticket, Notification } = require("../../models");
 const sendEmail = require("../../utils/mailer/sendEmail");
 const templateHtml = require("../../utils/mailer/templateHtml");
 

@@ -1,4 +1,4 @@
-const { Booking, BookingDetails, Notification } = require("../../models");
+const { User, UserBiodata, Flight, Booking, BookingDetails, Notification } = require("../../models");
 const sendEmail = require("../../utils/mailer/sendEmail");
 const templateHtml = require("../../utils/mailer/templateHtml");
 
