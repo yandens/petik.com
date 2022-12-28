@@ -2234,8 +2234,16 @@ paths:
                         date: "2022-12-16T06:09:19.305Z"
                         createdAt: "2022-12-16T06:09:19.305Z"
                         updatedAt: "2022-12-16T06:30:02.493Z"
-        "201":
-          description: OK
+      description: Get all booking by user
+      security:
+        - bearerAuth: []
+  '/booking/user-booking/{user_id}':
+    get:
+      summary: Total User Booking Endpoint
+      tags:
+        - Booking
+      responses:
+        '200':
           content:
             application/json:
               schema:
@@ -2248,61 +2256,115 @@ paths:
                   data:
                     type: object
                     properties:
-                      id:
+                      userId:
                         type: integer
-                      user_id:
+                      name:
+                        type: string
+                      totalBooking:
                         type: integer
-                      status:
-                        type: string
-                      createdAt:
-                        type: string
-                      updatedAt:
-                        type: string
               examples:
-                Success get all bookings:
+                Example 1:
                   value:
                     status: true
-                    message: Success Get Data
+                    message: Success get total booking of user
                     data:
-                      - id: 1
-                        user_id: 3
-                        status: paid
-                        date: "2022-12-16T05:12:14.153Z"
-                        createdAt: "2022-12-16T05:12:14.154Z"
-                        updatedAt: "2022-12-16T05:14:14.947Z"
-                      - id: 2
-                        user_id: 3
-                        status: paid
-                        date: "2022-12-16T05:39:56.640Z"
-                        createdAt: "2022-12-16T05:39:56.642Z"
-                        updatedAt: "2022-12-16T05:40:10.114Z"
-                      - id: 4
-                        user_id: 3
-                        status: paid
-                        date: "2022-12-16T05:48:11.962Z"
-                        createdAt: "2022-12-16T05:48:11.964Z"
-                        updatedAt: "2022-12-16T05:48:50.811Z"
-                      - id: 3
-                        user_id: 3
-                        status: paid
-                        date: "2022-12-16T05:41:54.633Z"
-                        createdAt: "2022-12-16T05:41:54.633Z"
-                        updatedAt: "2022-12-16T05:50:03.083Z"
-                      - id: 6
-                        user_id: 3
-                        status: paid
-                        date: "2022-12-16T06:09:36.031Z"
-                        createdAt: "2022-12-16T06:09:36.033Z"
-                        updatedAt: "2022-12-16T06:10:17.509Z"
-                      - id: 5
-                        user_id: 3
-                        status: cancel
-                        date: "2022-12-16T06:09:19.305Z"
-                        createdAt: "2022-12-16T06:09:19.305Z"
-                        updatedAt: "2022-12-16T06:30:02.493Z"
-      description: Get all booking by user
+                      userId: 1
+                      name: Deden Setyawan
+                      totalBooking: 5
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: 'null'
+                x-examples:
+                  Example 1:
+                    status: false
+                    message: Never made a booking!
+                    data: null
+              examples:
+                Example 1:
+                  value:
+                    status: false
+                    message: Never made a booking!
+                    data: null
+        '500':
+          description: Internal Server Error
+      description: Get total user booking
       security:
         - bearerAuth: []
+    parameters:
+      - schema:
+          type: string
+        name: user_id
+        in: path
+        required: true
+  /booking/list-seat/{flight_id}:
+    get:
+      summary: List Seat Reserved Endpoint 
+      tags:
+        - Booking
+      responses:
+        '400':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: 'null'
+              examples:
+                Example 1:
+                  value:
+                    status: true
+                    message: No reserved seat!
+                    data: null
+        '500':
+          description: Internal Server Error
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                Example 1:
+                  value:
+                    status: true
+                    message: Succes get the reserved seat!
+                    data:
+                      - A01
+                      - A02
+                      - A03
+      description: Get list reserved seat
+      security:
+        - bearerAuth: []
+    parameters:
+      - schema:
+          type: string
+        name: flight_id
+        in: path
+        required: true
   /ticket/print-ticket/{id}:
     parameters:
       - schema:
