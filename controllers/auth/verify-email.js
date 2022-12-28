@@ -1,6 +1,6 @@
 const { User } = require("../../models");
 const jwt = require("jsonwebtoken");
-const { JWT_SECRET_KEY } = process.env;
+const { JWT_SECRET_KEY, FE_LINK } = process.env;
 
 const verify = async (req, res, next) => {
   try {
@@ -8,10 +8,11 @@ const verify = async (req, res, next) => {
 
     const validUser = jwt.verify(token, JWT_SECRET_KEY);
     if (!validUser) {
-      return res.status(401).json({
+      /*return res.status(401).json({
         status: false,
         message: "Invalid token!",
-      });
+      });*/
+      return res.redirect(`${FE_LINK}/auth/verify/failed`)
     }
 
     const updateStatus = await User.update(
@@ -19,11 +20,12 @@ const verify = async (req, res, next) => {
       { where: { email: validUser.email } }
     );
 
-    return res.status(200).json({
+    /*return res.status(200).json({
       status: true,
       message: "Email Verified!",
       data: updateStatus,
-    });
+    });*/
+    return res.redirect(`${FE_LINK}/auth/verify/success`)
   } catch (error) {
     next(error);
   }
