@@ -1,5 +1,4 @@
 const { User, Role, Avatar } = require("../../models");
-// const googleOauth2 = require("../../utils/oauth/google");
 const jwt = require("jsonwebtoken");
 const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
@@ -7,17 +6,6 @@ const { JWT_SECRET_KEY } = process.env;
 
 const google = async (req, res, next) => {
   try {
-    /*const code = req.query.code;
-
-    if (!code) {
-      const url = googleOauth2.generateAuthURL();
-      return res.redirect(url);
-    }
-
-    await googleOauth2.setCredentials(code);
-
-    const { data } = await googleOauth2.getUserData();*/
-
     const { access_token } = req.body;
     const url = `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${access_token}`
     const options = {
