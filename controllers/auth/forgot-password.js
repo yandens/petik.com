@@ -1,10 +1,24 @@
 const { User } = require("../../models");
 const jwt = require("jsonwebtoken");
 const Validator = require('fastest-validator')
-const { JWT_SECRET_KEY } = process.env;
+const { JWT_SECRET_KEY, FE_LINK } = process.env;
 const sendEmail = require("../../utils/mailer/sendEmail");
 const templateHtml = require("../../utils/mailer/templateHtml");
 const v = new Validator()
+
+const sendingEmail = async (user) => {
+  const payload = {
+    id: user.id,
+    email: user.email,
+  };
+  const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: "900s" });
+  const link = `${FE_LINK}/auth/resetpassword?token=${token}`;
+  const htmlEmail = await templateHtml("forgot-password.ejs", {
+    email: user.email,
+    link: link,
+  });
+  await sendEmail(user.email, "Reset Password", htmlEmail);
+}
 
 const forgotPassword = async (req, res, next) => {
   try {
@@ -32,22 +46,7 @@ const forgotPassword = async (req, res, next) => {
       });
     }
 
-    const payload = {
-      id: findUser.id,
-      email: findUser.email,
-    };
-    const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: "900s" });
-    const link = `https://petikcom-api-dev.km3ggwp.com/auth/reset-password?token=${token}`;
-    const htmlEmail = await templateHtml("forgot-password.ejs", {
-      email: findUser.email,
-      link: link,
-    });
-    const response = await sendEmail(
-      findUser.email,
-      "Reset Password",
-      htmlEmail
-    );
-
+    sendingEmail(findUser)
     return res.status(200).json({
       status: true,
       message: "success send reset password link to email",
