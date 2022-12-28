@@ -19,13 +19,13 @@ const google = async (req, res, next) => {
     const { data } = await googleOauth2.getUserData();*/
 
     const { access_token } = req.body;
-    const url = `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${access_token}`
+    const url = `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${access_token}`;
     const options = {
       method: "GET",
       headers: {
         "X-RapidAPI-Host": "www.googleapis.com",
       },
-    }
+    };
     const response = await fetch(url, options);
     const jsonResponse = await response.json();
     const { email, picture } = jsonResponse;
