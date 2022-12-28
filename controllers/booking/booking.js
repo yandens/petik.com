@@ -36,6 +36,15 @@ const createBooking = async (req, res, next) => {
     const user = req.user;
     const { flight_id, body, ticketClass } = req.body;
 
+    const bio = await UserBiodata.findOne({ where: { user_id: user.id } })
+    if (!bio) {
+      return res.status(400).json({
+        status: false,
+        message: 'You need to fill your biodata first!',
+        data: null
+      })
+    }
+
     const booking = await Booking.create({
       user_id: user.id,
       status: "pending",
