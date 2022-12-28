@@ -14,8 +14,8 @@ const getAirport = async (iata) => {
   };
   const result = await fetch(url, options);
   const json = await result.json();
-  return json
-}
+  return json;
+};
 
 const createFlight = async () => {
   try {
@@ -59,8 +59,8 @@ const createFlight = async () => {
         airlineLogo = "https://bit.ly/3FDlHzT";
       }
 
-      const origin = await getAirport(flight.departure.iataCode)
-      const destination = await getAirport(flight.arrival.iataCode)
+      const origin = await getAirport(flight.departure.iataCode);
+      const destination = await getAirport(flight.arrival.iataCode);
       const data = await Flight.create({
         airline: flight.airline.name,
         airline_logo: airlineLogo,
@@ -135,8 +135,8 @@ const createFlightAdmin = async (req, res, next) => {
       airlineLogo = "https://bit.ly/3FDlHzT";
     }
 
-    const originCity = await getAirport(origin)
-    const destinationCity = await getAirport(destination)
+    const originCity = await getAirport(origin);
+    const destinationCity = await getAirport(destination);
     const createFlight = await Flight.create({
       airline,
       origin,
