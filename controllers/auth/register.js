@@ -48,7 +48,6 @@ const register = async (req, res, next) => {
         data: null,
       });
     }
-    // return res.send("mantap");
     if (password != confirm_password) {
       // check password
       return res.status(400).json({

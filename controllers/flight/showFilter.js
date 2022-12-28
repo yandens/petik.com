@@ -10,7 +10,6 @@ const showFilter = async (req, res, next) => {
         [Op.and]: [
           { origin },
           { destination },
-          //{ departure: date }
           sequelize.where(sequelize.fn('date', sequelize.col('departure')), '=', date)
         ],
       },
@@ -35,7 +34,9 @@ const showFilter = async (req, res, next) => {
         airline: flightSearch.airline,
         airlineLogo: flightSearch.airline_logo,
         origin: flightSearch.origin,
+        originCity: flightSearch.origin_city,
         destination: flightSearch.destination,
+        destinationCity: flightSearch.destination_city,
         departure: flightSearch.departure,
         departureDate,
         departureTime,

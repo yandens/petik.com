@@ -1,4 +1,19 @@
 const { Flight } = require("../../models");
+const fetch = (...args) =>
+  import("node-fetch").then(({ default: fetch }) => fetch(...args));
+
+const getAirport = async (iata) => {
+  const url = `https://port-api.com/airport/iata/${iata}`;
+  const options = {
+    method: "GET",
+    headers: {
+      "X-RapidAPI-Host": "port-api.com",
+    },
+  };
+  const result = await fetch(url, options);
+  const json = await result.json();
+  return json
+}
 
 const updateFlight = async (req, res, next) => {
   try {
@@ -22,8 +37,10 @@ const updateFlight = async (req, res, next) => {
       airlineLogo = 'https://bit.ly/3FDlHzT'
     }
 
+    const originCity = await getAirport(origin)
+    const destinationCity = await getAirport(destination)
     const updated = await Flight.update(
-      { airline, origin, destination, departure, arrival, airline_logo: airlineLogo },
+      { airline, origin, origin_city: originCity.properties.municipality, destination, destination_city: destinationCity.properties.municipality, departure, arrival, airline_logo: airlineLogo },
       { where: { id: flight_id } }
     );
 

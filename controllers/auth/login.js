@@ -4,7 +4,6 @@ const jwt = require("jsonwebtoken");
 const { JWT_SECRET_KEY } = process.env;
 const Validator = require("fastest-validator");
 const v = new Validator();
-const { Op } = require("sequelize");
 
 const login = async (req, res, next) => {
   try {

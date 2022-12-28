@@ -11,9 +11,11 @@ const getFlightId = async (req, res, next) => {
       mesage: "Success Get Data",
       data: {
         airline: getFlight.airline,
-        airlineLogo: getFlight.airlinr_logo,
+        airlineLogo: getFlight.airline_logo,
         origin: getFlight.origin,
+        originCity: getFlight.origin_city,
         destination: getFlight.destination,
+        destinationCity: getFlight.destination_city,
         departure: getFlight.departure,
         arrival: getFlight.arrival,
       },

@@ -34,8 +34,11 @@ const showFlight = async (req, res, next) => {
       const showFlight = {
         id: flight.id,
         airline: flight.airline,
+        arlineLogo: flight.airline_logo,
         origin: flight.origin,
+        originCity: flight.origin_city,
         destination: flight.destination,
+        destinationCity: flight.destination_city,
         departure: flight.departure,
         departureDate,
         departureTime,

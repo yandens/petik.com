@@ -17,8 +17,14 @@ module.exports = {
       origin: {
         type: Sequelize.STRING,
       },
+      origin_city: {
+        type: Sequelize.STRING
+      },
       destination: {
         type: Sequelize.STRING,
+      },
+      destination_city: {
+        type: Sequelize.STRING
       },
       departure: {
         type: Sequelize.DATE,
