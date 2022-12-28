@@ -1396,9 +1396,10 @@ paths:
                     message: Success Get All Data
                     data:
                       - id: 1
-                        airline: Calm Air International
-                        origin: YZS
-                        destination: YRT
+                        airline: Garuda Indonesia
+                        airlineLogo: http://bit.ly/3Ytqr3w
+                        origin: CGK
+                        destination: DPS
                         departure: "2022-12-07T07:00:00.000Z"
                         departureDate: Wed Dec 07 2022
                         departureTime: "3:00:00 PM"
@@ -2431,6 +2432,7 @@ paths:
                         booking_id: 8
                         name: deden
                         airline: Wings Air (Indonesia)
+                        airlineLogo: http://bit.ly/3G4OO0p
                         from: LBJ
                         to: ENE
                         date: Tue Dec 20 2022
@@ -2443,6 +2445,7 @@ paths:
                         booking_id: 8
                         name: kevin
                         airline: Wings Air (Indonesia)
+                        airlineLogo: http://bit.ly/3G4OO0p
                         from: LBJ
                         to: ENE
                         date: Tue Dec 20 2022
@@ -2455,6 +2458,7 @@ paths:
                         booking_id: 8
                         name: faza
                         airline: Wings Air (Indonesia)
+                        airlineLogo: http://bit.ly/3G4OO0p
                         from: LBJ
                         to: ENE
                         date: Tue Dec 20 2022

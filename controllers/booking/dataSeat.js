@@ -1,8 +1,17 @@
-const { BookingDetails, Ticket } = require('../../models')
+const { BookingDetails, Ticket, Flight } = require('../../models')
 
 const dataSeat = async (req, res, next) => {
   try {
     const { flight_id } = req.params
+
+    const flight = await Flight.findOne({ where: { id: flight_id } })
+    if (!flight) {
+      return res.status(400).json({
+        status: false,
+        message: `No Flight with ID ${flight_id}`,
+        data: null
+      })
+    }
 
     const seatData = await BookingDetails.findAll({
       where: { flight_id },

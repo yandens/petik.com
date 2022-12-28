@@ -37,12 +37,12 @@ app.use((err, req, res, next) => {
   });
 });
 
-const { PORT } = process.env;
+const { PORT, FE_LINK } = process.env;
 const server = app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
 const io = require("socket.io")(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: FE_LINK,
     methods: ["GET", "POST"],
   },
 });
