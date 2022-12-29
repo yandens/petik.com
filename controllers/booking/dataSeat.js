@@ -22,7 +22,9 @@ const dataSeat = async (req, res, next) => {
     })
 
     const listSeat = []
-    for (const seat of seatData) listSeat.push(seat.ticket.seatNumber)
+    for (const seat of seatData) {
+      if (seat.ticket.seatNumber) listSeat.push(seat.ticket.seatNumber)
+    }
 
     if (listSeat.length <= 0) {
       return res.status(400).json({
