@@ -14,8 +14,8 @@ const getAirport = async (iata) => {
   };
   const result = await fetch(url, options);
   const json = await result.json();
-  return json
-}
+  return json;
+};
 
 const createFlight = async () => {
   try {
@@ -42,25 +42,25 @@ const createFlight = async () => {
     );
 
     for (const flight of filterFlights) {
-      let airlineLogo
-      if (flight.airline.iataCode == 'GA') {
-        airlineLogo = 'http://bit.ly/3Ytqr3w'
-      } else if (flight.airline.iataCode == 'IW') {
-        airlineLogo = 'http://bit.ly/3G4OO0p'
-      } else if (flight.airline.iataCode == 'ID') {
-        airlineLogo = 'http://bit.ly/3Ytqr3w'
-      } else if (flight.airline.iataCode == 'JT') {
-        airlineLogo = 'https://bit.ly/3WbvdBj'
-      } else if (flight.airline.iataCode == 'QG') {
-        airlineLogo = 'https://bit.ly/3v6DYAJ'
-      } else if (flight.airline.iataCode == 'AK') {
-        airlineLogo = 'https://bit.ly/3PF90Jm'
+      let airlineLogo;
+      if (flight.airline.iataCode == "GA") {
+        airlineLogo = "http://bit.ly/3Ytqr3w";
+      } else if (flight.airline.iataCode == "IW") {
+        airlineLogo = "http://bit.ly/3G4OO0p";
+      } else if (flight.airline.iataCode == "ID") {
+        airlineLogo = "http://bit.ly/3Ytqr3w";
+      } else if (flight.airline.iataCode == "JT") {
+        airlineLogo = "https://bit.ly/3WbvdBj";
+      } else if (flight.airline.iataCode == "QG") {
+        airlineLogo = "https://bit.ly/3v6DYAJ";
+      } else if (flight.airline.iataCode == "AK") {
+        airlineLogo = "https://bit.ly/3PF90Jm";
       } else {
-        airlineLogo = 'https://bit.ly/3FDlHzT'
+        airlineLogo = "https://bit.ly/3FDlHzT";
       }
 
-      const origin = await getAirport(flight.departure.iataCode)
-      const destination = await getAirport(flight.arrival.iataCode)
+      const origin = await getAirport(flight.departure.iataCode);
+      const destination = await getAirport(flight.arrival.iataCode);
       const data = await Flight.create({
         airline: flight.airline.name,
         airline_logo: airlineLogo,
@@ -118,25 +118,25 @@ const createFlightAdmin = async (req, res, next) => {
       });
     }
 
-    let airlineLogo
-    if (airline == 'Garuda Indonesia') {
-      airlineLogo = 'http://bit.ly/3Ytqr3w'
-    } else if (airline == 'Wings Air (Indonesia)') {
-      airlineLogo = 'http://bit.ly/3G4OO0p'
-    } else if (airline == 'Batik Air') {
-      airlineLogo = 'http://bit.ly/3Ytqr3w'
-    } else if (airline == 'Lion Air') {
-      airlineLogo = 'https://bit.ly/3WbvdBj'
-    } else if (airline == 'Citilink') {
-      airlineLogo = 'https://bit.ly/3v6DYAJ'
-    } else if (airline == 'AirAsia') {
-      airlineLogo = 'https://bit.ly/3PF90Jm'
+    let airlineLogo;
+    if (airline == "Garuda Indonesia") {
+      airlineLogo = "http://bit.ly/3Ytqr3w";
+    } else if (airline == "Wings Air (Indonesia)") {
+      airlineLogo = "http://bit.ly/3G4OO0p";
+    } else if (airline == "Batik Air") {
+      airlineLogo = "http://bit.ly/3Ytqr3w";
+    } else if (airline == "Lion Air") {
+      airlineLogo = "https://bit.ly/3WbvdBj";
+    } else if (airline == "Citilink") {
+      airlineLogo = "https://bit.ly/3v6DYAJ";
+    } else if (airline == "AirAsia") {
+      airlineLogo = "https://bit.ly/3PF90Jm";
     } else {
-      airlineLogo = 'https://bit.ly/3FDlHzT'
+      airlineLogo = "https://bit.ly/3FDlHzT";
     }
 
-    const originCity = await getAirport(origin)
-    const destinationCity = await getAirport(destination)
+    const originCity = await getAirport(origin);
+    const destinationCity = await getAirport(destination);
     const createFlight = await Flight.create({
       airline,
       origin,

@@ -7,25 +7,11 @@ const verify = async (req, res, next) => {
     const { token } = req.query;
 
     const validUser = jwt.verify(token, JWT_SECRET_KEY);
-    if (!validUser) {
-      /*return res.status(401).json({
-        status: false,
-        message: "Invalid token!",
-      });*/
-      return res.redirect(`${FE_LINK}/auth/verify/failed`)
-    }
+    if (!validUser) return res.redirect(`${FE_LINK}/auth/verify/failed`);
 
-    const updateStatus = await User.update(
-      { status: true },
-      { where: { email: validUser.email } }
-    );
+    await User.update({ status: true }, { where: { email: validUser.email } });
 
-    /*return res.status(200).json({
-      status: true,
-      message: "Email Verified!",
-      data: updateStatus,
-    });*/
-    return res.redirect(`${FE_LINK}/auth/verify/success`)
+    return res.redirect(`${FE_LINK}/auth/verify/success`);
   } catch (error) {
     next(error);
   }

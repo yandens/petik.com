@@ -10,7 +10,11 @@ const showFilter = async (req, res, next) => {
         [Op.and]: [
           { origin },
           { destination },
-          sequelize.where(sequelize.fn('date', sequelize.col('departure')), '=', date)
+          sequelize.where(
+            sequelize.fn("date", sequelize.col("departure")),
+            "=",
+            date
+          ),
         ],
       },
     });

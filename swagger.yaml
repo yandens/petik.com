@@ -1347,7 +1347,7 @@ paths:
                         - Not Found
                       message: We could not find anything with 'changi'
       description: "Search Airport By ICAO, IATA, and Name"
-  /flight/schedule:
+  /flight/schedule/:
     get:
       summary: Get Flight Schedule
       tags:
@@ -1365,47 +1365,126 @@ paths:
                   message:
                     type: string
                   data:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        id:
-                          type: integer
-                        airline:
-                          type: string
-                        origin:
-                          type: string
-                        destination:
-                          type: string
-                        departure:
-                          type: string
-                        departureDate:
-                          type: string
-                        departureTime:
-                          type: string
-                        arrival:
-                          type: string
-                        arrivalDate:
-                          type: string
-                        arrivalTime:
-                          type: string
+                    type: object
+                    properties:
+                      result:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            airline:
+                              type: string
+                            arlineLogo:
+                              type: string
+                            origin:
+                              type: string
+                            originCity:
+                              type: string
+                            destination:
+                              type: string
+                            destinationCity:
+                              type: string
+                            departure:
+                              type: string
+                            departureDate:
+                              type: string
+                            departureTime:
+                              type: string
+                            arrival:
+                              type: string
+                            arrivalDate:
+                              type: string
+                            arrivalTime:
+                              type: string
+                            duration:
+                              type: string
+                      pageNumber:
+                        type: integer
+                      limitPage:
+                        type: integer
+                      totalRows:
+                        type: integer
+                      totalPage:
+                        type: integer
+                x-examples:
+                  Example 1:
+                    status: true
+                    message: Success Get All Data
+                    data:
+                      result:
+                        - id: 1
+                          airline: Batik Air
+                          arlineLogo: "http://bit.ly/3Ytqr3w"
+                          origin: SOQ
+                          originCity: Sorong
+                          destination: MKW
+                          destinationCity: Manokwari
+                          departure: "2023-01-03T06:00:00.000Z"
+                          departureDate: Tue Jan 03 2023
+                          departureTime: "13:00:00"
+                          arrival: "2023-01-03T07:00:00.000Z"
+                          arrivalDate: Tue Jan 03 2023
+                          arrivalTime: "14:00:00"
+                          duration: "01:00"
+                        - id: 2
+                          airline: Wings Air (Indonesia)
+                          arlineLogo: "http://bit.ly/3G4OO0p"
+                          origin: MKW
+                          originCity: Manokwari
+                          destination: NBX
+                          destinationCity: Nabire
+                          departure: "2022-12-30T06:00:00.000Z"
+                          departureDate: Fri Dec 30 2022
+                          departureTime: "13:00:00"
+                          arrival: "2022-12-30T07:00:00.000Z"
+                          arrivalDate: Fri Dec 30 2022
+                          arrivalTime: "14:00:00"
+                          duration: "01:00"
+                      pageNumber: 1
+                      limitPage: 2
+                      totalRows: 83
+                      totalPage: 42
               examples:
-                example-1:
+                "Success Get Data Flights (page = 1, limit = 2)":
                   value:
                     status: true
                     message: Success Get All Data
                     data:
-                      - id: 1
-                        airline: Garuda Indonesia
-                        airlineLogo: http://bit.ly/3Ytqr3w
-                        origin: CGK
-                        destination: DPS
-                        departure: "2022-12-07T07:00:00.000Z"
-                        departureDate: Wed Dec 07 2022
-                        departureTime: "3:00:00 PM"
-                        arrival: "2022-12-07T07:15:00.000Z"
-                        arrivalDate: Wed Dec 07 2022
-                        arrivalTime: "3:15:00 PM"
+                      result:
+                        - id: 1
+                          airline: Batik Air
+                          arlineLogo: "http://bit.ly/3Ytqr3w"
+                          origin: SOQ
+                          originCity: Sorong
+                          destination: MKW
+                          destinationCity: Manokwari
+                          departure: "2023-01-03T06:00:00.000Z"
+                          departureDate: Tue Jan 03 2023
+                          departureTime: "13:00:00"
+                          arrival: "2023-01-03T07:00:00.000Z"
+                          arrivalDate: Tue Jan 03 2023
+                          arrivalTime: "14:00:00"
+                          duration: "01:00"
+                        - id: 2
+                          airline: Wings Air (Indonesia)
+                          arlineLogo: "http://bit.ly/3G4OO0p"
+                          origin: MKW
+                          originCity: Manokwari
+                          destination: NBX
+                          destinationCity: Nabire
+                          departure: "2022-12-30T06:00:00.000Z"
+                          departureDate: Fri Dec 30 2022
+                          departureTime: "13:00:00"
+                          arrival: "2022-12-30T07:00:00.000Z"
+                          arrivalDate: Fri Dec 30 2022
+                          arrivalTime: "14:00:00"
+                          duration: "01:00"
+                      pageNumber: 1
+                      limitPage: 2
+                      totalRows: 83
+                      totalPage: 42
       description: Flight Schedule Endpoint
       parameters:
         - schema:
@@ -1420,6 +1499,7 @@ paths:
           name: limit
           description: data limit in one page
           required: true
+    parameters: []
   "/flight/get-flight/{flight_id}":
     get:
       summary: Get Detail Flight
@@ -1435,49 +1515,54 @@ paths:
                 properties:
                   status:
                     type: boolean
-                  message:
+                  mesage:
                     type: string
                   data:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        id:
-                          type: integer
-                        airline:
-                          type: string
-                        origin:
-                          type: string
-                        destination:
-                          type: string
-                        departure:
-                          type: string
-                        departureDate:
-                          type: string
-                        departureTime:
-                          type: string
-                        arrival:
-                          type: string
-                        arrivalDate:
-                          type: string
-                        arrivalTime:
-                          type: string
+                    type: object
+                    properties:
+                      airline:
+                        type: string
+                      airlineLogo:
+                        type: string
+                      origin:
+                        type: string
+                      originCity:
+                        type: string
+                      destination:
+                        type: string
+                      destinationCity:
+                        type: string
+                      departure:
+                        type: string
+                      arrival:
+                        type: string
+                x-examples:
+                  Example 1:
+                    status: true
+                    mesage: Success Get Data
+                    data:
+                      airline: Batik Air
+                      airlineLogo: "http://bit.ly/3Ytqr3w"
+                      origin: SOQ
+                      originCity: Sorong
+                      destination: MKW
+                      destinationCity: Manokwari
+                      departure: "2023-01-03T06:00:00.000Z"
+                      arrival: "2023-01-03T07:00:00.000Z"
               examples:
                 Success Get Detail Flight:
                   value:
                     status: true
-                    message: Success Get Data Flight
+                    mesage: Success Get Data
                     data:
-                      - id: 1
-                        airline: Calm Air International
-                        origin: YZS
-                        destination: YRT
-                        departure: "2022-12-07T07:00:00.000Z"
-                        departureDate: Wed Dec 07 2022
-                        departureTime: "3:00:00 PM"
-                        arrival: "2022-12-07T07:15:00.000Z"
-                        arrivalDate: Wed Dec 07 2022
-                        arrivalTime: "3:15:00 PM"
+                      airline: Batik Air
+                      airlineLogo: "http://bit.ly/3Ytqr3w"
+                      origin: SOQ
+                      originCity: Sorong
+                      destination: MKW
+                      destinationCity: Manokwari
+                      departure: "2023-01-03T06:00:00.000Z"
+                      arrival: "2023-01-03T07:00:00.000Z"
       description: Get Flight By Id
       parameters: []
       security:
@@ -1514,9 +1599,15 @@ paths:
                           type: integer
                         airline:
                           type: string
+                        airlineLogo:
+                          type: string
                         origin:
                           type: string
+                        originCity:
+                          type: string
                         destination:
+                          type: string
+                        destinationCity:
                           type: string
                         departure:
                           type: string
@@ -1530,22 +1621,43 @@ paths:
                           type: string
                         arrivalTime:
                           type: string
+                x-examples:
+                  Example 1:
+                    status: true
+                    message: Success Get Data
+                    data:
+                      - id: 1
+                        airline: Batik Air
+                        airlineLogo: "http://bit.ly/3Ytqr3w"
+                        origin: SOQ
+                        originCity: Sorong
+                        destination: MKW
+                        destinationCity: Manokwari
+                        departure: "2023-01-03T06:00:00.000Z"
+                        departureDate: Tue Jan 03 2023
+                        departureTime: "13:00:00"
+                        arrival: "2023-01-03T07:00:00.000Z"
+                        arrivalDate: Tue Jan 03 2023
+                        arrivalTime: "14:00:00"
               examples:
-                example-1:
+                Success Get Filter Flight:
                   value:
                     status: true
                     message: Success Get Data
                     data:
                       - id: 1
-                        airline: Calm Air International
-                        origin: YZS
-                        destination: YRT
-                        departure: "2022-12-07T07:00:00.000Z"
-                        departureDate: Wed Dec 07 2022
-                        departureTime: "3:00:00 PM"
-                        arrival: "2022-12-07T07:15:00.000Z"
-                        arrivalDate: Wed Dec 07 2022
-                        arrivalTime: "3:15:00 PM"
+                        airline: Batik Air
+                        airlineLogo: "http://bit.ly/3Ytqr3w"
+                        origin: SOQ
+                        originCity: Sorong
+                        destination: MKW
+                        destinationCity: Manokwari
+                        departure: "2023-01-03T06:00:00.000Z"
+                        departureDate: Tue Jan 03 2023
+                        departureTime: "13:00:00"
+                        arrival: "2023-01-03T07:00:00.000Z"
+                        arrivalDate: Tue Jan 03 2023
+                        arrivalTime: "14:00:00"
         "400":
           description: Bad Request
           content:
@@ -1606,25 +1718,64 @@ paths:
               schema:
                 type: object
                 properties:
-                  airline:
+                  status:
+                    type: boolean
+                  message:
                     type: string
-                  origin:
-                    type: string
-                  destination:
-                    type: string
-                  departure:
-                    type: string
-                  arrival:
-                    type: string
+                  data:
+                    type: object
+                    properties:
+                      airline:
+                        type: string
+                      origin:
+                        type: string
+                      originCity:
+                        type: string
+                      destination:
+                        type: string
+                      destinationCity:
+                        type: string
+                      departure:
+                        type: string
+                      departureTime:
+                        type: string
+                      arrival:
+                        type: string
+                      arrivalTime:
+                        type: string
+                      logo:
+                        type: string
+                x-examples:
+                  Example 1:
+                    status: true
+                    message: Success Create Flight!
+                    data:
+                      airline: Garuda Indonesia
+                      origin: CGK
+                      originCity: Jakarta
+                      destination: SUB
+                      destinationCity: Surabaya
+                      departure: 12/24/2022
+                      departureTime: "15:15:00"
+                      arrival: 12/24/2022
+                      arrivalTime: "18:15:00"
+                      logo: "http://bit.ly/3Ytqr3w"
               examples:
                 Success Create Flight:
                   value:
-                    airline: Garuda Indonesia
-                    origin: CGK
-                    destination: SUB
-                    departure: "2022-12-24T15:15:00"
-                    arrival: "2022-12-24T16:15:00"
-                    logo: "https://ik.imagekit.io/6v306xm58/garuda.png?ik-sdk-version=javascript-1.4.3&updatedAt=1671498104092"
+                    status: true
+                    message: Success Create Flight!
+                    data:
+                      airline: Garuda Indonesia
+                      origin: CGK
+                      originCity: Jakarta
+                      destination: SUB
+                      destinationCity: Surabaya
+                      departure: 12/24/2022
+                      departureTime: "15:15:00"
+                      arrival: 12/24/2022
+                      arrivalTime: "18:15:00"
+                      logo: "http://bit.ly/3Ytqr3w"
         "400":
           description: Bad Request
           content:
@@ -1744,7 +1895,7 @@ paths:
       security:
         - bearerAuth: []
     parameters: []
-  /flight/edit/{flight_id}:
+  "/flight/edit/{flight_id}":
     parameters:
       - schema:
           type: string
@@ -1813,7 +1964,7 @@ paths:
         description: All fields are required
       tags:
         - Flight
-  /flight/delete/{flight_id}:
+  "/flight/delete/{flight_id}":
     parameters:
       - schema:
           type: string
@@ -2238,13 +2389,13 @@ paths:
       description: Get all booking by user
       security:
         - bearerAuth: []
-  '/booking/user-booking/{user_id}':
+  "/booking/user-booking/{user_id}":
     get:
       summary: Total User Booking Endpoint
       tags:
         - Booking
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
@@ -2272,7 +2423,7 @@ paths:
                       userId: 1
                       name: Deden Setyawan
                       totalBooking: 5
-        '400':
+        "400":
           description: Bad Request
           content:
             application/json:
@@ -2284,7 +2435,7 @@ paths:
                   message:
                     type: string
                   data:
-                    type: 'null'
+                    type: "null"
                 x-examples:
                   Example 1:
                     status: false
@@ -2296,7 +2447,7 @@ paths:
                     status: false
                     message: Never made a booking!
                     data: null
-        '500':
+        "500":
           description: Internal Server Error
       description: Get total user booking
       security:
@@ -2307,34 +2458,13 @@ paths:
         name: user_id
         in: path
         required: true
-  /booking/list-seat/{flight_id}:
+  "/booking/list-seat/{flight_id}":
     get:
-      summary: List Seat Reserved Endpoint 
+      summary: List Seat Reserved Endpoint
       tags:
         - Booking
       responses:
-        '400':
-          description: No Content
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: boolean
-                  message:
-                    type: string
-                  data:
-                    type: 'null'
-              examples:
-                Example 1:
-                  value:
-                    status: true
-                    message: No reserved seat!
-                    data: null
-        '500':
-          description: Internal Server Error
-        '200':
+        "200":
           content:
             application/json:
               schema:
@@ -2357,6 +2487,27 @@ paths:
                       - A01
                       - A02
                       - A03
+        "400":
+          description: No Content
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+              examples:
+                Example 1:
+                  value:
+                    status: true
+                    message: No reserved seat!
+                    data: null
+        "500":
+          description: Internal Server Error
       description: Get list reserved seat
       security:
         - bearerAuth: []
@@ -2366,7 +2517,7 @@ paths:
         name: flight_id
         in: path
         required: true
-  /ticket/print-ticket/{id}:
+  "/ticket/print-ticket/{id}":
     parameters:
       - schema:
           type: string
@@ -2432,7 +2583,7 @@ paths:
                         booking_id: 8
                         name: deden
                         airline: Wings Air (Indonesia)
-                        airlineLogo: http://bit.ly/3G4OO0p
+                        airlineLogo: "http://bit.ly/3G4OO0p"
                         from: LBJ
                         to: ENE
                         date: Tue Dec 20 2022
@@ -2445,7 +2596,7 @@ paths:
                         booking_id: 8
                         name: kevin
                         airline: Wings Air (Indonesia)
-                        airlineLogo: http://bit.ly/3G4OO0p
+                        airlineLogo: "http://bit.ly/3G4OO0p"
                         from: LBJ
                         to: ENE
                         date: Tue Dec 20 2022
@@ -2458,7 +2609,7 @@ paths:
                         booking_id: 8
                         name: faza
                         airline: Wings Air (Indonesia)
-                        airlineLogo: http://bit.ly/3G4OO0p
+                        airlineLogo: "http://bit.ly/3G4OO0p"
                         from: LBJ
                         to: ENE
                         date: Tue Dec 20 2022

@@ -1,4 +1,13 @@
-const { User, UserBiodata, Booking, BookingDetails, Payment, PaymentMethod, Ticket, Notification } = require("../../models");
+const {
+  User,
+  UserBiodata,
+  Booking,
+  BookingDetails,
+  Payment,
+  PaymentMethod,
+  Ticket,
+  Notification,
+} = require("../../models");
 const sendEmail = require("../../utils/mailer/sendEmail");
 const templateHtml = require("../../utils/mailer/templateHtml");
 
@@ -29,8 +38,9 @@ const sendingEmail = async (email, booking_id) => {
 
 const payment = async (req, res, next) => {
   try {
-    const user = req.user
-    const { booking_id, ticketClass, paymentMethod, grandTotal, seatNumber } = req.body;
+    const user = req.user;
+    const { booking_id, ticketClass, paymentMethod, grandTotal, seatNumber } =
+      req.body;
 
     const book = await Booking.findOne({ where: { id: booking_id } });
     if (book.status !== "pending") {
@@ -50,7 +60,9 @@ const payment = async (req, res, next) => {
       });
     }
 
-    const result = seatNumber.filter((item, index) => seatNumber.indexOf(item) !== index);
+    const result = seatNumber.filter(
+      (item, index) => seatNumber.indexOf(item) !== index
+    );
 
     if (result.length > 0) {
       return res.status(400).json({
@@ -91,7 +103,9 @@ const payment = async (req, res, next) => {
       });
     }
 
-    const payMethod = await PaymentMethod.findOne({ where: { method: paymentMethod } });
+    const payMethod = await PaymentMethod.findOne({
+      where: { method: paymentMethod },
+    });
     const payment = await Payment.create({
       booking_id,
       payment_method_id: payMethod.id,
@@ -99,8 +113,13 @@ const payment = async (req, res, next) => {
       date: new Date(),
     });
 
-    const updateBooking = await Booking.update({ status: "paid" }, { where: { id: booking_id } });
-    const bookingDetails = await BookingDetails.findAll({ where: { booking_id } });
+    const updateBooking = await Booking.update(
+      { status: "paid" },
+      { where: { id: booking_id } }
+    );
+    const bookingDetails = await BookingDetails.findAll({
+      where: { booking_id },
+    });
 
     let i = 0;
     for (const details of bookingDetails) {
@@ -121,9 +140,9 @@ const payment = async (req, res, next) => {
         isRead: false,
         date: new Date(),
       });
+      
+      sendingEmail(user.email, booking_id);
     }
-
-    sendingEmail(user.email, booking_id);
 
     return res.status(201).json({
       status: true,
