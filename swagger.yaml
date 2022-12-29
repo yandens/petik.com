@@ -1408,44 +1408,6 @@ paths:
                         type: integer
                       totalPage:
                         type: integer
-                x-examples:
-                  Example 1:
-                    status: true
-                    message: Success Get All Data
-                    data:
-                      result:
-                        - id: 1
-                          airline: Batik Air
-                          arlineLogo: "http://bit.ly/3Ytqr3w"
-                          origin: SOQ
-                          originCity: Sorong
-                          destination: MKW
-                          destinationCity: Manokwari
-                          departure: "2023-01-03T06:00:00.000Z"
-                          departureDate: Tue Jan 03 2023
-                          departureTime: "13:00:00"
-                          arrival: "2023-01-03T07:00:00.000Z"
-                          arrivalDate: Tue Jan 03 2023
-                          arrivalTime: "14:00:00"
-                          duration: "01:00"
-                        - id: 2
-                          airline: Wings Air (Indonesia)
-                          arlineLogo: "http://bit.ly/3G4OO0p"
-                          origin: MKW
-                          originCity: Manokwari
-                          destination: NBX
-                          destinationCity: Nabire
-                          departure: "2022-12-30T06:00:00.000Z"
-                          departureDate: Fri Dec 30 2022
-                          departureTime: "13:00:00"
-                          arrival: "2022-12-30T07:00:00.000Z"
-                          arrivalDate: Fri Dec 30 2022
-                          arrivalTime: "14:00:00"
-                          duration: "01:00"
-                      pageNumber: 1
-                      limitPage: 2
-                      totalRows: 83
-                      totalPage: 42
               examples:
                 "Success Get Data Flights (page = 1, limit = 2)":
                   value:
@@ -1536,19 +1498,6 @@ paths:
                         type: string
                       arrival:
                         type: string
-                x-examples:
-                  Example 1:
-                    status: true
-                    mesage: Success Get Data
-                    data:
-                      airline: Batik Air
-                      airlineLogo: "http://bit.ly/3Ytqr3w"
-                      origin: SOQ
-                      originCity: Sorong
-                      destination: MKW
-                      destinationCity: Manokwari
-                      departure: "2023-01-03T06:00:00.000Z"
-                      arrival: "2023-01-03T07:00:00.000Z"
               examples:
                 Success Get Detail Flight:
                   value:
@@ -1621,24 +1570,6 @@ paths:
                           type: string
                         arrivalTime:
                           type: string
-                x-examples:
-                  Example 1:
-                    status: true
-                    message: Success Get Data
-                    data:
-                      - id: 1
-                        airline: Batik Air
-                        airlineLogo: "http://bit.ly/3Ytqr3w"
-                        origin: SOQ
-                        originCity: Sorong
-                        destination: MKW
-                        destinationCity: Manokwari
-                        departure: "2023-01-03T06:00:00.000Z"
-                        departureDate: Tue Jan 03 2023
-                        departureTime: "13:00:00"
-                        arrival: "2023-01-03T07:00:00.000Z"
-                        arrivalDate: Tue Jan 03 2023
-                        arrivalTime: "14:00:00"
               examples:
                 Success Get Filter Flight:
                   value:
@@ -1745,21 +1676,6 @@ paths:
                         type: string
                       logo:
                         type: string
-                x-examples:
-                  Example 1:
-                    status: true
-                    message: Success Create Flight!
-                    data:
-                      airline: Garuda Indonesia
-                      origin: CGK
-                      originCity: Jakarta
-                      destination: SUB
-                      destinationCity: Surabaya
-                      departure: 12/24/2022
-                      departureTime: "15:15:00"
-                      arrival: 12/24/2022
-                      arrivalTime: "18:15:00"
-                      logo: "http://bit.ly/3Ytqr3w"
               examples:
                 Success Create Flight:
                   value:
@@ -1895,7 +1811,7 @@ paths:
       security:
         - bearerAuth: []
     parameters: []
-  "/flight/edit/{flight_id}":
+  /flight/edit/{flight_id}:
     parameters:
       - schema:
           type: string
@@ -1964,7 +1880,7 @@ paths:
         description: All fields are required
       tags:
         - Flight
-  "/flight/delete/{flight_id}":
+  /flight/delete/{flight_id}:
     parameters:
       - schema:
           type: string
@@ -2389,7 +2305,7 @@ paths:
       description: Get all booking by user
       security:
         - bearerAuth: []
-  "/booking/user-booking/{user_id}":
+  /booking/user-booking/{user_id}:
     get:
       summary: Total User Booking Endpoint
       tags:
@@ -2458,7 +2374,7 @@ paths:
         name: user_id
         in: path
         required: true
-  "/booking/list-seat/{flight_id}":
+  /booking/list-seat/{flight_id}:
     get:
       summary: List Seat Reserved Endpoint
       tags:
@@ -2517,7 +2433,7 @@ paths:
         name: flight_id
         in: path
         required: true
-  "/ticket/print-ticket/{id}":
+  /ticket/print-ticket/{id}:
     parameters:
       - schema:
           type: string
