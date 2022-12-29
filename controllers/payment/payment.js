@@ -140,9 +140,9 @@ const payment = async (req, res, next) => {
         isRead: false,
         date: new Date(),
       });
+      
+      sendingEmail(user.email, booking_id);
     }
-
-    sendingEmail(user.email, booking_id);
 
     return res.status(201).json({
       status: true,
