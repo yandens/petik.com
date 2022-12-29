@@ -57,12 +57,13 @@ io.on("connection", (socket) => {
     io.emit(`NOTIFICATIONS-${userID}`, notifUser);
   });
 
-  socket.on("READ_NOTIFICATIONS", async (notifID, userID) => {
-    await Notification.update({ isRead: true }, { where: { id: notifID } })
-    const notifUser = await Notification.findAll({ where: { user_id: userID } })
-
+  socket.on(`READ_ALL`, async (userID) => {
+    await Notification.update({ isRead: true }, { where: { user_id: userID } });
+    const notifUser = await Notification.findAll({
+      where: { user_id: userID },
+    });
     io.emit(`NOTIFICATIONS-${userID}`, notifUser);
-  })
+  });
 });
 
 // delete flight
