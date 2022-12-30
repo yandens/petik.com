@@ -38,10 +38,6 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use(router);
 
-app.get('/test', (req, res, next) => {
-  res.send(user)
-})
-
 app.use(Sentry.Handlers.errorHandler());
 
 app.use((req, res, next) => {
