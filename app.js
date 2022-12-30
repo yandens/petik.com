@@ -38,14 +38,18 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use(router);
 
+app.get('/test', (req, res, next) => {
+  res.send(user)
+})
+
+app.use(Sentry.Handlers.errorHandler());
+
 app.use((req, res, next) => {
   return res.status(404).json({
     status: false,
     message: "Are you lost?",
   });
 });
-
-app.use(Sentry.Handlers.errorHandler());
 
 // 500 handler
 app.use((err, req, res, next) => {
