@@ -8,9 +8,26 @@ const swaggerUi = require("swagger-ui-express");
 const YAML = require("yamljs");
 const swaggerDocument = YAML.load("./swagger.yaml");
 const cron = require("node-cron");
+const Sentry = require('@sentry/node');
+const Tracing = require("@sentry/tracing");
 const flight = require("./controllers/flight");
+const { PORT, FE_LINK, NODE } = process.env;
 
 const app = express();
+
+Sentry.init({
+  dsn: "https://315f3190fdbb4b0cbf84456ba5f9491f@o4504076201164800.ingest.sentry.io/4504418195341312",
+  environment: NODE,
+  integrations: [
+    new Sentry.Integrations.Http({ tracing: true }),
+    new Tracing.Integrations.Express({ app }),
+  ],
+
+  tracesSampleRate: 1.0,
+});
+
+app.use(Sentry.Handlers.requestHandler());
+app.use(Sentry.Handlers.tracingHandler());
 
 app.set("view engine", "ejs");
 app.use(morgan("dev")); // for logging
@@ -28,6 +45,8 @@ app.use((req, res, next) => {
   });
 });
 
+app.use(Sentry.Handlers.errorHandler());
+
 // 500 handler
 app.use((err, req, res, next) => {
   console.log(err);
@@ -37,7 +56,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-const { PORT, FE_LINK } = process.env;
 const server = app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
 const io = require("socket.io")(server, {
