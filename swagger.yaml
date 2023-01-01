@@ -10,7 +10,7 @@ servers:
     description: My Localhost
   - url: "https://petikcom-api-dev.km3ggwp.com/"
     description: Railway Deployment
-  - url : "petikcom.km3ggwp.com/"
+  - url: "https://petikcom.km3ggwp.com/"
     description: Railway Production
 paths:
   /auth/login-google:
