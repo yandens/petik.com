@@ -1,0 +1,2608 @@
+openapi: 3.0.0
+x-stoplight:
+  id: ccmvu53jqi0gc
+info:
+  title: petik.com API
+  description: API petik.com Documentation for Final Project MSIB Batch 3 in Binar Academy
+  version: 1.0.0
+servers:
+  - url: "http://localhost:3000/"
+    description: My Localhost
+  - url: "https://petikcom-api-dev.km3ggwp.com/"
+    description: Railway Deployment/
+paths:
+  /auth/login-google:
+    post:
+      summary: Login Google Oauth2
+      description: Login Google Endpoint
+      tags:
+        - Auth
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      user_id:
+                        type: integer
+                      token:
+                        type: string
+              examples:
+                example-1:
+                  value:
+                    status: true
+                    message: Success
+                    data:
+                      user_id: 1
+                      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJkZWRlbnNldHlhd2FuMTdAZ21haWwuY29tIiwicm9sZSI6IkJVWUVSIiwiaWF0IjoxNjY5NDY1MDk3LCJleHAiOjE2Njk0Njg2OTd9.0ashbxN_rTFEQNujTYgwnn3nLP0UI66cItxd5YepCOs
+        "400":
+          description: Bad Request
+          headers: {}
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    nullable: true
+              examples:
+                example-1:
+                  value:
+                    status: false
+                    message: Your account is already used
+                    data: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                access_token:
+                  type: string
+              required:
+                - access_token
+  /auth/whoami:
+    get:
+      summary: Who Am I
+      security:
+        - bearerAuth: []
+      description: Who Am I Endpoint
+      tags:
+        - Auth
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      email:
+                        type: string
+                      role:
+                        type: string
+              examples:
+                example-1:
+                  value:
+                    status: true
+                    message: Success
+                    data:
+                      id: 1
+                      email: dedensetyawan17@gmail.com
+                      role: BUYER
+    parameters: []
+  /auth/register:
+    post:
+      summary: Register
+      description: Register Endpoint
+      tags:
+        - Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+                confirm_password:
+                  type: string
+                  format: password
+              required:
+                - email
+                - password
+                - confirm_password
+            example:
+              email: dedensetyawan17@gmail.com
+              password: deden123
+              confirm_password: deden123
+      responses:
+        "201":
+          description: Created
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      email:
+                        type: string
+              examples:
+                example-1:
+                  value:
+                    status: true
+                    message: Register Success!
+                    data:
+                      email: dedensetyawan17@gmail.com
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+              examples:
+                example-1:
+                  value:
+                    status: false
+                    message: Password doesn't match!
+                    data: null
+                example-2:
+                  value:
+                    status: false
+                    message: Email not valid / Password at least 6 characters
+                    data: null
+                example-3:
+                  value:
+                    status: false
+                    message: Email already used!
+                    data: null
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+  /auth/verify:
+    get:
+      summary: Verify Email
+      description: Verify Email Endpoint
+      tags:
+        - Auth
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: integer
+              examples:
+                example-1:
+                  value:
+                    status: true
+                    message: Email Verified!
+                    data:
+                      - 1
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    status: false
+                    message: invalid token
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                x-examples:
+                  example-1:
+                    status: false
+                    message: jwt expired
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: token
+          required: true
+  /auth/login:
+    post:
+      summary: Login
+      description: Login Endpoint
+      tags:
+        - Auth
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      email:
+                        type: string
+                      token:
+                        type: string
+              examples:
+                example-1:
+                  value:
+                    status: true
+                    message: login success!
+                    data:
+                      email: dedensetyawan17@gmail.com
+                      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJkZWRlbnNldHlhd2FuMTdAZ21haWwuY29tIiwicm9sZSI6IkJVWUVSIiwiaWF0IjoxNjY5NDYwNTg0LCJleHAiOjE2Njk0NjQxODR9.UpEBOEZ4sVQfWhtzsdcJRUoJyROBVl8z6W528rMtYaY
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+              examples:
+                example-1:
+                  value:
+                    status: false
+                    message: Email not valid!
+                    data: null
+                example-2:
+                  value:
+                    status: false
+                    message: Wrong email or password!
+                    data: null
+                example-3:
+                  value:
+                    status: false
+                    message: Email not verifed!
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+              required:
+                - email
+            examples:
+              example-1:
+                value:
+                  email: dedensetyawan17@gmail.com
+                  password: deden123
+        description: Email must be valid and password at least 6 character
+  /auth/change-password:
+    put:
+      summary: Change Password
+      description: Change Password Endpoint
+      tags:
+        - Auth
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: integer
+              examples:
+                example-1:
+                  value:
+                    status: true
+                    message: Password Updated!
+                    data:
+                      - 1
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+              examples:
+                example-1:
+                  value:
+                    status: false
+                    message: Password Doesn't Match
+                    data: null
+                example-2:
+                  value:
+                    status: false
+                    message: Old Password Doesn't Match!
+                    data: null
+                example-3:
+                  value:
+                    status: false
+                    message: Password at least 6 characters
+                    data: null
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                oldPassword:
+                  type: string
+                  format: password
+                newPassword:
+                  type: string
+                  format: password
+                confirmNewPassword:
+                  type: string
+                  format: password
+              required:
+                - oldPassword
+                - newPassword
+                - confirmNewPassword
+            examples:
+              example-1:
+                value:
+                  oldPassword: deden123
+                  newPassword: dedens123
+                  confirmNewPassword: dedens123
+  /auth/forgot-password:
+    post:
+      summary: Forgot Password
+      description: Forgot Password Endpoint
+      tags:
+        - Auth
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    status: true
+                    message: success send reset password link to email
+                    data: dedensetyawan17@gmail.com
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    status: false
+                    message: Email not found
+                example-2:
+                  value:
+                    status: false
+                    message: Email not valid!
+                    data: null
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+              required:
+                - email
+            examples:
+              example-1:
+                value:
+                  email: dedensetyawan17@gmail.com
+  /auth/reset-password:
+    put:
+      summary: Reset Password
+      description: Reset Password Endpoint
+      tags:
+        - Auth
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      email:
+                        type: string
+              examples:
+                example-1:
+                  value:
+                    status: true
+                    message: success change password
+                    data:
+                      id: 1
+                      email: dedensetyawan17@gmail.com
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    status: false
+                    message: Password at least 6 characters!
+                    data: null
+                example-2:
+                  value:
+                    status: false
+                    message: invalid token
+                example-3:
+                  value:
+                    status: false
+                    message: Password not match!
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: token
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                newPass:
+                  type: string
+                  format: password
+                confirmNewPass:
+                  type: string
+                  format: password
+              required:
+                - newPass
+                - confirmNewPass
+            examples:
+              example-1:
+                value:
+                  newPass: deden123
+                  confirmNewPass: deden123
+  /user/create-bio:
+    parameters: []
+    post:
+      summary: Create User Biodata
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      email:
+                        type: string
+              examples:
+                example-1:
+                  value:
+                    status: true
+                    message: success
+                    data:
+                      id: 2
+                      email: dedensetyawan17@gmail.com
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+              examples:
+                example-1:
+                  value:
+                    status: false
+                    message: Must be string / The phone number must be started with '+'!
+                    data: null
+      description: Create user biodata endpoint
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                gender:
+                  type: string
+                phoneNumber:
+                  type: string
+                address:
+                  type: string
+                nationality:
+                  type: string
+              required:
+                - firstName
+                - lastName
+                - gender
+                - phoneNumber
+                - address
+                - nationality
+            examples:
+              example-1:
+                value:
+                  firstName: Deden
+                  lastName: Setyawan
+                  gender: Male
+                  phoneNumber: "+6285123258456"
+                  address: "Gianyar, Bali"
+                  nationality: Indonesia
+        description: All must be string and phone number must be started with '+'
+      tags:
+        - User
+  /user/update-bio:
+    parameters: []
+    put:
+      summary: Update User Biodata
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      email:
+                        type: string
+              examples:
+                example-1:
+                  value:
+                    status: true
+                    message: Success update user!
+                    data:
+                      id: 2
+                      email: dedensetyawan17@gmail.com
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+              examples:
+                example-1:
+                  value:
+                    status: false
+                    message: Must be String / The phone number must be started with '+'!
+                    data: null
+      description: Update user biodata endpoint
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                gender:
+                  type: string
+                phoneNumber:
+                  type: string
+                address:
+                  type: string
+                nationality:
+                  type: string
+            examples:
+              example-1:
+                value:
+                  firstName: Deden
+                  lastName: Setyawan
+                  gender: Male
+                  phoneNumber: "+62895621258456"
+                  address: "Gianyar, Gianyar, Bali"
+                  nationality: Indonesia
+      tags:
+        - User
+  /user/show-bio:
+    get:
+      summary: Show User Biodata
+      tags:
+        - User
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      email:
+                        type: string
+                      password:
+                        type: string
+                      role_id:
+                        type: integer
+                      status:
+                        type: boolean
+                      user_type:
+                        type: string
+                      isActive:
+                        type: boolean
+                      createdAt:
+                        type: string
+                      updatedAt:
+                        type: string
+                      biodata:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          user_id:
+                            type: integer
+                          firstName:
+                            type: string
+                          lastName:
+                            type: string
+                          gender:
+                            type: string
+                          phoneNumber:
+                            type: string
+                          address:
+                            type: string
+                          nationality:
+                            type: string
+                          createdAt:
+                            type: string
+                          updatedAt:
+                            type: string
+              examples:
+                example-1:
+                  value:
+                    status: true
+                    message: Success get user data!
+                    data:
+                      id: 2
+                      email: dedensetyawan17@gmail.com
+                      password: $2b$10$.UrCdGS6DnWc7cT7StAgAOOM/tfoAbnsyM22jKAkh0X8QAcGO3Qwm
+                      role_id: 2
+                      status: true
+                      user_type: BASIC
+                      isActive: true
+                      createdAt: "2022-12-01T01:40:23.026Z"
+                      updatedAt: "2022-12-01T01:40:23.026Z"
+                      biodata:
+                        id: 1
+                        user_id: 2
+                        firstName: Deden
+                        lastName: Setyawan
+                        gender: Male
+                        phoneNumber: "+62895621258456"
+                        address: "Gianyar, Gianyar, Bali"
+                        nationality: Indonesia
+                        createdAt: "2022-12-01T01:41:32.692Z"
+                        updatedAt: "2022-12-01T01:53:40.873Z"
+      description: Show user biodata endpoint
+      security:
+        - bearerAuth: []
+  /user/delete-account:
+    put:
+      summary: Delete User Account (Soft Delete)
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: integer
+              examples:
+                example-1:
+                  value:
+                    status: true
+                    message: User Deleted!
+                    data:
+                      - 1
+      description: Delete user account endpoint
+      security:
+        - bearerAuth: []
+      tags:
+        - User
+  "/user/get-user/{user_id}":
+    get:
+      summary: Get User
+      tags:
+        - User
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      email:
+                        type: string
+                      password:
+                        type: string
+                      role_id:
+                        type: integer
+                      status:
+                        type: boolean
+                      user_type:
+                        type: string
+                      isActive:
+                        type: boolean
+                      createdAt:
+                        type: string
+                      updatedAt:
+                        type: string
+                      biodata:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          user_id:
+                            type: integer
+                          firstName:
+                            type: string
+                          lastName:
+                            type: string
+                          gender:
+                            type: string
+                          phoneNumber:
+                            type: string
+                          address:
+                            type: string
+                          nationality:
+                            type: string
+                          createdAt:
+                            type: string
+                          updatedAt:
+                            type: string
+              examples:
+                example-1:
+                  value:
+                    status: true
+                    message: Success get user data!
+                    data:
+                      id: 2
+                      email: dedensetyawan17@gmail.com
+                      password: $2b$10$.UrCdGS6DnWc7cT7StAgAOOM/tfoAbnsyM22jKAkh0X8QAcGO3Qwm
+                      role_id: 2
+                      status: false
+                      user_type: BASIC
+                      isActive: false
+                      createdAt: "2022-12-01T01:40:23.026Z"
+                      updatedAt: "2022-12-01T01:58:57.155Z"
+                      biodata:
+                        id: 1
+                        user_id: 2
+                        firstName: Deden
+                        lastName: Setyawan
+                        gender: Male
+                        phoneNumber: "+62895621258456"
+                        address: "Gianyar, Gianyar, Bali"
+                        nationality: Indonesia
+                        createdAt: "2022-12-01T01:41:32.692Z"
+                        updatedAt: "2022-12-01T01:53:40.873Z"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+              examples:
+                example-1:
+                  value:
+                    status: false
+                    message: User not found!
+                    data: null
+      description: Get user endpoint
+      security:
+        - bearerAuth: []
+    parameters:
+      - schema:
+          type: string
+        name: user_id
+        in: path
+        required: true
+  /user/get-users:
+    get:
+      summary: Get Users
+      tags:
+        - User
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      email:
+                        type: string
+                      password:
+                        type: string
+                      role_id:
+                        type: integer
+                      status:
+                        type: boolean
+                      user_type:
+                        type: string
+                      isActive:
+                        type: boolean
+                      createdAt:
+                        type: string
+                      updatedAt:
+                        type: string
+                      biodata:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          user_id:
+                            type: integer
+                          firstName:
+                            type: string
+                          lastName:
+                            type: string
+                          gender:
+                            type: string
+                          phoneNumber:
+                            type: string
+                          address:
+                            type: string
+                          nationality:
+                            type: string
+                          createdAt:
+                            type: string
+                          updatedAt:
+                            type: string
+              examples:
+                example-1:
+                  value:
+                    status: true
+                    message: Success get user data!
+                    data:
+                      id: 2
+                      email: dedensetyawan17@gmail.com
+                      password: $2b$10$.UrCdGS6DnWc7cT7StAgAOOM/tfoAbnsyM22jKAkh0X8QAcGO3Qwm
+                      role_id: 2
+                      status: false
+                      user_type: BASIC
+                      isActive: false
+                      createdAt: "2022-12-01T01:40:23.026Z"
+                      updatedAt: "2022-12-01T01:58:57.155Z"
+                      biodata:
+                        id: 1
+                        user_id: 2
+                        firstName: Deden
+                        lastName: Setyawan
+                        gender: Male
+                        phoneNumber: "+62895621258456"
+                        address: "Gianyar, Gianyar, Bali"
+                        nationality: Indonesia
+                        createdAt: "2022-12-01T01:41:32.692Z"
+                        updatedAt: "2022-12-01T01:53:40.873Z"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+              examples:
+                example-1:
+                  value:
+                    status: false
+                    message: User not found!
+                    data: null
+      description: Get users endpoint
+      security:
+        - bearerAuth: []
+    parameters: []
+  /user/upload-avatar:
+    put:
+      summary: Upload User Avatar
+      tags:
+        - User
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: integer
+              examples:
+                example-1:
+                  value:
+                    status: true
+                    message: Avatar Uploaded!
+                    data:
+                      - 1
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    status: false
+                    message: "only png, jpg, and jpeg allowed to upload!"
+      description: Upload user avatar endpoint
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                avatar:
+                  type: string
+                  format: binary
+        description: "Only png, jpg, and jpeg allowed to upload"
+  /user/delete-avatar:
+    put:
+      summary: Delete User Avatar
+      tags:
+        - User
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: integer
+              examples:
+                example-1:
+                  value:
+                    status: true
+                    message: Avatar Deleted!
+                    data:
+                      - 1
+      description: Delete user avatar endpoint
+      security:
+        - bearerAuth: []
+    parameters: []
+  "/airport/search/{search}":
+    parameters:
+      - schema:
+          type: string
+        name: search
+        in: path
+        description: "User Input Search by IATA, ICAO, and Name"
+        required: true
+    get:
+      summary: "Search Airport by IATA, ICAO or Name"
+      tags:
+        - Airport
+      responses:
+        "200":
+          description: OK
+          headers: {}
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+              examples:
+                "ICAO: /airport/search/WSSS":
+                  value:
+                    status: true
+                    message: Success Get Data
+                    data:
+                      type: FeatureCollection
+                      features:
+                        - type: Feature
+                          geometry:
+                            type: Point
+                            coordinates:
+                              - 103.994003
+                              - 1.35019
+                          properties:
+                            id: 26887
+                            country:
+                              code: SG
+                              name: Singapore
+                              continent: Asia
+                              wikipedia: "https://en.wikipedia.org/wiki/Singapore"
+                            name: Singapore Changi Airport
+                            source: ourairports
+                            distance: null
+                            match_relevance:
+                              code: 0.75
+                              country: null
+                              levenshtein: null
+                              ts_rank: null
+                              trgm_similarity: null
+                              skipped_chunks: 0
+                            match_level: 1
+                            region:
+                              code: SG-04
+                              local_code: "04"
+                              name: South East
+                              wikipedia: "https://en.wikipedia.org/wiki/South_East"
+                            elevation: 22
+                            functions:
+                              - scheduled_service
+                            gps_code: WSSS
+                            home_link: "http://www.changiairport.com/"
+                            iata: SIN
+                            local_code: null
+                            municipality: Singapore
+                            type: large_airport
+                            wikipedia: "https://en.wikipedia.org/wiki/Singapore_Changi_Airport"
+                      properties: {}
+                "IATA: /airport/search/SIN":
+                  value:
+                    status: true
+                    message: Success Get Data
+                    data:
+                      type: FeatureCollection
+                      features:
+                        - type: Feature
+                          geometry:
+                            type: Point
+                            coordinates:
+                              - 103.994003
+                              - 1.35019
+                          properties:
+                            id: 26887
+                            country:
+                              code: SG
+                              name: Singapore
+                              continent: Asia
+                              wikipedia: "https://en.wikipedia.org/wiki/Singapore"
+                            name: Singapore Changi Airport
+                            source: ourairports
+                            distance: null
+                            match_relevance:
+                              code: 0.75
+                              country: null
+                              levenshtein: null
+                              ts_rank: null
+                              trgm_similarity: null
+                              skipped_chunks: 0
+                            match_level: 1
+                            region:
+                              code: SG-04
+                              local_code: "04"
+                              name: South East
+                              wikipedia: "https://en.wikipedia.org/wiki/South_East"
+                            elevation: 22
+                            functions:
+                              - scheduled_service
+                            gps_code: WSSS
+                            home_link: "http://www.changiairport.com/"
+                            iata: SIN
+                            local_code: null
+                            municipality: Singapore
+                            type: large_airport
+                            wikipedia: "https://en.wikipedia.org/wiki/Singapore_Changi_Airport"
+                      properties: {}
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+              examples:
+                "Airport Not Found : port/search/changi":
+                  value:
+                    status: true
+                    message: Success Get Data
+                    data:
+                      status: 404
+                      error:
+                        - Not Found
+                      message: We could not find anything with 'changi'
+      description: "Search Airport By ICAO, IATA, and Name"
+  /flight/schedule/:
+    get:
+      summary: Get Flight Schedule
+      tags:
+        - Flight
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      result:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            airline:
+                              type: string
+                            arlineLogo:
+                              type: string
+                            origin:
+                              type: string
+                            originCity:
+                              type: string
+                            destination:
+                              type: string
+                            destinationCity:
+                              type: string
+                            departure:
+                              type: string
+                            departureDate:
+                              type: string
+                            departureTime:
+                              type: string
+                            arrival:
+                              type: string
+                            arrivalDate:
+                              type: string
+                            arrivalTime:
+                              type: string
+                            duration:
+                              type: string
+                      pageNumber:
+                        type: integer
+                      limitPage:
+                        type: integer
+                      totalRows:
+                        type: integer
+                      totalPage:
+                        type: integer
+              examples:
+                "Success Get Data Flights (page = 1, limit = 2)":
+                  value:
+                    status: true
+                    message: Success Get All Data
+                    data:
+                      result:
+                        - id: 1
+                          airline: Batik Air
+                          arlineLogo: "http://bit.ly/3Ytqr3w"
+                          origin: SOQ
+                          originCity: Sorong
+                          destination: MKW
+                          destinationCity: Manokwari
+                          departure: "2023-01-03T06:00:00.000Z"
+                          departureDate: Tue Jan 03 2023
+                          departureTime: "13:00:00"
+                          arrival: "2023-01-03T07:00:00.000Z"
+                          arrivalDate: Tue Jan 03 2023
+                          arrivalTime: "14:00:00"
+                          duration: "01:00"
+                        - id: 2
+                          airline: Wings Air (Indonesia)
+                          arlineLogo: "http://bit.ly/3G4OO0p"
+                          origin: MKW
+                          originCity: Manokwari
+                          destination: NBX
+                          destinationCity: Nabire
+                          departure: "2022-12-30T06:00:00.000Z"
+                          departureDate: Fri Dec 30 2022
+                          departureTime: "13:00:00"
+                          arrival: "2022-12-30T07:00:00.000Z"
+                          arrivalDate: Fri Dec 30 2022
+                          arrivalTime: "14:00:00"
+                          duration: "01:00"
+                      pageNumber: 1
+                      limitPage: 2
+                      totalRows: 83
+                      totalPage: 42
+      description: Flight Schedule Endpoint
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: page
+          description: number of page
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: limit
+          description: data limit in one page
+          required: true
+    parameters: []
+  "/flight/get-flight/{flight_id}":
+    get:
+      summary: Get Detail Flight
+      tags:
+        - Flight
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  mesage:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      airline:
+                        type: string
+                      airlineLogo:
+                        type: string
+                      origin:
+                        type: string
+                      originCity:
+                        type: string
+                      destination:
+                        type: string
+                      destinationCity:
+                        type: string
+                      departure:
+                        type: string
+                      arrival:
+                        type: string
+              examples:
+                Success Get Detail Flight:
+                  value:
+                    status: true
+                    mesage: Success Get Data
+                    data:
+                      airline: Batik Air
+                      airlineLogo: "http://bit.ly/3Ytqr3w"
+                      origin: SOQ
+                      originCity: Sorong
+                      destination: MKW
+                      destinationCity: Manokwari
+                      departure: "2023-01-03T06:00:00.000Z"
+                      arrival: "2023-01-03T07:00:00.000Z"
+      description: Get Flight By Id
+      parameters: []
+      security:
+        - bearerAuth: []
+    parameters:
+      - schema:
+          type: string
+        name: flight_id
+        in: path
+        required: true
+  /flight/schedule/search:
+    post:
+      summary: Filter Flight Schedule
+      tags:
+        - Flight
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        airline:
+                          type: string
+                        airlineLogo:
+                          type: string
+                        origin:
+                          type: string
+                        originCity:
+                          type: string
+                        destination:
+                          type: string
+                        destinationCity:
+                          type: string
+                        departure:
+                          type: string
+                        departureDate:
+                          type: string
+                        departureTime:
+                          type: string
+                        arrival:
+                          type: string
+                        arrivalDate:
+                          type: string
+                        arrivalTime:
+                          type: string
+              examples:
+                Success Get Filter Flight:
+                  value:
+                    status: true
+                    message: Success Get Data
+                    data:
+                      - id: 1
+                        airline: Batik Air
+                        airlineLogo: "http://bit.ly/3Ytqr3w"
+                        origin: SOQ
+                        originCity: Sorong
+                        destination: MKW
+                        destinationCity: Manokwari
+                        departure: "2023-01-03T06:00:00.000Z"
+                        departureDate: Tue Jan 03 2023
+                        departureTime: "13:00:00"
+                        arrival: "2023-01-03T07:00:00.000Z"
+                        arrivalDate: Tue Jan 03 2023
+                        arrivalTime: "14:00:00"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+              examples:
+                example-1:
+                  value:
+                    status: false
+                    message: Empty Flight
+                    data: null
+      description: Filter Flight Schedule Endpoint
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                origin:
+                  type: string
+                  minLength: 3
+                  maxLength: 3
+                destination:
+                  type: string
+                  minLength: 3
+                  maxLength: 3
+                date:
+                  type: string
+              required:
+                - origin
+                - destination
+                - date
+            examples:
+              example-1:
+                value:
+                  origin: YZS
+                  destination: YRT
+                  date: "2022-12-21"
+      parameters: []
+  /flight/create-flight:
+    post:
+      summary: Create Flight
+      tags:
+        - Flight
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      airline:
+                        type: string
+                      origin:
+                        type: string
+                      originCity:
+                        type: string
+                      destination:
+                        type: string
+                      destinationCity:
+                        type: string
+                      departure:
+                        type: string
+                      departureTime:
+                        type: string
+                      arrival:
+                        type: string
+                      arrivalTime:
+                        type: string
+                      logo:
+                        type: string
+              examples:
+                Success Create Flight:
+                  value:
+                    status: true
+                    message: Success Create Flight!
+                    data:
+                      airline: Garuda Indonesia
+                      origin: CGK
+                      originCity: Jakarta
+                      destination: SUB
+                      destinationCity: Surabaya
+                      departure: 12/24/2022
+                      departureTime: "15:15:00"
+                      arrival: 12/24/2022
+                      arrivalTime: "18:15:00"
+                      logo: "http://bit.ly/3Ytqr3w"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+              examples:
+                Departure time = Arrival Time:
+                  value:
+                    status: false
+                    message: Check Departure & Arrival Time!
+                Departure time < Arrival Time:
+                  value:
+                    status: false
+                    message: Check Departure & Arrival Time!
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+              examples:
+                Unauthorized:
+                  value:
+                    status: false
+                    message: you're not authorized!
+                    data: null
+        "409":
+          description: Flight Already Exist
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      airline:
+                        type: string
+                      origin:
+                        type: string
+                      destination:
+                        type: string
+                      departure:
+                        type: string
+                      arrival:
+                        type: string
+                      createdAt:
+                        type: string
+                      updatedAt:
+                        type: string
+              examples:
+                Flight Already Exist:
+                  value:
+                    status: false
+                    message: Flight Already Exist!
+                    data:
+                      id: 306
+                      airline: Garuda Indonesia
+                      origin: CGK
+                      destination: SUB
+                      departure: "2022-12-24T08:15:00.000Z"
+                      arrival: "2022-12-24T11:15:00.000Z"
+                      createdAt: "2022-12-20T06:30:58.391Z"
+                      updatedAt: "2022-12-20T06:30:58.391Z"
+      description: Create Flight by admin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                airline:
+                  type: string
+                origin:
+                  type: string
+                destination:
+                  type: string
+                departure:
+                  type: string
+                arrival:
+                  type: string
+              required:
+                - airline
+                - origin
+                - destination
+                - departure
+                - arrival
+            examples:
+              Create Flight:
+                value:
+                  airline: Garuda Indonesia
+                  origin: CGK
+                  destination: SUB
+                  departure: "2022-12-24T15:15:00"
+                  arrival: "2022-12-24T16:15:00"
+        description: All fields are required
+      parameters: []
+      security:
+        - bearerAuth: []
+    parameters: []
+  /flight/edit/{flight_id}:
+    parameters:
+      - schema:
+          type: string
+        name: flight_id
+        in: path
+        required: true
+        description: Flight id from Flights
+    put:
+      summary: Update Flight
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: integer
+              examples:
+                Flight Updated:
+                  value:
+                    status: true
+                    message: Data Updated!
+                    data:
+                      - 1
+      description: Update flight by admin
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                airline:
+                  type: string
+                origin:
+                  type: string
+                destination:
+                  type: string
+                departure:
+                  type: string
+                arrival:
+                  type: string
+              required:
+                - airline
+                - origin
+                - destination
+                - departure
+                - arrival
+            examples:
+              Update Flight:
+                value:
+                  airline: Garuda Indonesia
+                  origin: CGK
+                  destination: SIN
+                  departure: "2022-12-24T13:50:00"
+                  arrival: "2022-12-24T14:50:00"
+        description: All fields are required
+      tags:
+        - Flight
+  /flight/delete/{flight_id}:
+    parameters:
+      - schema:
+          type: string
+        name: flight_id
+        in: path
+        required: true
+        description: Flight id from Flights
+    delete:
+      summary: Delete Flight
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: integer
+              examples:
+                Success Delete Flight:
+                  value:
+                    status: true
+                    message: Success Delete Flight!
+                    data: 1
+      description: Delete Flight by admin
+      security:
+        - bearerAuth: []
+      tags:
+        - Flight
+  /payment:
+    post:
+      summary: Create Payment
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      booking_id:
+                        type: integer
+                      payment_method_id:
+                        type: integer
+                      total_price:
+                        type: integer
+                      date:
+                        type: string
+                      updatedAt:
+                        type: string
+                      createdAt:
+                        type: string
+              examples:
+                Payment Success:
+                  value:
+                    status: true
+                    message: Successful Payment
+                    data:
+                      id: 13
+                      booking_id: 34
+                      payment_method_id: 2
+                      total_price: 4197
+                      date: "2022-12-13T03:32:59.731Z"
+                      updatedAt: "2022-12-13T03:32:59.732Z"
+                      createdAt: "2022-12-13T03:32:59.732Z"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+              examples:
+                Booking has been paid / canceled by User:
+                  value:
+                    status: false
+                    message: You can't pay paid booking or canceled booking!
+                    data: null
+      description: Payment Endpoint
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                booking_id:
+                  type: integer
+                paymentMethod:
+                  type: string
+                grandTotal:
+                  type: integer
+                seatNumber:
+                  type: array
+                  items:
+                    type: string
+                ticketClass:
+                  type: string
+              required:
+                - booking_id
+                - paymentMethod
+                - grandTotal
+                - seatNumber
+                - ticketClass
+            examples:
+              "Payment Method : E-Wallet":
+                value:
+                  booking_id: 1
+                  paymentMethod: E-Wallet
+                  grandTotal: 4197
+                  seatNumber:
+                    - A01
+                    - A02
+                    - A03
+                  ticketClass: business
+              "Payment Method : Virtual Account":
+                value:
+                  booking_id: 1
+                  paymentMethod: Virtual Account
+                  grandTotal: 4197
+                  seatNumber:
+                    - A01
+                    - A02
+                    - A03
+                  ticketClass: business
+      tags:
+        - Payment
+      security:
+        - bearerAuth: []
+    parameters: []
+  /booking:
+    post:
+      summary: Create Booking
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      booking_id:
+                        type: integer
+                      payment_method_id:
+                        type: integer
+                      total_price:
+                        type: integer
+                      date:
+                        type: string
+                      updatedAt:
+                        type: string
+                      createdAt:
+                        type: string
+              examples:
+                Booking Created:
+                  value:
+                    status: true
+                    message: Booking Created!
+                    data:
+                      booking:
+                        id: 34
+                        user_id: 7
+                        status: pending
+                        date: "2022-12-13T03:31:57.053Z"
+                        updatedAt: "2022-12-13T03:31:57.056Z"
+                        createdAt: "2022-12-13T03:31:57.056Z"
+                      total: 1275
+                      grandTotal: 3825
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+              examples:
+                Booking has been paid / canceled by User:
+                  value:
+                    status: false
+                    message: You can't pay paid booking or canceled booking!
+                    data: null
+      description: Create Booking Endpoint
+      tags:
+        - Booking
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                body:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      passangerName:
+                        type: string
+                      NIK:
+                        type: string
+                      passport:
+                        type: string
+                    required:
+                      - passangerName
+                      - NIK
+                ticketClass:
+                  type: string
+                flight_id:
+                  type: integer
+              required:
+                - body
+                - ticketClass
+                - flight_id
+            examples:
+              Input multiple passangers:
+                value:
+                  body:
+                    - passangerName: Kevin
+                      NIK: "11111111111111111"
+                      passport: 134e5f
+                    - passangerName: Deden
+                      NIK: "222222222222222"
+                      passport: 134rf
+                    - passangerName: Faza
+                      NIK: "333333333333"
+                      passport: 134cf
+                  ticketClass: business
+                  flight_id: 1
+              Input single passanger:
+                value:
+                  body:
+                    - passangerName: Kevin
+                      NIK: "11111111111111111"
+                      passport: 134e5f
+                  ticketClass: business
+                  flight_id: 1
+    parameters: []
+  /booking/cancel:
+    parameters: []
+    put:
+      summary: Cancel Booking
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items: {}
+              examples:
+                Success cancel booking:
+                  value:
+                    status: true
+                    message: Successful cancellation!
+                    data:
+                      - 1
+        "400":
+          description: Booking Not Found / Booking has been paid
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                required:
+                  - status
+                  - message
+              examples:
+                Data Not Found:
+                  value:
+                    status: false
+                    message: Booking not found!
+                    data:
+                      "null": null
+                Booking Has Been Paid:
+                  value:
+                    status: true
+                    message: You cannot cancel a booking that has already been paid for
+                    data:
+                      "null": null
+      description: Cancel Booking Endpoint
+      security:
+        - bearerAuth: []
+      tags:
+        - Booking
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                booking_id:
+                  type: integer
+            examples:
+              Example 1:
+                value:
+                  booking_id: 3
+          application/xml:
+            schema:
+              type: object
+              properties: {}
+  /booking/list-booking:
+    parameters: []
+    get:
+      tags:
+        - Booking
+      summary: Get Bookings by id user
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      user_id:
+                        type: integer
+                      date:
+                        type: string
+                      createdAt:
+                        type: string
+                      updatedAt:
+                        type: string
+              examples:
+                Example 2:
+                  value:
+                    status: true
+                    message: Success Get Data
+                    data:
+                      - id: 1
+                        user_id: 3
+                        status: paid
+                        date: "2022-12-16T05:12:14.153Z"
+                        createdAt: "2022-12-16T05:12:14.154Z"
+                        updatedAt: "2022-12-16T05:14:14.947Z"
+                      - id: 2
+                        user_id: 3
+                        status: paid
+                        date: "2022-12-16T05:39:56.640Z"
+                        createdAt: "2022-12-16T05:39:56.642Z"
+                        updatedAt: "2022-12-16T05:40:10.114Z"
+                      - id: 4
+                        user_id: 3
+                        status: paid
+                        date: "2022-12-16T05:48:11.962Z"
+                        createdAt: "2022-12-16T05:48:11.964Z"
+                        updatedAt: "2022-12-16T05:48:50.811Z"
+                      - id: 3
+                        user_id: 3
+                        status: paid
+                        date: "2022-12-16T05:41:54.633Z"
+                        createdAt: "2022-12-16T05:41:54.633Z"
+                        updatedAt: "2022-12-16T05:50:03.083Z"
+                      - id: 6
+                        user_id: 3
+                        status: paid
+                        date: "2022-12-16T06:09:36.031Z"
+                        createdAt: "2022-12-16T06:09:36.033Z"
+                        updatedAt: "2022-12-16T06:10:17.509Z"
+                      - id: 5
+                        user_id: 3
+                        status: cancel
+                        date: "2022-12-16T06:09:19.305Z"
+                        createdAt: "2022-12-16T06:09:19.305Z"
+                        updatedAt: "2022-12-16T06:30:02.493Z"
+      description: Get all booking by user
+      security:
+        - bearerAuth: []
+  /booking/user-booking/{user_id}:
+    get:
+      summary: Total User Booking Endpoint
+      tags:
+        - Booking
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      userId:
+                        type: integer
+                      name:
+                        type: string
+                      totalBooking:
+                        type: integer
+              examples:
+                Example 1:
+                  value:
+                    status: true
+                    message: Success get total booking of user
+                    data:
+                      userId: 1
+                      name: Deden Setyawan
+                      totalBooking: 5
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+                x-examples:
+                  Example 1:
+                    status: false
+                    message: Never made a booking!
+                    data: null
+              examples:
+                Example 1:
+                  value:
+                    status: false
+                    message: Never made a booking!
+                    data: null
+        "500":
+          description: Internal Server Error
+      description: Get total user booking
+      security:
+        - bearerAuth: []
+    parameters:
+      - schema:
+          type: string
+        name: user_id
+        in: path
+        required: true
+  /booking/list-seat/{flight_id}:
+    get:
+      summary: List Seat Reserved Endpoint
+      tags:
+        - Booking
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                Example 1:
+                  value:
+                    status: true
+                    message: Succes get the reserved seat!
+                    data:
+                      - A01
+                      - A02
+                      - A03
+        "400":
+          description: No Content
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: "null"
+              examples:
+                Example 1:
+                  value:
+                    status: true
+                    message: No reserved seat!
+                    data: null
+        "500":
+          description: Internal Server Error
+      description: Get list reserved seat
+      security:
+        - bearerAuth: []
+    parameters:
+      - schema:
+          type: string
+        name: flight_id
+        in: path
+        required: true
+  /ticket/print-ticket/{id}:
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: booking id
+    get:
+      summary: Print Ticket
+      tags:
+        - Ticket
+      description: Print Ticket Endpoint
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        booking_id:
+                          type: integer
+                        name:
+                          type: string
+                        airline:
+                          type: string
+                        from:
+                          type: string
+                        to:
+                          type: string
+                        date:
+                          type: string
+                        departureTime:
+                          type: string
+                        boardingTime:
+                          type: string
+                        seatNumber:
+                          type: string
+                        class:
+                          type: string
+                        qr_code:
+                          type: string
+              examples:
+                Example 1:
+                  value:
+                    status: true
+                    message: Success
+                    data:
+                      - id: 1
+                        booking_id: 8
+                        name: deden
+                        airline: Wings Air (Indonesia)
+                        airlineLogo: "http://bit.ly/3G4OO0p"
+                        from: LBJ
+                        to: ENE
+                        date: Tue Dec 20 2022
+                        departureTime: "9:40:00 AM"
+                        boardingTime: "8:40:00 AM"
+                        seatNumber: A10
+                        class: business
+                        qr_code: "https://ik.imagekit.io/yandens/qrCode_vwlw7YYJh"
+                      - id: 1
+                        booking_id: 8
+                        name: kevin
+                        airline: Wings Air (Indonesia)
+                        airlineLogo: "http://bit.ly/3G4OO0p"
+                        from: LBJ
+                        to: ENE
+                        date: Tue Dec 20 2022
+                        departureTime: "9:40:00 AM"
+                        boardingTime: "8:40:00 AM"
+                        seatNumber: A11
+                        class: business
+                        qr_code: "https://ik.imagekit.io/yandens/qrCode_1lWRF8QKQ"
+                      - id: 1
+                        booking_id: 8
+                        name: faza
+                        airline: Wings Air (Indonesia)
+                        airlineLogo: "http://bit.ly/3G4OO0p"
+                        from: LBJ
+                        to: ENE
+                        date: Tue Dec 20 2022
+                        departureTime: "9:40:00 AM"
+                        boardingTime: "8:40:00 AM"
+                        seatNumber: A12
+                        class: business
+                        qr_code: "https://ik.imagekit.io/yandens/qrCode_J7zk-osa7"
+  /notifications:
+    parameters: []
+    get:
+      summary: Get Notifications
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  date:
+                    type: array
+                    items: {}
+              examples:
+                Get all notifications:
+                  value:
+                    status: true
+                    message: Success Get Notifications
+                    data:
+                      - title: Payment
+                        message: Your payment has been confirmed!. Please make sure you check your Email for further detail
+                        date: Fri Dec 16 2022
+                        time: 12/16/2022
+                      - title: Payment
+                        message: Your payment has been confirmed!. Please make sure you check your Email for further detail
+                        date: Fri Dec 16 2022
+                        time: "12:50:03"
+                      - title: Booking
+                        message: You've booked some flight and please pay it before the due time. For further information please check your Email!
+                        date: Fri Dec 16 2022
+                        time: "13:09:36"
+                      - title: Payment
+                        message: Your payment has been confirmed!. Please make sure you check your Email for further detail
+                        date: Fri Dec 16 2022
+                        time: "13:10:17"
+                      - title: Cancel Booking
+                        message: You've canceled your booking. Please check email for further information
+                        date: Fri Dec 16 2022
+                        time: "13:30:02"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+              examples:
+                Empty notifications:
+                  value:
+                    status: true
+                    message: Empty Notifications
+      description: Get all notif by user
+      security:
+        - bearerAuth: []
+      tags:
+        - Notifications
+components:
+  schemas: {}
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer

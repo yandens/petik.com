@@ -1,2 +1,6 @@
 .env
 node_modules
+data.json
+main.json
+.idea
+test.json

@@ -4,20 +4,38 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "dev": "nodemon app.js",
+    "start": "node app.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@sentry/node": "^7.23.0",
+    "@sentry/tracing": "^7.23.0",
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.1",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.3",
+    "ejs": "^3.1.8",
     "express": "^4.18.2",
+    "fastest-validator": "^1.15.0",
     "googleapis": "^109.0.1",
-    "jsonwebtoken": "^8.5.1",
+    "imagekit": "^4.1.2",
+    "jsonwebtoken": "^9.0.0",
+    "multer": "^1.4.5-lts.1",
+    "node-cron": "^3.0.2",
+    "node-fetch": "^3.3.0",
     "nodemailer": "^6.8.0",
     "pg": "^8.8.0",
-    "sequelize": "^6.25.7"
+    "qr-image": "^3.2.0",
+    "sequelize": "^6.25.7",
+    "socket.io": "^4.5.4",
+    "swagger-ui-express": "^4.6.0",
+    "yamljs": "^0.3.0"
+  },
+  "devDependencies": {
+    "morgan": "^1.10.0"
   }
 }
