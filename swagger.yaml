@@ -9,7 +9,9 @@ servers:
   - url: "http://localhost:3000/"
     description: My Localhost
   - url: "https://petikcom-api-dev.km3ggwp.com/"
-    description: Railway Deployment/
+    description: Railway Deployment
+  - url : "petikcom.km3ggwp.com/"
+    description: Railway Production
 paths:
   /auth/login-google:
     post:
