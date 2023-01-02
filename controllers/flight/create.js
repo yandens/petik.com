@@ -1,4 +1,4 @@
-const { Flight } = require("../../models");
+const { Flight, Airport } = require("../../models");
 const { Op } = require("sequelize");
 const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
@@ -59,15 +59,18 @@ const createFlight = async () => {
         airlineLogo = "https://bit.ly/3FDlHzT";
       }
 
-      const origin = await getAirport(flight.departure.iataCode);
-      const destination = await getAirport(flight.arrival.iataCode);
+      //const origin = await getAirport(flight.departure.iataCode);
+      //const destination = await getAirport(flight.arrival.iataCode);
+      const origin = await Airport.findOne({ where: { iata_code: flight.departure.iataCode } })
+      const destination = await Airport.findOne({ where: { iata_code: flight.arrival.iataCode } })
+
       const data = await Flight.create({
         airline: flight.airline.name,
         airline_logo: airlineLogo,
         origin: flight.departure.iataCode,
-        origin_city: origin.properties.municipality,
+        origin_city: origin.city/*properties.municipality*/,
         destination: flight.arrival.iataCode,
-        destination_city: destination.properties.municipality,
+        destination_city: destination.city/*properties.municipality*/,
         departure: flight.departure.scheduledTime,
         arrival: flight.arrival.scheduledTime,
       });
@@ -135,14 +138,16 @@ const createFlightAdmin = async (req, res, next) => {
       airlineLogo = "https://bit.ly/3FDlHzT";
     }
 
-    const originCity = await getAirport(origin);
-    const destinationCity = await getAirport(destination);
+    //const originCity = await getAirport(origin);
+    //const destinationCity = await getAirport(destination);
+    const originCity = await Airport.findOne({ where: { iata_code: origin } })
+    const destinationCity = await Airport.findOne({ where: { iata_code: destination } })
     const createFlight = await Flight.create({
       airline,
       origin,
-      origin_city: originCity.properties.municipality,
+      origin_city: originCity.city/*properties.municipality*/,
       destination,
-      destination_city: destinationCity.properties.municipality,
+      destination_city: destinationCity.city/*properties.municipality*/,
       departure,
       arrival,
       airline_logo: airlineLogo,
@@ -168,5 +173,7 @@ const createFlightAdmin = async (req, res, next) => {
     next(error);
   }
 };
+
+createFlight()
 
 module.exports = { createFlight, createFlightAdmin };

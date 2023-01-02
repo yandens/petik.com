@@ -1,4 +1,4 @@
-const { Flight } = require("../../models");
+const { Flight, Airport } = require("../../models");
 const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
@@ -37,10 +37,12 @@ const updateFlight = async (req, res, next) => {
       airlineLogo = 'https://bit.ly/3FDlHzT'
     }
 
-    const originCity = await getAirport(origin)
-    const destinationCity = await getAirport(destination)
+    //const originCity = await getAirport(origin)
+    //const destinationCity = await getAirport(destination)
+    const originCity = await Airport.findOne({ where: { iata_code: origin } })
+    const destinationCity = await Airport.findOne({ where: { iata_code: destination } })
     const updated = await Flight.update(
-      { airline, origin, origin_city: originCity.properties.municipality, destination, destination_city: destinationCity.properties.municipality, departure, arrival, airline_logo: airlineLogo },
+      { airline, origin, origin_city: originCity.name, destination, destination_city: destinationCity.name, departure, arrival, airline_logo: airlineLogo },
       { where: { id: flight_id } }
     );
 
