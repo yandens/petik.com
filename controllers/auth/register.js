@@ -5,14 +5,14 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Validator = require("fastest-validator");
 const v = new Validator();
-const { JWT_SECRET_KEY } = process.env;
+const { JWT_SECRET_KEY, BE_LINK } = process.env;
 
 const sendingEmail = async (email) => {
   const payload = {
     email: email,
   };
   const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: "900s" });
-  const link = `https://petikcom-api-dev.km3ggwp.com/auth/verify?token=${token}`;
+  const link = `${BE_LINK}/auth/verify?token=${token}`;
   const htmlEmail = await templateHtml("verify-email.ejs", {
     email: email,
     link: link,
