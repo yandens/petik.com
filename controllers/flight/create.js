@@ -174,6 +174,4 @@ const createFlightAdmin = async (req, res, next) => {
   }
 };
 
-createFlight()
-
 module.exports = { createFlight, createFlightAdmin };
