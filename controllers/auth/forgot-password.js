@@ -12,7 +12,7 @@ const sendingEmail = async (user) => {
     email: user.email,
   };
   const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: "900s" });
-  const link = `${FE_LINK}/auth/resetpassword?token=${token}`;
+  const link = `${FE_LINK}/resetpassword?token=${token}`;
   const htmlEmail = await templateHtml("forgot-password.ejs", {
     email: user.email,
     link: link,
