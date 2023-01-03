@@ -5,11 +5,13 @@ const fetch = (...args) =>
 const { GOFLIGHTLABS_ACCESS_KEY } = process.env;
 
 const getAirport = async (iata) => {
-  const url = `https://port-api.com/airport/iata/${iata}`;
+  //const url = `https://port-api.com/airport/iata/${iata}`;
+  const url = `https://api.aviowiki.com/free/airports/iata/${iata}`;
   const options = {
     method: "GET",
     headers: {
-      "X-RapidAPI-Host": "port-api.com",
+      //"X-RapidAPI-Host": "port-api.com",
+      "X-RapidAPI-Host": "docs.aviowiki.com",
     },
   };
   const result = await fetch(url, options);
@@ -65,9 +67,11 @@ const createFlight = async () => {
         airline: flight.airline.name,
         airline_logo: airlineLogo,
         origin: flight.departure.iataCode,
-        origin_city: origin.properties.municipality,
+        //origin_city: origin.properties.municipality,
+        origin_city: origin.servedCity,
         destination: flight.arrival.iataCode,
-        destination_city: destination.properties.municipality,
+        //destination_city: destination.properties.municipality,
+        destination_city: destination.servedCity,
         departure: flight.departure.scheduledTime,
         arrival: flight.arrival.scheduledTime,
       });
@@ -140,9 +144,11 @@ const createFlightAdmin = async (req, res, next) => {
     const createFlight = await Flight.create({
       airline,
       origin,
-      origin_city: originCity.properties.municipality,
+      //origin_city: originCity.properties.municipality,
+      origin_city: originCity.servedCity,
       destination,
-      destination_city: destinationCity.properties.municipality,
+      //destination_city: destinationCity.properties.municipality,
+      destination_city: destinationCity.servedCity,
       departure,
       arrival,
       airline_logo: airlineLogo,
