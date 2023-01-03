@@ -3,11 +3,13 @@ const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
 const getAirport = async (iata) => {
-  const url = `https://port-api.com/airport/iata/${iata}`;
+  //const url = `https://port-api.com/airport/iata/${iata}`;
+  const url = `https://api.aviowiki.com/free/airports/iata/${iata}`;
   const options = {
     method: "GET",
     headers: {
-      "X-RapidAPI-Host": "port-api.com",
+      //"X-RapidAPI-Host": "port-api.com",
+      "X-RapidAPI-Host": "docs.aviowiki.com",
     },
   };
   const result = await fetch(url, options);
@@ -40,7 +42,7 @@ const updateFlight = async (req, res, next) => {
     const originCity = await getAirport(origin)
     const destinationCity = await getAirport(destination)
     const updated = await Flight.update(
-      { airline, origin, origin_city: originCity.properties.municipality, destination, destination_city: destinationCity.properties.municipality, departure, arrival, airline_logo: airlineLogo },
+      { airline, origin, origin_city: originCity.servedCity, destination, destination_city: destinationCity.servedCity, departure, arrival, airline_logo: airlineLogo },
       { where: { id: flight_id } }
     );
 
