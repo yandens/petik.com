@@ -148,7 +148,7 @@ const createFlightAdmin = async (req, res, next) => {
       origin_city: originCity.servedCity,
       destination,
       //destination_city: destinationCity.properties.municipality,
-      destinationCity: destinationCity.servedCity,
+      destination_city: destinationCity.servedCity,
       departure,
       arrival,
       airline_logo: airlineLogo,
