@@ -46,7 +46,7 @@ const createFlight = async () => {
     for (const flight of filterFlights) {
       let airlineLogo;
       if (flight.airline.iataCode == "GA") {
-        airlineLogo = "http://bit.ly/3Ytqr3w";
+        airlineLogo = "https://bit.ly/3BOGwXN";
       } else if (flight.airline.iataCode == "IW") {
         airlineLogo = "http://bit.ly/3G4OO0p";
       } else if (flight.airline.iataCode == "ID") {
@@ -124,7 +124,7 @@ const createFlightAdmin = async (req, res, next) => {
 
     let airlineLogo;
     if (airline == "Garuda Indonesia") {
-      airlineLogo = "http://bit.ly/3Ytqr3w";
+      airlineLogo = "https://bit.ly/3BOGwXN";
     } else if (airline == "Wings Air (Indonesia)") {
       airlineLogo = "http://bit.ly/3G4OO0p";
     } else if (airline == "Batik Air") {
