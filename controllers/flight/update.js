@@ -24,7 +24,7 @@ const updateFlight = async (req, res, next) => {
 
     let airlineLogo
     if (airline == 'Garuda Indonesia') {
-      airlineLogo = 'http://bit.ly/3Ytqr3w'
+      airlineLogo = 'https://bit.ly/3BOGwXN'
     } else if (airline == 'Wings Air (Indonesia)') {
       airlineLogo = 'http://bit.ly/3G4OO0p'
     } else if (airline == 'Batik Air') {
