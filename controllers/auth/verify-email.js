@@ -13,6 +13,7 @@ const verify = async (req, res, next) => {
 
     return res.redirect(`${FE_LINK}/auth/verify/success`);
   } catch (error) {
+    if (err.message == 'jwt expired') return res.redirect(`${FE_LINK}/auth/verify/failed`);
     next(error);
   }
 };
